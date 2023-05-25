@@ -4,13 +4,13 @@
 			<span>输入验证码</span>
 		</div>
 		<div v-if="showTips" class="tips">
-			<span>请输入{{ form.phone }}收到的验证码</span>
+			<span>请输入{{ form.mobile }}收到的验证码</span>
 		</div>
 		<div class="form">
 			<van-form @submit="onSubmit">
 				<van-cell-group inset>
 					<van-field
-						v-model="form.phone"
+						v-model="form.mobile"
 						label="+86>"
 						label-width="35"
 						name="请输入手机号"
@@ -42,12 +42,13 @@
 </template>
 
 <script setup lang="ts">
+import { sendPhone, loginByCode } from '@/api/user'
 import { showFailToast, showSuccessToast } from 'vant'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const form = reactive({
-	phone: '',
+	mobile: '',
 	code: ''
 })
 
@@ -55,25 +56,39 @@ const showTips = ref(false)
 let time = ref(0)
 let timer: any = null
 function onSubmit() {
-	showSuccessToast('登录成功')
-	localStorage.setItem('admin', '124')
-	router.push('/')
+	loginByCode(form).then((res: any) => {
+		if (res.code == 1) {
+			showSuccessToast('登录成功')
+			localStorage.setItem('accessToken', res.data.accessToken)
+			router.push('/')
+		} else {
+			return showFailToast(res.msg)
+		}
+	})
 }
 
 function sendMsg() {
-	if (form.phone == '') {
-		showFailToast('手机号不能为空')
-		return
+	if (form.mobile == '') {
+		return showFailToast('手机号不能为空')
 	}
-	showSuccessToast('短信验证码发送成功')
-	showTips.value = true
-	time.value = 60
-	timer = setInterval(() => {
-		time.value--
-		if (time.value <= 0) {
-			clearInterval(timer)
+	sendPhone({
+		mobile: form.mobile,
+		type: 1
+	}).then((res: any) => {
+		if (res.code == 1) {
+			showSuccessToast('短信验证码发送成功')
+			showTips.value = true
+			time.value = 60
+			timer = setInterval(() => {
+				time.value--
+				if (time.value <= 0) {
+					clearInterval(timer)
+				}
+			}, 1000)
+		} else {
+			return showFailToast(res.msg)
 		}
-	}, 1000)
+	})
 }
 </script>
 
