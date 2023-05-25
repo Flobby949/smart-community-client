@@ -20,7 +20,7 @@ export interface toRouteType extends RouteLocationNormalized {
 }
 const whitePath = ["/login", "/forget", "/code"]
 router.beforeEach((to: toRouteType, from, next) => {
-  const token = localStorage.getItem("admin")
+  const token = localStorage.getItem('accessToken')
   NProgress.start();
   // 路由缓存
   // useCachedViewStoreHook().addCachedView(to);

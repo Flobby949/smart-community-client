@@ -7,7 +7,7 @@
 			<van-form @submit="onSubmit">
 				<van-cell-group inset>
 					<van-field
-						v-model="form.username"
+						v-model="form.phone"
 						label="+86>"
 						label-width="35"
 						name="请输入手机号"
@@ -38,19 +38,26 @@
 </template>
 
 <script setup lang="ts">
-import { showSuccessToast } from 'vant'
+import { loginByAccount } from '@/api/user'
+import { showFailToast, showSuccessToast } from 'vant'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-const form = reactive({
-	username: '',
+const form = reactive<USER_PASSWORD>({
+	phone: '',
 	password: ''
 })
 
-function onSubmit() {
-	showSuccessToast('登录成功')
-	localStorage.setItem('admin', '124')
-	router.push('/')
+async function onSubmit() {
+	const res = await loginByAccount(form)
+	console.log(res)
+	if (res.code == 1) {
+		showSuccessToast('登录成功')
+		localStorage.setItem('accessToken', res.data.accessToken as string)
+		router.push('/')
+	} else {
+		return showFailToast(res.msg)
+	}
 }
 </script>
 

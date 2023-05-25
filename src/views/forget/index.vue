@@ -6,7 +6,7 @@
 				<van-form @submit="onSubmit">
 					<van-cell-group inset>
 						<van-field
-							v-model="form.phone"
+							v-model="form.mobile"
 							label="+86>"
 							label-width="35"
 							name="请输入手机号"
@@ -25,14 +25,14 @@
 							</template>
 						</van-field>
 						<van-field
-							v-model="form.password"
+							v-model="form.oldpassword"
 							type="password"
 							name="请输入密码"
 							placeholder="请输入密码"
 							:rules="[{ required: true, message: '请输入密码' }]"
 						/>
 						<van-field
-							v-model="form.newpassword"
+							v-model="form.password"
 							type="password"
 							name="请确认密码"
 							placeholder="请确认密码"
@@ -49,18 +49,19 @@
 </template>
 
 <script setup lang="ts">
+import { forgetPassword, sendPhone } from '@/api/user'
 import { showFailToast, showSuccessToast } from 'vant'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const form = reactive({
-	phone: '',
+	mobile: '',
 	code: '',
-	password: '',
-	newpassword: ''
+	oldpassword: '',
+	password: ''
 })
 const validator = (val: string) => {
-	if (val != form.password) {
+	if (val != form.oldpassword) {
 		return false
 	} else {
 		return true
@@ -70,24 +71,40 @@ let timer: any = null
 let time = ref(0)
 let show = ref(false)
 function send() {
-	if (form.phone == '') {
+	if (form.mobile == '') {
 		return showFailToast('手机号不能为空')
 	}
-	show.value = true
-	showSuccessToast('验证码发送成功')
-	time.value = 10
-	timer = setInterval(() => {
-		time.value--
-		if (time.value <= 0) {
-			show.value = false
-			clearInterval(timer)
+
+	sendPhone({
+		mobile: form.mobile,
+		type: 0
+	}).then((res: any) => {
+		if (res.code == 1) {
+			show.value = true
+			showSuccessToast('验证码发送成功')
+			time.value = 60
+			timer = setInterval(() => {
+				time.value--
+				if (time.value <= 0) {
+					show.value = false
+					clearInterval(timer)
+				}
+			}, 1000)
+		} else {
+			return showFailToast(res.msg)
 		}
-	}, 1000)
+	})
 }
 
 function onSubmit() {
-	showSuccessToast('修改密码成功')
-	router.push('/login')
+	forgetPassword(form).then((res: any) => {
+		if (res.code == 1) {
+			showSuccessToast('修改密码成功')
+			router.push('/login')
+		} else {
+			showFailToast('修改密码失败')
+		}
+	})
 }
 </script>
 
