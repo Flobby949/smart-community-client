@@ -12,7 +12,7 @@ import "vant/es/toast/style";
 // 默认 axios 实例请求配置
 const configDefault = {
   headers: {
-    "Content-Type": ContentTypeEnum.JSON
+    "Content-Type": ContentTypeEnum.FORM_URLENCODED
   },
   timeout: 0,
   baseURL: import.meta.env.VITE_BASE_API,
@@ -49,15 +49,14 @@ class Http {
       (response: AxiosResponse) => {
         NProgress.done();
         // 与后端协定的返回字段
-        const { code, msg, data } = response.data;
+        const { code, message, result } = response.data;
         // 判断请求是否成功
         const isSuccess =
-          data &&
+          result &&
           Reflect.has(response.data, "code") &&
           code === ResultEnum.SUCCESS;
         if (isSuccess) {
-          console.log(data);
-          return data;
+          return result;
         } else {
           // 处理请求错误
           // showFailToast(message);

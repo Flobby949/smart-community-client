@@ -1,5 +1,5 @@
 <script setup lang="ts" name="About"></script>
 
 <template>
-	<div>about</div>
+	<div>我的</div>
 </template>

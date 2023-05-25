@@ -18,12 +18,13 @@ export interface toRouteType extends RouteLocationNormalized {
     noCache?: boolean;
   };
 }
+const whitePath = ["/login", "/forget", "/code"]
 router.beforeEach((to: toRouteType, from, next) => {
   const token = localStorage.getItem("admin")
   NProgress.start();
   // 路由缓存
   // useCachedViewStoreHook().addCachedView(to);
-  if (to.path != "/login" && !token) {
+  if (!whitePath.includes(to.path) && !token) {
     next("/login")
 
 
