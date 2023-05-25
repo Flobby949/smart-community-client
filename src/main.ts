@@ -1,9 +1,10 @@
 import { createApp } from "vue";
 import { store } from "./store";
+import 'vant/lib/index.css';
 // normalize.css
 import "normalize.css/normalize.css";
 // 全局样式
-import "./styles/index.less";
+// import "./styles/index.less";
 // tailwindcss
 import "./styles/tailwind.css";
 // svg icon
