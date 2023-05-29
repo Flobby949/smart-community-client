@@ -50,6 +50,14 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: "family",
+        name: "family",
+        component: () => import("@/views/my/family.vue"),
+        meta: {
+          title: "家庭成员"
+        }
+    },
+      {
         path: 'bullhorn',
         name: 'Bullhorn',
         component: () => import('@/views/bullhorn/index.vue'),
