@@ -34,11 +34,37 @@
 				</div>
 			</van-form>
 		</div>
+		<!-- <div>
+			<wx-login
+				:theme="'black'"
+				:appid="wx.appId"
+				:scope="wx.scope"
+				:state="wx.state"
+				:redirect-uri="wx.redirectUri"
+				:display="wx.display"
+				:is-wechat="wx.isWechat"
+				@login="wechatLogin"
+			>
+			</wx-login>
+		</div> -->
+		<!-- <div class="wxLogin">
+			<wxlogin
+				:appid="wx.appId"
+				scope="snsapi_login"
+				:redirect_uri="wx.redirect_uri"
+				:href="wx.href"
+				:state="wx.state"
+				@login="wechatLogin"
+			></wxlogin>
+		</div> -->
+		<div>
+			<van-button round block type="primary" native-type="submit" @click="loginByOther"> 码云登录 </van-button>
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { loginByAccount } from '@/api/user'
+import { loginByAccount, otherLogin, callBack } from '@/api/user'
 import { showFailToast, showSuccessToast } from 'vant'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -46,6 +72,16 @@ const router = useRouter()
 const form = reactive<USER_PASSWORD>({
 	phone: '',
 	password: ''
+})
+
+const wx = reactive({
+	appId: 'wxed9954c01bb89b47',
+	scope: 'snsapi_login',
+	state: '',
+	redirect_uri: 'http://guli.shop/api/ucenter/wx/callback', // 登录成功后的回调URL，需要和后端约定好
+	display: 'popup',
+	isWechat: true,
+	href: '' // 自定义样式链接
 })
 
 async function onSubmit() {
@@ -58,6 +94,11 @@ async function onSubmit() {
 	} else {
 		return showFailToast(res.msg)
 	}
+}
+
+const loginByOther = () => {
+	// 页面跳转 到授权首页 http://localhost:8080/oauth/render 接收回调函数的参数
+	window.location.href = 'http://localhost:8080/oauth/render'
 }
 </script>
 
@@ -82,5 +123,11 @@ async function onSubmit() {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.wx {
+	height: 100px;
+	width: 100px;
+	background-color: red;
 }
 </style>
