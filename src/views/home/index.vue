@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import { reactive } from 'vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<div>首页</div>
