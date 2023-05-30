@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { useDarkMode, useToggleDarkMode } from '@/hooks/useToggleDarkMode'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const props = defineProps({
+	title: {
+		type: String,
+		default: '标题'
+	}
+})
 
-const onClickRight = () => {
-	useToggleDarkMode()
+const onClickLeft = () => {
+	router.back()
 }
 </script>
 
 <template>
-	<van-nav-bar fixed placeholder @click-right="onClickRight">
-		<template #right>
-			<svg-icon class="text-[18px]" :name="useDarkMode() ? 'light' : 'dark'" />
-		</template>
-	</van-nav-bar>
+	<van-nav-bar :title="props.title" left-arrow @click-left="onClickLeft" />
 </template>
 
 <style scoped></style>
