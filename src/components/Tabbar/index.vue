@@ -36,7 +36,7 @@ const tabbarData = reactive([
 		icon: 'bullhorn-o',
 		title: '消息',
 		to: {
-			name: 'Bullhorn'
+			name: 'notice'
 		}
 	},
 	{
