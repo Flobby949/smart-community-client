@@ -4,7 +4,7 @@ import type { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axio
 import NProgress from 'nprogress'
 
 const service = axios.create({
-	baseURL: 'http://localhost:8080/',
+	baseURL: 'http://localhost:8081/',
 	timeout: 5000
 })
 
