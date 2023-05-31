@@ -16,3 +16,7 @@ export function deleteFamily(data: any) {
 export function myHouse() {
 	return service.post('/owner/myHouse')
 }
+
+export function deleteHouse(houseId: number) {
+	return service.post(`/owner/deleteHouse?houseId=${houseId}`)
+}
