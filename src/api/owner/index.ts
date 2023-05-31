@@ -20,3 +20,24 @@ export function myHouse() {
 export function deleteHouse(houseId: number) {
 	return service.post(`/owner/deleteHouse?houseId=${houseId}`)
 }
+
+export function findAllHouse() {
+	return service.post('/owner/allHouse')
+}
+
+export function allBuilding(communityId: string) {
+	return service.post(`/owner/allBuilding?communityId=${communityId}`)
+}
+
+export function allUnit(communityId: string, buildingId: string) {
+	return service.post(`/owner/allUnit?communityId=${communityId}&buildingId=${buildingId}`)
+}
+
+export function allHouseByUnit(communityId: string, buildingId: string, unitId: string) {
+	return service.post(`/owner/allHouseByUnit?communityId=${communityId}&buildingId=${buildingId}&unit
+=${unitId}`)
+}
+
+export function addHouse(data: any) {
+	return service.post('/owner/addHouse', data)
+}
