@@ -1,5 +1,5 @@
 <template>
-	<div class="box">
+	<div class="input">
 		<div class="left">
 			{{ prop.title }}
 		</div>
@@ -19,17 +19,23 @@ const prop = defineProps({
 </script>
 
 <style scoped>
-.box {
+.input {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 2px 15px;
+	padding: 6px 15px;
 	border-bottom: 1px solid #ebedf0;
-	height: 40px;
-	line-height: 40px;
+	height: 45px;
+	line-height: 45px;
 }
 .right {
+	overflow: hidden;
 	display: flex;
 	align-items: center;
+}
+.van-cell van-field {
+	border: none;
+	padding: 0;
+	margin: 0;
 }
 </style>
