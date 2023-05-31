@@ -1,46 +1,34 @@
 <template>
 	<div class="box">
 		<navbar title="我的房屋" />
-		<div class="list">
-			<div class="item">
-				<div class="header">
-					<span>幸福小区</span>
-					<span>认证中</span>
-				</div>
-				<div class="content">
-					<div class="title">
-						<span>楼栋房号</span>
-						<span>1栋1单元202室</span>
+		<div v-if="list.length > 0" class="list">
+			<template v-for="(item, index) in list" :key="index">
+				<div class="item">
+					<div class="header">
+						<span>{{ item.buildingName }}</span>
+						<span>认证成功</span>
 					</div>
-					<div class="desc">
-						<span>住房类型</span>
-						<span>业主</span>
+					<div class="content">
+						<div class="title">
+							<span>楼栋房号</span>
+							<span>{{ item.houseNumber }}</span>
+						</div>
+						<div class="desc">
+							<span>住房类型</span>
+							<span>{{ item.isOwner ? '业主' : '租客' }}</span>
+						</div>
 					</div>
-				</div>
-				<div class="bottom">
-					<van-radio v-model="checked">默认小区</van-radio>
-					<van-button plain hairline type="primary" round size="small">删除</van-button>
-				</div>
-			</div>
-			<div class="item">
-				<div class="header">
-					<span>幸福小区</span>
-					<span>认证中</span>
-				</div>
-				<div class="content">
-					<div class="title">
-						<span>楼栋房号</span>
-						<span>1栋1单元202室</span>
-					</div>
-					<div class="desc">
-						<span>住房类型</span>
-						<span>业主</span>
+					<div class="bottom">
+						<van-radio :v-model="item.checked">默认小区</van-radio>
+						<van-button plain hairline type="primary" round size="small" @click="deleteItem(item)">删除</van-button>
 					</div>
 				</div>
-				<div class="bottom">
-					<van-radio v-model="checked">默认小区</van-radio>
-					<van-button plain hairline type="primary" round size="small">删除</van-button>
-				</div>
+			</template>
+		</div>
+		<div v-else>
+			<div class="empty">
+				<img src="https://img.yzcdn.cn/vant/custom-empty-image.png" alt="" />
+				<p>暂无房屋信息</p>
 			</div>
 		</div>
 		<div class="controller">
@@ -50,20 +38,41 @@
 </template>
 
 <script setup lang="ts">
-import { myHouse } from '@/api/owner'
+import { myHouse, deleteHouse } from '@/api/owner'
 import navbar from '@/components/NavBar/index.vue'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
-const checked = ref(false)
+import { showConfirmDialog, showNotify, showSuccessToast } from 'vant'
 const router = useRouter()
+const list = ref<any[]>([])
 const addHouse = () => {
 	router.push('/addHouse')
 }
 function getData() {
 	myHouse().then((res: any) => {
-		console.log(res)
+		res.data.forEach((item: any) => {
+			item.checked = item.isOwner == 1 ? true : false
+		})
+		list.value = res.data
+		console.log(list.value)
 	})
+}
+
+const deleteItem = (item: any) => {
+	showConfirmDialog({
+		title: '确定删除吗？',
+		message: '删除后将无法恢复，请谨慎操作！'
+	})
+		.then(() => {
+			deleteHouse(item.buildingId).then(() => {
+				showSuccessToast('删除成功')
+				window.location.reload()
+			})
+		})
+		.catch(() => {
+			showNotify('取消删除')
+		})
 }
 onMounted(() => {
 	getData()
@@ -143,5 +152,15 @@ onMounted(() => {
 .controller .van-button {
 	width: 160px;
 	margin: 0 10px;
+}
+.empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.empty img {
+	width: 100px;
+	height: 100px;
 }
 </style>
