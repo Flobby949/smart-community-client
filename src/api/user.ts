@@ -24,3 +24,13 @@ export function otherLogin() {
 export function callBack() {
 	return service.get('/oauth/callback')
 }
+export function getUserInfo(){
+	return service.post('/user/info')
+}
+export function updateUser(data:any){
+	return service.post('/user/update',data,{headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
+}
+export function uploadFile(data:any){
+	return service.post('/auth/upload', data)
+}
+
