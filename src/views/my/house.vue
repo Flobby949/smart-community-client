@@ -44,21 +44,35 @@
 			</div>
 		</div>
 		<div class="controller">
-			<van-button round block type="primary" size="small"> 我是业主，添加房屋 </van-button>
-			<van-button round block size="small"> 我是住户，入住房屋 </van-button>
+			<van-button round block type="primary" @click="addHouse"> 我是业主，添加房屋 </van-button>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { myHouse } from '@/api/owner'
 import navbar from '@/components/NavBar/index.vue'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { onMounted } from 'vue'
 const checked = ref(false)
+const router = useRouter()
+const addHouse = () => {
+	router.push('/addHouse')
+}
+function getData() {
+	myHouse().then((res: any) => {
+		console.log(res)
+	})
+}
+onMounted(() => {
+	getData()
+})
 </script>
 
 <style scoped>
 .box {
-	background-color: #ccc;
+	background-color: #f5f5f5;
 	height: 100vh;
 }
 .list {

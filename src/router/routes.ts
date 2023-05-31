@@ -287,6 +287,14 @@ const routes: Array<RouteRecordRaw> = [
 		meta: {
 			title: '设备'
 		}
+	},
+	{
+		path: '/addHouse',
+		name: 'addHouse',
+		component: () => import('@/views/my/addHouse.vue'),
+		meta: {
+			title: '添加房屋'
+		}
 	}
 ]
 
