@@ -29,32 +29,11 @@ const onConfirm = ({ selectedOptions }) => {
 // 选择门禁
 const getDoorList = (communityId: number) => {
 	getDoorListApi(communityId).then(res => {
-		console.log(res)
+		doorList.value = res.data
 	})
 }
 
-const doorList = [
-	{
-		doorId: 1,
-		doorImg: 'https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png',
-		doorName: '西门门禁'
-	},
-	{
-		doorId: 3,
-		doorImg: 'https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png',
-		doorName: '北门门禁'
-	},
-	{
-		doorId: 5,
-		doorImg: 'https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png',
-		doorName: '南门门禁'
-	},
-	{
-		doorId: 6,
-		doorImg: 'https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png',
-		doorName: '东门门禁'
-	}
-]
+const doorList = ref([])
 
 const currentDoor = ref(0)
 const openDoor = (id: number) => {
@@ -65,18 +44,29 @@ const openDoor = (id: number) => {
 		return
 	}
 	show.value = true
-	setTimeout(() => {
-		show.value = false
-
-		showDialog({
-			message: '开门成功！'
+	openDoorApi({
+		doorId: id,
+		passWay: 0
+	})
+		.then((res: any) => {
+			if (res.code === 1) {
+				showDialog({
+					message: '开门成功！'
+				})
+			} else {
+				showDialog({
+					message: res.msg || '开门失败！'
+				})
+			}
+			show.value = false
 		})
-	}, 3000)
+		.finally(() => {
+			currentDoor.value = 0
+		})
 }
 
 const chooseDoor = (id: number) => {
 	currentDoor.value = id
-	console.log('选择' + id)
 }
 
 // 加载框
