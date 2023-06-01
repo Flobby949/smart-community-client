@@ -90,7 +90,7 @@ const showPicker = ref<boolean>(false)
 const showPicker1 = ref<boolean>(false)
 const showPicker2 = ref<boolean>(false)
 const showPicker3 = ref<boolean>(false)
-const onConfirm = ({ selectedOptions }) => {
+const onConfirm = ({ selectedOptions }: any) => {
 	form.communityId = selectedOptions[0].communityId
 	form.communityName = selectedOptions[0].communityName
 	console.log('选择的小区', form.communityId, form.communityName)
@@ -112,7 +112,7 @@ const onConfirm = ({ selectedOptions }) => {
 	showPicker.value = false
 }
 
-const onConfirmBulidings = ({ selectedOptions }) => {
+const onConfirmBulidings = ({ selectedOptions }: any) => {
 	form.buildingId = selectedOptions[0].buildingId
 	form.buildingName = selectedOptions[0].buildingName
 	console.log('选择的楼栋', form.buildingId, form.buildingName)
@@ -134,7 +134,7 @@ const onConfirmBulidings = ({ selectedOptions }) => {
 		})
 	})
 }
-const onConfirmUnits = ({ selectedOptions }) => {
+const onConfirmUnits = ({ selectedOptions }: any) => {
 	form.unitId = selectedOptions[0].units
 	form.unitName = selectedOptions[0].units
 	console.log('选择的单元', form.unitId, form.unitName)
@@ -147,7 +147,7 @@ const onConfirmUnits = ({ selectedOptions }) => {
 		})
 	})
 }
-const onConfirmHouse = ({ selectedOptions }) => {
+const onConfirmHouse = ({ selectedOptions }: any) => {
 	form.houseNumber = selectedOptions[0].houseNumber
 	console.log('选择的房间号', form.houseNumber)
 	form.houseId = selectedOptions[0].id
