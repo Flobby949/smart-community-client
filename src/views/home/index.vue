@@ -138,7 +138,7 @@ const itemList = [
 	</div>
 </template>
 
-<style scope>
+<style scoped>
 .bigBox {
 	width: 100vw;
 	height: 100vh;

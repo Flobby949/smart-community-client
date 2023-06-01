@@ -25,16 +25,21 @@ const onConfirm = ({ selectedOptions }: any) => {
 	fieldLabel.value = selectedOptions[0].text
 	getDoorList(selectedOptions[0].value)
 }
+const loading = ref(false)
 
 // 选择门禁
-const getDoorList = (communityId: number) => {
-	getDoorListApi(communityId).then(res => {
-		doorList.value = res.data
-	})
+const getDoorList = (communityId?: number) => {
+	loading.value = true
+	getDoorListApi(communityId || 1)
+		.then(res => {
+			doorList.value = res.data
+		})
+		.finally(() => {
+			loading.value = false
+		})
 }
 
 const doorList = ref([])
-
 const currentDoor = ref(0)
 const openDoor = (id: number) => {
 	if (id === 0) {
@@ -79,19 +84,21 @@ const show = ref(false)
 	<van-popup v-model:show="showPicker" round position="bottom">
 		<van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
 	</van-popup>
-	<div class="w-screen flex flex-row flex-wrap box-border px-5 justify-between">
-		<template v-for="item in doorList" :key="item">
-			<door-item :door-item="item" @choose-door="chooseDoor" @open-door="openDoor"></door-item>
-		</template>
-	</div>
+	<van-pull-refresh v-model="loading" @refresh="getDoorList">
+		<div class="w-screen flex flex-row flex-wrap box-border px-5 justify-between">
+			<template v-for="item in doorList" :key="item">
+				<door-item :door-item="item" @choose-door="chooseDoor" @open-door="openDoor"></door-item>
+			</template>
+		</div>
+	</van-pull-refresh>
 	<div class="toolBar">
 		<div class="btnItem" @click="openDoor(currentDoor)">
 			<img src="https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png" width="60" />
 			<div>立即开门</div>
 		</div>
-		<div class="btnItem">
+		<div class="btnItem" @click="$router.push('/review')">
 			<img src="https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png" width="60" />
-			<div>访客邀请</div>
+			<div>门禁审核</div>
 		</div>
 	</div>
 	<!-- 加载框 -->
@@ -146,5 +153,8 @@ const show = ref(false)
 .animate-spin {
 	-webkit-animation: spin 2s linear infinite;
 	animation: spin 2s linear infinite;
+}
+.boxIndex {
+	height: calc(100vh - 150px);
 }
 </style>
