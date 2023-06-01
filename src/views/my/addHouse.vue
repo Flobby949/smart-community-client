@@ -95,6 +95,14 @@ const onConfirm = ({ selectedOptions }) => {
 	form.communityName = selectedOptions[0].communityName
 	console.log('选择的小区', form.communityId, form.communityName)
 	allBuilding(form.communityId).then((res: any) => {
+		// 去除重复的楼栋 根据名称判断
+		res.data = res.data.filter((item: any, index: number) => {
+			return (
+				res.data.findIndex((item2: any) => {
+					return item.buildingName === item2.buildingName
+				}) === index
+			)
+		})
 		buildings.value = res.data.map((item: any) => {
 			item.text = item.buildingName
 			item.value = item.buildingId
@@ -198,7 +206,7 @@ function allHouse() {
 		house.value = house.value.filter((item: any, index: number) => {
 			return (
 				house.value.findIndex((item2: any) => {
-					return item.communityId === item2.communityId
+					return item.communityName === item2.communityName
 				}) === index
 			)
 		})
