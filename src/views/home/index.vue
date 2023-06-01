@@ -33,7 +33,8 @@ const itemList = [
 	},
 	{
 		title: '停车缴费',
-		name: 'car-pay'
+		name: 'car-pay',
+		url: '/carBill'
 	},
 	{
 		title: '在线报修',

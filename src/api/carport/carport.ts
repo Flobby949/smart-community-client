@@ -14,3 +14,7 @@ export function getCommunityList() {
 export function getParkList() {
 	return service.get('/sys/park/list')
 }
+
+export function getMyCartParkVO() {
+	return service.post('/sys/park/car/list')
+}
