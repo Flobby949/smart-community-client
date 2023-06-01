@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse } from '@/api/owner'
+import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse, upload } from '@/api/owner'
 import navbar from '@/components/NavBar/index.vue'
 import smartInput from '@/components/smart-input/index.vue'
 import { showFailToast, showSuccessToast } from 'vant'
@@ -90,11 +90,19 @@ const showPicker = ref<boolean>(false)
 const showPicker1 = ref<boolean>(false)
 const showPicker2 = ref<boolean>(false)
 const showPicker3 = ref<boolean>(false)
-const onConfirm = ({ selectedOptions }) => {
+const onConfirm = ({ selectedOptions }: any) => {
 	form.communityId = selectedOptions[0].communityId
 	form.communityName = selectedOptions[0].communityName
 	console.log('选择的小区', form.communityId, form.communityName)
 	allBuilding(form.communityId).then((res: any) => {
+		// 去除重复的楼栋 根据名称判断
+		res.data = res.data.filter((item: any, index: number) => {
+			return (
+				res.data.findIndex((item2: any) => {
+					return item.buildingName === item2.buildingName
+				}) === index
+			)
+		})
 		buildings.value = res.data.map((item: any) => {
 			item.text = item.buildingName
 			item.value = item.buildingId
@@ -104,7 +112,7 @@ const onConfirm = ({ selectedOptions }) => {
 	showPicker.value = false
 }
 
-const onConfirmBulidings = ({ selectedOptions }) => {
+const onConfirmBulidings = ({ selectedOptions }: any) => {
 	form.buildingId = selectedOptions[0].buildingId
 	form.buildingName = selectedOptions[0].buildingName
 	console.log('选择的楼栋', form.buildingId, form.buildingName)
@@ -126,7 +134,7 @@ const onConfirmBulidings = ({ selectedOptions }) => {
 		})
 	})
 }
-const onConfirmUnits = ({ selectedOptions }) => {
+const onConfirmUnits = ({ selectedOptions }: any) => {
 	form.unitId = selectedOptions[0].units
 	form.unitName = selectedOptions[0].units
 	console.log('选择的单元', form.unitId, form.unitName)
@@ -139,7 +147,7 @@ const onConfirmUnits = ({ selectedOptions }) => {
 		})
 	})
 }
-const onConfirmHouse = ({ selectedOptions }) => {
+const onConfirmHouse = ({ selectedOptions }: any) => {
 	form.houseNumber = selectedOptions[0].houseNumber
 	console.log('选择的房间号', form.houseNumber)
 	form.houseId = selectedOptions[0].id
@@ -155,7 +163,28 @@ const choose = (sex: number) => {
 }
 
 const afterRead = (file: any) => {
-	console.log(file.file.name)
+	// 上传状态
+	file.status = 'uploading'
+	// 状态提示
+	file.message = '上传中...'
+	// 声明form表单数据
+	const formData = new FormData()
+	// 添加文件信息
+	formData.append('file', file.file)
+	// 上传接口调用
+	upload(formData)
+		.then(res => {
+			// 上传成功
+			file.status = 'done'
+			// 存储返回数据
+			file.addInfo = res.data
+		})
+		.catch(() => {
+			// 上传失败
+			file.status = 'failed'
+			// 失败状态提示
+			file.message = '上传失败'
+		})
 }
 const beforeRead = (file: any) => {
 	if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
@@ -177,7 +206,7 @@ function allHouse() {
 		house.value = house.value.filter((item: any, index: number) => {
 			return (
 				house.value.findIndex((item2: any) => {
-					return item.communityId === item2.communityId
+					return item.communityName === item2.communityName
 				}) === index
 			)
 		})

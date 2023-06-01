@@ -20,7 +20,7 @@ const columns = [
 	{ text: '欧鼎华庭', value: 5 }
 ]
 
-const onConfirm = ({ selectedOptions }) => {
+const onConfirm = ({ selectedOptions }: any) => {
 	showPicker.value = false
 	fieldLabel.value = selectedOptions[0].text
 	getDoorList(selectedOptions[0].value)

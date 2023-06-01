@@ -1,46 +1,71 @@
 <template>
-	<div>添加车位</div>
 	<div class="box">
 		<navbar title="我的车位" />
-		<div class="vant-form">
-			<van-cell-group>
-				<span class="title">选择车位</span>
-
-				<van-dropdown-menu v-model="form.communityId" label="小区名称">
-					<van-dropdown-item v-for="community in communityList" :key="community.id" :value="community.id">
-						{{ community.communityName }}
-					</van-dropdown-item>
-				</van-dropdown-menu>
-				<van-field v-model="form.parkId" label="停车场名字" placeholder="请选择停车场名称" />
-				<van-field v-model="form.ownerId" label="户主" placeholder="请输入内容" />
-				<van-field v-model="form.carId" label="车牌号" placeholder="请输入内容" />
-				<van-field v-model="form.carportName" label="车位号" placeholder="请输入内容" />
-				<span class="title">住户信息</span>
-				<van-field v-model="form.realName" label="姓名" placeholder="请输入内容" />
-				<van-field v-model="form.phone" label="联系方式" placeholder="请输入内容" />
-			</van-cell-group>
-			<van-button type="primary" block @click="submitForm">提交</van-button>
+		<span class="title">选择房屋</span>
+		<div class="item">
+			<div>
+				<smartInput title="小区">
+					<van-field v-model="form.communityName" name="picker" placeholder="选择小区" @click="showPicker = true" />
+					<van-popup v-model:show="showPicker" position="bottom">
+						<van-picker v-model="selectedCommunity" :columns="columns" placeholder="请选择社区" />
+					</van-popup>
+				</smartInput>
+				<!-- <smartInput title="楼栋">
+					<van-field v-model="form.buildingName" name="picker" placeholder="选择楼栋" @click="showPicker1 = true" />
+					<van-popup v-model:show="showPicker1" position="bottom">
+						<van-picker :columns="buildings" @confirm="onConfirmBulidings" @cancel="showPicker1 = false" />
+					</van-popup>
+				</smartInput>
+				<smartInput title="单元">
+					<van-field v-model="form.unitName" name="picker" placeholder="选择楼栋" @click="showPicker2 = true" />
+					<van-popup v-model:show="showPicker2" position="bottom">
+						<van-picker :columns="units" @confirm="onConfirmUnits" @cancel="showPicker2 = false" />
+					</van-popup>
+				</smartInput>
+				<smartInput title="房间号">
+					<van-field v-model="form.houseNumber" name="picker" placeholder="选择房间" @click="showPicker3 = true" />
+					<van-popup v-model:show="showPicker3" position="bottom">
+						<van-picker :columns="rooms" @confirm="onConfirmHouse" @cancel="showPicker3 = false" />
+					</van-popup>
+				</smartInput> -->
+			</div>
+		</div>
+		<span class="title">住户信息</span>
+		<div class="item">
+			<div>
+				<smartInput title="姓名">
+					<van-field v-model="form.realName" placeholder="请输入姓名" clearable />
+				</smartInput>
+				<div class="btn">
+					<van-button round type="primary" @click="submitForm">提交</van-button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import navbar from '@/components/NavBar/index.vue'
-//import smartInput from '@/components/smart-input/index.vue'
-import { showFailToast } from 'vant'
+import smartInput from '@/components/smart-input/index.vue'
+import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse } from '@/api/owner'
 import { reactive, ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { getParkList, getCommunityList, saveCarport } from '@/api/carport/carport'
-import { showConfirmDialog, showNotify, showSuccessToast, Picker } from 'vant'
-
-const dropdownOptions1 = ['选项1', '选项2', '选项3']
+import { showConfirmDialog, showNotify, showSuccessToast, showFailToast, Picker } from 'vant'
+const carport = ref<any[]>([])
 const formRef = ref()
+const showPicker = ref<boolean>(false)
 const communityList = ref<any[]>([])
-const communityId = ref<number[]>([])
-const columns = Object.entries(communityList).map(([value, text]) => ({ value, text }))
+const buildings = ref<any[]>([])
+const community = ref<any[]>([])
+const columns = ref<any[]>([])
+const router = useRouter()
 
 const form = reactive({
 	communityId: '',
+	communityName: '',
 	parkId: '',
+	parkName: '',
 	ownerId: '',
 	carId: '',
 	carportName: '',
@@ -68,7 +93,33 @@ const submitForm = () => {
 const getCommunityLists = () => {
 	getCommunityList().then(res => {
 		communityList.value = res.data
+		communityList.value.forEach(item => {
+			let column = {
+				values: [item.communityId.toString()],
+				text: item.communityName
+			}
+			columns.value.push(column)
+		})
 	})
+}
+const handleChange = (value: any) => {
+	const community = communityList.value.find(item => item.communityId.toString() === value[0])
+	form.communityId = community.communityId
+	form.communityName = community.communityName
+}
+
+const onConfirm = ({ selectedOptions }) => {
+	form.communityId = selectedOptions[0].communityId
+	form.communityName = selectedOptions[0].communityName
+	console.log('选择的小区', form.communityId, form.communityName)
+	allBuilding(form.communityId).then((res: any) => {
+		buildings.value = res.data.map((item: any) => {
+			item.text = item.buildingName
+			item.value = item.buildingId
+			return item
+		})
+	})
+	showPicker.value = false
 }
 </script>
 

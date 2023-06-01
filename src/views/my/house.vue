@@ -31,7 +31,7 @@
 				<p>暂无房屋信息</p>
 			</div>
 		</div>
-		<div class="controller">
+		<div class="controllerItem">
 			<van-button round block type="primary" @click="addHouse"> 我是业主，添加房屋 </van-button>
 		</div>
 	</div>
@@ -51,6 +51,8 @@ const addHouse = () => {
 }
 function getData() {
 	myHouse().then((res: any) => {
+		console.log(res)
+
 		res.data.forEach((item: any) => {
 			item.checked = item.isOwner == 1 ? true : false
 		})
@@ -65,7 +67,7 @@ const deleteItem = (item: any) => {
 		message: '删除后将无法恢复，请谨慎操作！'
 	})
 		.then(() => {
-			deleteHouse(item.buildingId).then(() => {
+			deleteHouse(item.id).then(() => {
 				showSuccessToast('删除成功')
 				window.location.reload()
 			})
@@ -83,6 +85,7 @@ onMounted(() => {
 .box {
 	background-color: #f5f5f5;
 	height: 100vh;
+	overflow: hidden;
 }
 .list {
 	padding: 10px;
@@ -140,7 +143,7 @@ onMounted(() => {
 .van-button {
 	width: 80px;
 }
-.controller {
+.controllerItem {
 	display: flex;
 	align-items: center;
 	position: fixed;
@@ -149,7 +152,7 @@ onMounted(() => {
 	right: 0;
 	justify-content: center;
 }
-.controller .van-button {
+.controllerItem .van-button {
 	width: 160px;
 	margin: 0 10px;
 }

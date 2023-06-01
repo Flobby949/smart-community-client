@@ -9,13 +9,14 @@
 				@click="myclick(item)"
 			>
 				<span>{{ item.title }}</span>
-				<van-icon :name="item.name" />
+				<img :src="`/src/assets/icon/${item.name}.png`" alt="" />
 			</div>
 		</template>
 	</div>
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import type { PropType } from 'vue'
 
 const prop = defineProps({
@@ -26,7 +27,7 @@ const prop = defineProps({
 })
 const emit = defineEmits(['onItemClick'])
 const myclick = (item: any) => {
-	emit('onItemClick', item)
+	router.push(item.url)
 }
 </script>
 
@@ -43,6 +44,13 @@ const myclick = (item: any) => {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-	margin: 10px;
+	margin: 12px;
+}
+.item span {
+	font-size: 16px;
+}
+.item img {
+	width: 32px;
+	height: 32px;
 }
 </style>

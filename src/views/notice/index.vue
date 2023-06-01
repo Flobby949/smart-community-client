@@ -8,7 +8,7 @@ import { ref } from 'vue'
 // import { reactive, ref } from 'vue'
 
 const active = ref('')
-const list = ref([])
+const list = ref<any[]>([])
 const loading = ref(false)
 // 加载完成表示符
 const finished = ref(false)
