@@ -23,5 +23,7 @@ export function saveCar(form: any) {
 }
 export function getMyCartParkVO() {
 	return service.post('/sys/park/car/list')
-
+}
+export function getUser() {
+	return service.post('/user/info')
 }
