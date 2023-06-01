@@ -1,15 +1,13 @@
-import service from "@/utils/service";
-export function getNoticePage(data: any){
-  return service.get("/property/notice/page",{
-    params:data
-  }
-  )
+import service from '@/utils/service'
+
+export function getNoticePage(data: any) {
+	return service.get('/property/notice/page', {
+		params: data
+	})
 }
-export function getNoticeById(id: any){
-  return service.get("/property/notice/"+id)
+export function getNoticeById(id: any) {
+	return service.get('/property/notice/' + id)
 }
-
-
-
-
-
+export function read(data: any) {
+	return service.post('/property/notice/read', data)
+}

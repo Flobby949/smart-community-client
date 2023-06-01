@@ -14,7 +14,7 @@
 						</div>
 						<div class="tipsItem">
 							<span>进场时间</span>
-							<span>{{ moment(item.access_time).format('YYYY-MM-DD HH:mm:ss') }}</span>
+							<span>{{ moment(item.access_time).format('YYYY/MM/DD HH:mm:ss') }}</span>
 						</div>
 						<div class="tipsItem">
 							<span>已停时长</span>

@@ -51,6 +51,8 @@ const addHouse = () => {
 }
 function getData() {
 	myHouse().then((res: any) => {
+		console.log(res)
+
 		res.data.forEach((item: any) => {
 			item.checked = item.isOwner == 1 ? true : false
 		})

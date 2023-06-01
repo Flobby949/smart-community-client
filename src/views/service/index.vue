@@ -9,7 +9,7 @@
 			<div>社区公告</div>
 		</div>
 
-		<div class="border border-solid border-red-100 text-center">
+		<div class="border border-solid border-red-100 text-center" @click="$router.push('/repair')">
 			<van-icon name="https://b.yzcdn.cn/vant/icon-demo-1126.png" />
 			<div>在线报修</div>
 		</div>

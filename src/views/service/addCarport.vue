@@ -52,21 +52,18 @@
 </template>
 
 <script setup lang="ts">
-import navbar from '@/components/NavBar/index.vue'
-//import smartInput from '@/components/smart-input/index.vue'
-import { showFailToast } from 'vant'
+import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse } from '@/api/owner'
 import { reactive, ref, onMounted, computed } from 'vue'
 import { getParkList, getCommunityList, saveCarport, getNoOwnerList } from '@/api/carport/carport'
 import { showConfirmDialog, showNotify, showSuccessToast, Picker, showDialog } from 'vant'
-import router from '@/router'
 
-const dropdownOptions1 = ['选项1', '选项2', '选项3']
+import { useRouter } from 'vue-router'
 const formRef = ref()
+const showPicker = ref<boolean>(false)
 const communityList = ref<any[]>([])
 const parkList = ref<any[]>([])
 const carportList = ref<any[]>([])
-const communityId = ref<number[]>([])
-const columns = Object.entries(communityList).map(([value, text]) => ({ value, text }))
+const router = useRouter()
 
 //小区选择器
 const communityName = ref('')
@@ -155,6 +152,7 @@ const carPortConfirm = ({ selectedOptions }) => {
 }
 const form = reactive({
 	communityId: '',
+	communityName: '',
 	parkId: '',
 	licence: '',
 	carportName: '',

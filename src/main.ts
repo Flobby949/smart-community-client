@@ -10,6 +10,8 @@ import './styles/tailwind.css'
 // svg icon
 import 'virtual:svg-icons-register'
 
+import '@/assets/iconfont.css'
+
 import App from './App.vue'
 import router from './router'
 

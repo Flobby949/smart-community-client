@@ -169,6 +169,14 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
+		path: '/car',
+		name: 'car',
+		component: () => import('@/views/service/car.vue'),
+		meta: {
+			title: '我的车辆'
+		}
+	},
+	{
 		path: '/bindCar',
 		name: 'bindCar',
 		component: () => import('@/views/service/bindCar.vue'),
@@ -294,6 +302,22 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import('@/views/my/addHouse.vue'),
 		meta: {
 			title: '添加房屋'
+		}
+	},
+	{
+		path: '/review',
+		name: 'review',
+		component: () => import('@/views/open/review.vue'),
+		meta: {
+			title: '审核记录'
+		}
+	},
+	{
+		path: '/addReview',
+		name: 'addReview',
+		component: () => import('@/views/open/addReview.vue'),
+		meta: {
+			title: '门禁审核'
 		}
 	}
 ]
