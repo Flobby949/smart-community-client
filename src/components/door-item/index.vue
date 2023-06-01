@@ -6,11 +6,14 @@
 </template>
 
 <script setup lang="ts">
+import { showDialog } from 'vant'
+
 const prop = defineProps<{
 	doorItem: {
 		doorId: number
 		doorImg: string
 		doorName: string
+		onlineStatus: number
 	}
 }>()
 
@@ -22,6 +25,13 @@ let lastClickTime = 0
 let clickTimer: any = null
 
 const chooseDoor = () => {
+	if (prop.doorItem.onlineStatus === 1) {
+		emit('chooseDoor', 0)
+		showDialog({
+			message: '该设备离线！'
+		})
+		return
+	}
 	let nowTime = new Date().getTime()
 	if (nowTime - lastClickTime < 200) {
 		//双击
