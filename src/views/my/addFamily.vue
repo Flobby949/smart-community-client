@@ -55,13 +55,13 @@ onBeforeMount(() => {
 const onChange = (value: any) => {}
 const sbform = () => {
 	const params = new URLSearchParams()
-	params.append('identity', familyInfo.identity)
+	params.append('identity', familyInfo.identity as unknown as string)
 	params.append('realName', familyInfo.realName)
-	params.append('gender', familyInfo.gender)
+	params.append('gender', familyInfo.gender as unknown as string)
 	params.append('phone', familyInfo.phone)
 	params.append('identityCard', familyInfo.identityCard)
-	params.append('houseId', familyInfo.houseId)
-	addFamilyInfo(params).then(res => {
+	params.append('houseId', familyInfo.houseId as unknown as string)
+	addFamilyInfo(params).then((res: any) => {
 		console.log(res)
 		if (res.code === 1) {
 			showSuccessToast('绑定成功')

@@ -303,6 +303,22 @@ const routes: Array<RouteRecordRaw> = [
 		meta: {
 			title: '添加房屋'
 		}
+	},
+	{
+		path: '/review',
+		name: 'review',
+		component: () => import('@/views/open/review.vue'),
+		meta: {
+			title: '审核记录'
+		}
+	},
+	{
+		path: '/addReview',
+		name: 'addReview',
+		component: () => import('@/views/open/addReview.vue'),
+		meta: {
+			title: '门禁审核'
+		}
 	}
 ]
 

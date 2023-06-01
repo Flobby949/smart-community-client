@@ -7,10 +7,10 @@ import { onClickLeft } from '@/utils'
 const route = useRoute()
 
 let noticeId = ref('')
-let item = ref('')
+let item = ref<any>([])
 
 onMounted(async () => {
-	noticeId.value = route.params.noticeId
+	noticeId.value = route.params.noticeId as string
 
 	console.log(route.params.noticeId)
 	const { data } = await getNoticeById(noticeId.value)
