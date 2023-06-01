@@ -76,16 +76,16 @@ const router = useRouter()
 const show1 = ref(false)
 const show2 = ref(false)
 const show4 = ref(false)
-const userInfo = ref({})
+const userInfo = ref<any>({})
 const onClickLeft = () => {
 	router.push('/my')
 }
 onBeforeMount(() => {
-	getUserInfo().then(res => {
+	getUserInfo().then((res: any) => {
 		userInfo.value = res.data
 	})
 })
-const onConfirm = ({ selectedValues }) => {
+const onConfirm = ({ selectedValues }: any) => {
 	userInfo.value.gender = selectedValues.join(',')
 	show2.value = false
 }
