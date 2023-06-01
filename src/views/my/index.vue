@@ -34,13 +34,13 @@ import { ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUserInfo } from '@/api/user'
 const router = useRouter()
-const userInfo = ref({})
+const userInfo = ref<any>({})
 const goProfile = () => {
 	router.push('/profile')
 }
 //1
 onBeforeMount(() => {
-	getUserInfo().then(res => {
+	getUserInfo().then((res: any) => {
 		userInfo.value = res.data
 	})
 })

@@ -9,7 +9,7 @@
 				@click="myclick(item)"
 			>
 				<span>{{ item.title }}</span>
-				<van-icon :name="item.name" />
+				<img :src="`/src/assets/icon/${item.name}.png`" alt="" />
 			</div>
 		</template>
 	</div>
@@ -45,5 +45,12 @@ const myclick = (item: any) => {
 	align-items: center;
 	justify-content: space-around;
 	margin: 12px;
+}
+.item span {
+	font-size: 16px;
+}
+.item img {
+	width: 32px;
+	height: 32px;
 }
 </style>

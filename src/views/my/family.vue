@@ -11,9 +11,9 @@ interface HouseInfo {
 	name: string
 }
 
-const familyList = ref([])
+const familyList = ref<any[]>([])
 onBeforeMount(() => {
-	findMyHouse().then(res => {
+	findMyHouse().then((res: any) => {
 		if (res.data.length != 0) {
 			option1 = res.data.map((item: HouseInfo) => ({
 				text: item.name, // 显示的文本
@@ -39,8 +39,8 @@ const onClickRight = () => {
 }
 const deFamily = (id: number) => {
 	const params = new URLSearchParams()
-	params.append('id', id)
-	deleteFamily({ data: params }).then(res => {
+	params.append('id', id as unknown as string)
+	deleteFamily({ data: params }).then((res: any) => {
 		if (res.code === 1) {
 			showSuccessToast('删除成功')
 			onChange(value1.value)
@@ -62,7 +62,7 @@ const deFamily = (id: number) => {
 			<div v-for="(item, index) in familyList" :key="index" class="w-11/12 mx-auto bg-white shadow-lg border rounded-lg mt-5">
 				<div class="flex justify-between items-center">
 					<div class="flex">
-						<p class="text-xl mt-4 ml-4">{{ item.realName }}</p>
+						<p class="text-xl mt-4 ml-4">{{ item?.realName }}</p>
 						&emsp;
 						<p class="mt-4 text-blue-400 border border-blue-400 rounded-lg">&nbsp;{{ item.isRegister }}&nbsp;</p>
 					</div>

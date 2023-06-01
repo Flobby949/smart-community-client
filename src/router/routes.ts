@@ -169,6 +169,14 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
+		path: '/car',
+		name: 'car',
+		component: () => import('@/views/service/car.vue'),
+		meta: {
+			title: '我的车辆'
+		}
+	},
+	{
 		path: '/bindCar',
 		name: 'bindCar',
 		component: () => import('@/views/service/bindCar.vue'),
