@@ -1,10 +1,15 @@
 <template>
 	<div class="billRecord">
 		<navBar title="缴费记录" />
-		<div class="list">
-			<template v-for="(item, index) in list" :key="index">
+		<!-- <div class="list"> -->
+		<template v-for="(item, index) in list" :key="index">
+			<div class="detailItem">
+				<div class="time">{{ moment(item.access_time).format('MM月DD日') }}</div>
 				<div class="billRecordItem">
-					<div class="top">{{ item.licence }}</div>
+					<div class="top">
+						<img src="@/assets/icon/car-pay.png" alt="" />
+						<span>{{ item.licence }}</span>
+					</div>
 					<div class="contentItemList">
 						<div class="itemInfo">
 							<span>停车类型</span>
@@ -12,7 +17,7 @@
 						</div>
 						<div class="itemInfo">
 							<span>进场时间</span>
-							<span>{{ moment(item.access_time).format('YYYY-MM-DD HH:mm:ss') }}</span>
+							<span>{{ moment(item.access_time).format('YYYY/MM/DD HH:mm:ss') }}</span>
 						</div>
 						<div class="itemInfo">
 							<span>已停时长</span>
@@ -28,9 +33,10 @@
 						</div>
 					</div>
 				</div>
-			</template>
-		</div>
+			</div>
+		</template>
 	</div>
+	<!-- </div> -->
 </template>
 
 <script setup lang="ts">
@@ -63,7 +69,7 @@ const time = (timestamp: number) => {
 	width: 100vw;
 	background-color: #f5f5f5;
 }
-.list {
+.billRecordItem {
 	padding: 10px;
 	width: 90%;
 	display: flex;
@@ -72,7 +78,7 @@ const time = (timestamp: number) => {
 	background-color: #fff;
 	border-radius: 4px;
 }
-.list .billRecordItem .contentItemList {
+.billRecordItem .contentItemList {
 	width: 95%;
 	display: flex;
 	align-items: center;
@@ -80,18 +86,31 @@ const time = (timestamp: number) => {
 	justify-content: space-around;
 	padding: 10px;
 }
-.list .billRecordItem .contentItemList .itemInfo {
+.billRecordItem .contentItemList .itemInfo {
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
-.list .billRecordItem .top {
+.billRecordItem .top {
+	display: flex;
+	align-items: center;
 	height: 40px;
 	width: 100%;
 	line-height: 40px;
 	border-bottom: 2px dashed #ccc;
 	padding-left: 10px;
 	font-size: 16px;
+}
+.billRecordItem .top img {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+}
+.time {
+	padding: 10px;
+	font-size: 16px;
+	color: #000;
+	text-align: center;
 }
 </style>

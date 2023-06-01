@@ -16,20 +16,21 @@ const list = [
 	{
 		color: '#e9fbe3',
 		title: '手机开门',
-		name: 'logistics',
+		name: 'open-o',
 		url: '/Open'
 	},
 	{
 		color: '#e2f4ff',
 		title: '生活缴费',
-		name: 'cash-back-record',
+		name: 'record-o',
 		url: '/paymentList'
 	}
 ]
 const itemList = [
 	{
 		title: '我的车位',
-		name: 'cart-o'
+		name: 'cart-o',
+		url: '/carport'
 	},
 	{
 		title: '停车缴费',
