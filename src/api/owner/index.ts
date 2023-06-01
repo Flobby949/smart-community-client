@@ -41,3 +41,7 @@ export function allHouseByUnit(communityId: string, buildingId: string, unitId: 
 export function addHouse(data: any) {
 	return service.post('/owner/addHouse', data)
 }
+
+export function upload(data: any) {
+	return service.post('/auth/upload', data)
+}

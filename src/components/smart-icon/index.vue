@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import type { PropType } from 'vue'
 
 const prop = defineProps({
@@ -20,7 +21,7 @@ const prop = defineProps({
 })
 const emit = defineEmits(['myClick'])
 const onClick = (item: any) => {
-	emit('myClick', item)
+	router.push(item.url)
 }
 </script>
 

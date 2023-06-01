@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import type { PropType } from 'vue'
 
 const prop = defineProps({
@@ -26,7 +27,7 @@ const prop = defineProps({
 })
 const emit = defineEmits(['onItemClick'])
 const myclick = (item: any) => {
-	emit('onItemClick', item)
+	router.push(item.url)
 }
 </script>
 
@@ -43,6 +44,6 @@ const myclick = (item: any) => {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-	margin: 10px;
+	margin: 12px;
 }
 </style>
