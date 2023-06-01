@@ -1,4 +1,5 @@
 <template>
+	<div>添加车位</div>
 	<div class="box">
 		<navbar title="我的车位" />
 		<div class="vant-form">

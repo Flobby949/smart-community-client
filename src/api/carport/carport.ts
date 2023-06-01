@@ -3,10 +3,10 @@ export function myCarport() {
 	return service.post('/sys/carport/myPort')
 }
 export function updateCarport() {
-	return service.put("/sys/carport")
+	return service.put('/sys/carport')
 }
 export function saveCarport(form: any) {
-    return service.post("/sys/carport",form)
+	return service.post('/sys/carport', form)
 }
 export function getCommunityList() {
 	return service.get('/sys/community/list')
