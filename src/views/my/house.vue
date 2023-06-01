@@ -65,7 +65,7 @@ const deleteItem = (item: any) => {
 		message: '删除后将无法恢复，请谨慎操作！'
 	})
 		.then(() => {
-			deleteHouse(item.buildingId).then(() => {
+			deleteHouse(item.id).then(() => {
 				showSuccessToast('删除成功')
 				window.location.reload()
 			})

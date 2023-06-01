@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse } from '@/api/owner'
+import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse, upload } from '@/api/owner'
 import navbar from '@/components/NavBar/index.vue'
 import smartInput from '@/components/smart-input/index.vue'
 import { showFailToast, showSuccessToast } from 'vant'
@@ -155,7 +155,28 @@ const choose = (sex: number) => {
 }
 
 const afterRead = (file: any) => {
-	console.log(file.file.name)
+	// 上传状态
+	file.status = 'uploading'
+	// 状态提示
+	file.message = '上传中...'
+	// 声明form表单数据
+	const formData = new FormData()
+	// 添加文件信息
+	formData.append('file', file.file)
+	// 上传接口调用
+	upload(formData)
+		.then(res => {
+			// 上传成功
+			file.status = 'done'
+			// 存储返回数据
+			file.addInfo = res.data
+		})
+		.catch(() => {
+			// 上传失败
+			file.status = 'failed'
+			// 失败状态提示
+			file.message = '上传失败'
+		})
 }
 const beforeRead = (file: any) => {
 	if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
