@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
-
+import { showFailToast } from 'vant'
 import NProgress from 'nprogress'
 
 const service = axios.create({
@@ -22,7 +22,17 @@ service.interceptors.request.use(
 service.interceptors.response.use(
 	(response: AxiosResponse) => {
 		NProgress.done()
-		return response.data
+		let res = response.data
+		if (res.code === 401) {
+			localStorage.clear()
+			window.location.reload()
+			return Promise.reject(res)
+		}
+		if (res.code === 500) {
+			showFailToast(res.msg)
+			return Promise.reject(res)
+		}
+		return res
 	},
 	(err: AxiosError) => {
 		return Promise.reject(err)

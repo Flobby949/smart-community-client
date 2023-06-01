@@ -5,7 +5,7 @@ interface openDoorParam {
 	passWay: number
 }
 
-interface auditVO {
+export interface auditVO {
 	ownerId: number
 	houseId: number
 	face: number
