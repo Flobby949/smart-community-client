@@ -21,7 +21,7 @@
 		</div>
 		<van-cell-group class="mt-6 border">
 			<van-cell title="家庭成员" icon="friends-o" link-type="switchTab" url="#/family" is-link />
-			<van-cell title="人脸识别门禁" icon="smile-comment-o" is-link />
+			<van-cell title="业主认证" icon="hotel-o" url="#/certified" is-link />
 			<van-cell title="我的访客" icon="contact" is-link />
 			<van-cell title="我的报修" icon="bulb-o" is-link />
 			<van-cell title="我的投诉" icon="envelop-o" is-link />
