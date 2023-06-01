@@ -49,7 +49,7 @@ const onClickLeft = () => {
 				<van-divider />
 
 				<!-- 右栏：新闻图片、概述、内容 -->
-				<div class="max-w-lg mx-auto lg:max-w-none">
+				<div class="max-w-lg mx-auto lg:max-w-none my-3">
 					<div class="rounded-lg overflow-hidden">
 						<img src="https://picsum.photos/800/600" alt="news" class="w-full h-auto" />
 					</div>
