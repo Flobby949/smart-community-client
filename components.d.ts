@@ -18,7 +18,6 @@ declare module '@vue/runtime-core' {
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     Tabbar: typeof import('./src/components/Tabbar/index.vue')['default']
     VanButton: typeof import('vant/es')['Button']
-    VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanDialog: typeof import('vant/es')['Dialog']
@@ -26,8 +25,8 @@ declare module '@vue/runtime-core' {
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
     VanIcon: typeof import('vant/es')['Icon']
-    VanImage: typeof import('vant/es')['Image']
     VanNavBar: typeof import('vant/es')['NavBar']
+    VanOption: typeof import('vant/es')['Option']
     VanPicker: typeof import('vant/es')['Picker']
     VanPopup: typeof import('vant/es')['Popup']
     VanRadio: typeof import('vant/es')['Radio']
@@ -36,6 +35,5 @@ declare module '@vue/runtime-core' {
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
-    VanUploader: typeof import('vant/es')['Uploader']
   }
 }
