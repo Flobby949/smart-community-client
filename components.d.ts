@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DoorItem: typeof import('./src/components/door-item/index.vue')['default']
     NavBar: typeof import('./src/components/NavBar/index.vue')['default']
+    ReviewCard: typeof import('./src/components/review-card/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SmartIcon: typeof import('./src/components/smart-icon/index.vue')['default']
@@ -41,6 +42,7 @@ declare module '@vue/runtime-core' {
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
+    VanTag: typeof import('vant/es')['Tag']
     VanUploader: typeof import('vant/es')['Uploader']
   }
 }
