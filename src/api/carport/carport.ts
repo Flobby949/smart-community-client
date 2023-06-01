@@ -18,3 +18,10 @@ export function getParkList() {
 export function getMyCartParkVO() {
 	return service.post('/sys/park/car/list')
 }
+
+/**
+ * 获取没有拥有者的车位列表，也就是说状态是0的车位列表
+ */
+export function getNoOwnerList(){
+	return service.get('/sys/carport/noOwner')
+}
