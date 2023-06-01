@@ -27,8 +27,8 @@
 				<van-popup v-model:show="parkPick" round position="bottom">
 					<van-picker :columns="parkColumns" @cancel="parkPick = false" @confirm="parkConfirm" />
 				</van-popup>
-				<van-field v-model="form.ownerId" label="户主" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
-				<van-field v-model="form.carId" label="车牌号" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+				<!-- <van-field v-model="form.ownerId" label="户主" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" /> -->
+				<van-field v-model="form.licence" label="车牌号" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
 				<van-field
 					v-model="carPortName"
 					label="车位号"
@@ -58,6 +58,7 @@ import { showFailToast } from 'vant'
 import { reactive, ref, onMounted, computed } from 'vue'
 import { getParkList, getCommunityList, saveCarport, getNoOwnerList } from '@/api/carport/carport'
 import { showConfirmDialog, showNotify, showSuccessToast, Picker, showDialog } from 'vant'
+import router from '@/router'
 
 const dropdownOptions1 = ['选项1', '选项2', '选项3']
 const formRef = ref()
@@ -146,6 +147,7 @@ const selectCarPort = () => {
 const carPortConfirm = ({ selectedOptions }) => {
 	if (selectedOptions[0].text != '停车场没有车位') {
 		carPortName.value = selectedOptions[0].text
+		form.carportName = carPortName.value
 		form.id = selectedOptions[0].value
 	}
 	console.log(form)
@@ -154,8 +156,7 @@ const carPortConfirm = ({ selectedOptions }) => {
 const form = reactive({
 	communityId: '',
 	parkId: '',
-	ownerId: '',
-	carId: '',
+	licence: '',
 	carportName: '',
 	realName: '',
 	phone: '',
@@ -168,10 +169,15 @@ onMounted(() => {
 })
 
 const submitForm = () => {
-	// saveCarport(form).then(() => {
-	// 	showSuccessToast('新增车位成功')
-	// })
-	console.log('成功')
+	saveCarport(form).then(res => {
+		if (res.code === 1) {
+			showDialog({ message: '操作成功', width: '360px' }).then(() => {
+				router.back()
+			})
+		} else {
+			showDialog({ message: res.msg, width: '360px' })
+		}
+	})
 }
 const validator = val => {
 	if (val != '') {
