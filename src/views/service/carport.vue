@@ -1,5 +1,4 @@
 <template>
-	<div>我的车位</div>
 	<navbar title="我的车位" />
 	<template v-for="(item, index) in list" :key="index">
 		<div class="bg-white shadow-lg rounded-lg overflow-hidden m-6">
@@ -70,6 +69,7 @@ function getData() {
 		// })
 		list.value = res.data
 		console.log(list.value)
+		console.log('---------')
 	})
 }
 const statusText = (status: number): string => {
