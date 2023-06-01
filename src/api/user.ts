@@ -13,6 +13,7 @@ export function sendPhone(data: SEND_PHONE) {
 	return service.post('/auth/send/code', data)
 }
 
+
 export function loginByCode(data: LOGIN_CODE) {
 	return service.post('/auth/phone/login', data)
 }

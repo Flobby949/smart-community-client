@@ -38,6 +38,7 @@ const userInfo = ref({})
 const goProfile = () => {
 	router.push('/profile')
 }
+//1
 onBeforeMount(() => {
 	getUserInfo().then(res => {
 		userInfo.value = res.data
