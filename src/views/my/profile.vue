@@ -62,7 +62,7 @@
 			<van-field v-model="userInfo.address" label="住址：" placeholder="请输入住址" />
 		</van-dialog>
 		<div class="flex justify-center items-center mt-48">
-			<van-button class="w-80" type="danger" native-type="submit">退出登录</van-button>
+			<van-button class="w-80" type="danger" native-type="submit" @click="logout">退出登录</van-button>
 		</div>
 	</div>
 </template>
@@ -97,6 +97,11 @@ const beforeRead = (file: any) => {
 		return false
 	}
 	return true
+}
+const logout = () => {
+	localStorage.removeItem('accessToken')
+	showSuccessToast('退出成功')
+	router.push('/login')
 }
 const afterRead = (file: any) => {
 	const formData = new FormData()
