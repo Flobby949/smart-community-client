@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUserInfo } from '@/api/user'
+import { useUserStoreHook } from '@/store/user/index'
 const router = useRouter()
 const userInfo = ref<any>({})
 const goProfile = () => {
@@ -72,9 +72,7 @@ const myPaymentList = () => {
 	router.push('/paymentList')
 }
 onBeforeMount(() => {
-	getUserInfo().then((res: any) => {
-		userInfo.value = res.data
-	})
+	userInfo.value = useUserStoreHook().userInfo
 })
 </script>
 
