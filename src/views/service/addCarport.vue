@@ -69,7 +69,7 @@ const router = useRouter()
 const communityName = ref('')
 const comunityPick = ref(false)
 const communityColumns: PickItem[] = reactive([])
-const communityConfirm = ({ selectedOptions }) => {
+const communityConfirm = ({ selectedOptions }: any) => {
 	communityName.value = selectedOptions[0].text
 	if (form.communityId != selectedOptions[0].value) {
 		parkName.value = ''
@@ -109,7 +109,7 @@ const selectPark = () => {
 		showDialog({ message: '请先选择小区', width: '320px' })
 	}
 }
-const parkConfirm = ({ selectedOptions }) => {
+const parkConfirm = ({ selectedOptions }: any) => {
 	if (selectedOptions[0].text != '该小区没有停车场') {
 		parkName.value = selectedOptions[0].text
 		form.parkId = selectedOptions[0].value
@@ -141,7 +141,7 @@ const selectCarPort = () => {
 		showDialog({ message: '请先选择停车场', width: '320px' })
 	}
 }
-const carPortConfirm = ({ selectedOptions }) => {
+const carPortConfirm = ({ selectedOptions }: any) => {
 	if (selectedOptions[0].text != '停车场没有车位') {
 		carPortName.value = selectedOptions[0].text
 		form.carportName = carPortName.value
@@ -167,7 +167,7 @@ onMounted(() => {
 })
 
 const submitForm = () => {
-	saveCarport(form).then(res => {
+	saveCarport(form).then((res: any) => {
 		if (res.code === 1) {
 			showDialog({ message: '操作成功', width: '360px' }).then(() => {
 				router.back()
@@ -177,7 +177,7 @@ const submitForm = () => {
 		}
 	})
 }
-const validator = val => {
+const validator = (val: any) => {
 	if (val != '') {
 		return true
 	} else {
