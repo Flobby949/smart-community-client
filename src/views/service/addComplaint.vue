@@ -3,7 +3,7 @@ import { addComplaint } from '@/api/complaint'
 import { uploadFile } from '@/api/user'
 import { onClickLeft } from '@/utils'
 import { ref } from 'vue'
-const onSubmit = values => {
+const onSubmit = (values: any) => {
 	let data = {
 		type: type.value,
 		title: title.value,
@@ -28,7 +28,7 @@ const types = [
 
 const type = ref('0')
 const typeText = ref('扰民投诉')
-const changeType = ({ selectedOptions }) => {
+const changeType = ({ selectedOptions }: any) => {
 	typeText.value = selectedOptions[0]?.text
 	type.value = selectedOptions[0]?.value
 	typePicker.value = false
@@ -38,7 +38,7 @@ const title = ref('')
 const fileList = ref([])
 const imgs = ref([])
 
-const afterRead = async file => {
+const afterRead = async (file: any) => {
 	file.status = 'uploading'
 	file.message = '上传中...'
 
