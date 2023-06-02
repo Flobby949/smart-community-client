@@ -9,6 +9,12 @@ export function findFamily(data: any) {
 export function addFamilyInfo(data: any) {
 	return service.post('owner/addFamily', data)
 }
+export function getHouseOptions(){
+	return service.post('owner/houseOptions')
+}
+export function sbCertify(data:any){
+	return service.post('owner/sbCertify',data)
+}
 export function deleteFamily(data: any) {
 	return service.delete('owner/deleteFamily', data)
 }

@@ -1,135 +1,224 @@
 <template>
-	<div class="box">
+	<div>
 		<navbar title="我的车位" />
-		<span class="title">选择房屋</span>
-		<div class="item">
-			<div>
-				<smartInput title="小区">
-					<van-field v-model="form.communityName" name="picker" placeholder="选择小区" @click="showPicker = true" />
-					<van-popup v-model:show="showPicker" position="bottom">
-						<van-picker v-model="selectedCommunity" :columns="columns" placeholder="请选择社区" />
-					</van-popup>
-				</smartInput>
-				<!-- <smartInput title="楼栋">
-					<van-field v-model="form.buildingName" name="picker" placeholder="选择楼栋" @click="showPicker1 = true" />
-					<van-popup v-model:show="showPicker1" position="bottom">
-						<van-picker :columns="buildings" @confirm="onConfirmBulidings" @cancel="showPicker1 = false" />
-					</van-popup>
-				</smartInput>
-				<smartInput title="单元">
-					<van-field v-model="form.unitName" name="picker" placeholder="选择楼栋" @click="showPicker2 = true" />
-					<van-popup v-model:show="showPicker2" position="bottom">
-						<van-picker :columns="units" @confirm="onConfirmUnits" @cancel="showPicker2 = false" />
-					</van-popup>
-				</smartInput>
-				<smartInput title="房间号">
-					<van-field v-model="form.houseNumber" name="picker" placeholder="选择房间" @click="showPicker3 = true" />
-					<van-popup v-model:show="showPicker3" position="bottom">
-						<van-picker :columns="rooms" @confirm="onConfirmHouse" @cancel="showPicker3 = false" />
-					</van-popup>
-				</smartInput> -->
+
+		<van-form @submit="submitForm">
+			<van-cell-group>
+				<span class="title">选择车位</span>
+				<van-field
+					v-model="communityName"
+					label="小区名称"
+					is-link
+					placeholder="选择城市"
+					:rules="[{ required: true, message: '不能为空' }]"
+					@click="comunityPick = true"
+				/>
+				<van-popup v-model:show="comunityPick" round position="bottom">
+					<van-picker :columns="communityColumns" @cancel="comunityPick = false" @confirm="communityConfirm" />
+				</van-popup>
+				<van-field
+					v-model="parkName"
+					label="停车场名字"
+					is-link
+					placeholder="请选择停车场名称"
+					:rules="[{ required: true, message: '不能为空' }]"
+					@click="selectPark"
+				/>
+				<van-popup v-model:show="parkPick" round position="bottom">
+					<van-picker :columns="parkColumns" @cancel="parkPick = false" @confirm="parkConfirm" />
+				</van-popup>
+				<!-- <van-field v-model="form.ownerId" label="户主" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" /> -->
+				<van-field v-model="form.licence" label="车牌号" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+				<van-field
+					v-model="carPortName"
+					label="车位号"
+					is-link
+					placeholder="选择车位"
+					:rules="[{ required: true, message: '不能为空' }]"
+					@click="selectCarPort"
+				/>
+				<van-popup v-model:show="carPortPick" round position="bottom">
+					<van-picker :columns="carPortColumns" @cancel="carPortPick = false" @confirm="carPortConfirm" />
+				</van-popup>
+				<span class="title">住户信息</span>
+				<van-field v-model="form.realName" label="姓名" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+				<van-field v-model="form.phone" label="联系方式" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+			</van-cell-group>
+			<div style="margin: 16px">
+				<van-button type="primary" round native-type="submit" block class="mt-4">提交</van-button>
 			</div>
-		</div>
-		<span class="title">住户信息</span>
-		<div class="item">
-			<div>
-				<smartInput title="姓名">
-					<van-field v-model="form.realName" placeholder="请输入姓名" clearable />
-				</smartInput>
-				<div class="btn">
-					<van-button round type="primary" @click="submitForm">提交</van-button>
-				</div>
-			</div>
-		</div>
+		</van-form>
 	</div>
 </template>
 
 <script setup lang="ts">
-import navbar from '@/components/NavBar/index.vue'
-import smartInput from '@/components/smart-input/index.vue'
 import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse } from '@/api/owner'
 import { reactive, ref, onMounted, computed } from 'vue'
+import { getParkList, getCommunityList, saveCarport, getNoOwnerList } from '@/api/carport/carport'
+import { showConfirmDialog, showNotify, showSuccessToast, Picker, showDialog } from 'vant'
+
 import { useRouter } from 'vue-router'
-import { getParkList, getCommunityList, saveCarport } from '@/api/carport/carport'
-import { showConfirmDialog, showNotify, showSuccessToast, showFailToast, Picker } from 'vant'
-const carport = ref<any[]>([])
 const formRef = ref()
 const showPicker = ref<boolean>(false)
 const communityList = ref<any[]>([])
-const buildings = ref<any[]>([])
-const community = ref<any[]>([])
-const columns = ref<any[]>([])
+const parkList = ref<any[]>([])
+const carportList = ref<any[]>([])
 const router = useRouter()
 
+//小区选择器
+const communityName = ref('')
+const comunityPick = ref(false)
+const communityColumns: PickItem[] = reactive([])
+const communityConfirm = ({ selectedOptions }) => {
+	communityName.value = selectedOptions[0].text
+	if (form.communityId != selectedOptions[0].value) {
+		parkName.value = ''
+		carPortName.value = ''
+		form.parkId = ''
+		form.id = ''
+		parkColumns.splice(0, parkColumns.length)
+		carPortColumns.splice(0, carPortColumns.length)
+		form.communityId = selectedOptions[0].value
+		parkList.value.forEach(item => {
+			if (item.communityId == form.communityId) {
+				let obj: PickItem = {
+					text: item.parkName,
+					value: item.id
+				}
+				parkColumns.push(obj)
+			}
+		})
+		if (parkColumns.length <= 0) {
+			parkColumns.push({
+				text: '该小区没有停车场'
+			})
+		}
+	}
+	comunityPick.value = false
+	console.log(form)
+}
+
+//停车场选择器
+const parkName = ref('')
+const parkPick = ref(false)
+const parkColumns: PickItem[] = reactive([])
+const selectPark = () => {
+	if (form.communityId != '') {
+		parkPick.value = true
+	} else {
+		showDialog({ message: '请先选择小区', width: '320px' })
+	}
+}
+const parkConfirm = ({ selectedOptions }) => {
+	if (selectedOptions[0].text != '该小区没有停车场') {
+		parkName.value = selectedOptions[0].text
+		form.parkId = selectedOptions[0].value
+		carPortName.value = ''
+		form.id = ''
+		carPortColumns.splice(0, carPortColumns.length)
+		carportList.value.forEach(item => {
+			if (item.parkId == form.parkId) {
+				let obj: PickItem = {
+					text: item.carportName,
+					value: item.id
+				}
+				carPortColumns.push(obj)
+			}
+		})
+	}
+	console.log(form)
+	parkPick.value = false
+}
+
+//车位选择器
+const carPortName = ref('')
+const carPortPick = ref(false)
+const carPortColumns: PickItem[] = reactive([])
+const selectCarPort = () => {
+	if (form.parkId != '') {
+		carPortPick.value = true
+	} else {
+		showDialog({ message: '请先选择停车场', width: '320px' })
+	}
+}
+const carPortConfirm = ({ selectedOptions }) => {
+	if (selectedOptions[0].text != '停车场没有车位') {
+		carPortName.value = selectedOptions[0].text
+		form.carportName = carPortName.value
+		form.id = selectedOptions[0].value
+	}
+	console.log(form)
+	carPortPick.value = false
+}
 const form = reactive({
 	communityId: '',
 	communityName: '',
 	parkId: '',
-	parkName: '',
-	ownerId: '',
-	carId: '',
+	licence: '',
 	carportName: '',
 	realName: '',
-	phone: ''
+	phone: '',
+	id: ''
 })
 onMounted(() => {
 	getCommunityLists()
+	getParkLists()
+	getCarportLists()
 })
 
 const submitForm = () => {
-	saveCarport(form).then(() => {
-		showSuccessToast('新增车位成功')
+	saveCarport(form).then(res => {
+		if (res.code === 1) {
+			showDialog({ message: '操作成功', width: '360px' }).then(() => {
+				router.back()
+			})
+		} else {
+			showDialog({ message: res.msg, width: '360px' })
+		}
 	})
-	// formRef.value.validate((valid: boolean) => {
-	// 	if (!valid) {
-	// 		return false
-	// 	}
-	// 	saveCarport(form).then(() => {
-	// 		showSuccessToast('新增车位成功')
-	// 	})
-	// })
 }
+const validator = val => {
+	if (val != '') {
+		return true
+	} else {
+		return false
+	}
+}
+
 //获取所有小区列表
 const getCommunityLists = () => {
 	getCommunityList().then(res => {
 		communityList.value = res.data
 		communityList.value.forEach(item => {
-			let column = {
-				values: [item.communityId.toString()],
-				text: item.communityName
+			let obj: PickItem = {
+				text: item.communityName,
+				value: item.id
 			}
-			columns.value.push(column)
+			communityColumns.push(obj)
 		})
 	})
-}
-const handleChange = (value: any) => {
-	const community = communityList.value.find(item => item.communityId.toString() === value[0])
-	form.communityId = community.communityId
-	form.communityName = community.communityName
 }
 
-const onConfirm = ({ selectedOptions }) => {
-	form.communityId = selectedOptions[0].communityId
-	form.communityName = selectedOptions[0].communityName
-	console.log('选择的小区', form.communityId, form.communityName)
-	allBuilding(form.communityId).then((res: any) => {
-		buildings.value = res.data.map((item: any) => {
-			item.text = item.buildingName
-			item.value = item.buildingId
-			return item
-		})
+//获取停车场列表
+const getParkLists = () => {
+	getParkList().then(res => {
+		parkList.value = res.data
 	})
-	showPicker.value = false
+}
+
+//获取车位列表
+const getCarportLists = () => {
+	getNoOwnerList().then(res => {
+		carportList.value = res.data
+	})
+}
+interface PickItem {
+	text: string
+	value?: number
 }
 </script>
 
 <style scoped>
-.box {
-	height: 100vh;
-	width: 100vw;
-	background-color: #f5f5f5;
-	overflow: auto;
-}
 .item {
 	background-color: #fff;
 	border-radius: 6px;
