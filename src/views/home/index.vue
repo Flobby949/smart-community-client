@@ -48,11 +48,13 @@ const itemList = [
 	},
 	{
 		title: '在线报修',
-		name: 'repair'
+		name: 'repair',
+		url: '/repair'
 	},
 	{
 		title: '投诉建议',
-		name: 'suggest'
+		name: 'suggest',
+		url: '/complaint'
 	},
 	{
 		title: '问卷调查',
@@ -60,7 +62,8 @@ const itemList = [
 	},
 	{
 		title: '社区公告',
-		name: 'notice'
+		name: 'notice',
+		url: '/notice'
 	},
 	{
 		title: '联系物业',

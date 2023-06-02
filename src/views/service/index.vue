@@ -18,7 +18,7 @@ const itemList = [
 	{
 		title: '投诉建议',
 		name: 'suggest',
-		url: '/suggest'
+		url: '/complaint'
 	},
 
 	{

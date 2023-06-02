@@ -66,7 +66,6 @@ const changePlace = ({ selectedOptions }) => {
 const message = ref('')
 const title = ref('')
 
-// const file = ref('')
 onMounted(async () => {
 	type.value = route.params.type
 	typeText.value = types.filter(item => item.value == type.value)[0].text
