@@ -86,10 +86,8 @@ const List = [
 			</div>
 		</div>
 	</div>
-	s
 </template>
 
-<script setup lang="ts"></script>
 <style scoped>
 .serviceBox {
 	height: 100vh;
