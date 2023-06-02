@@ -3,17 +3,7 @@ import { getRepairPage } from '@/api/repair'
 import router from '@/router'
 import { onClickLeft } from '@/utils'
 import { onMounted, ref } from 'vue'
-let page = {
-	page: 1,
-	limit: 15,
-	status: 0
-}
-let list = ref('')
-onMounted(async () => {
-	const { data } = await getRepairPage(page)
-	// console.log(data)
-	list.value = data.list
-})
+
 // 详情
 const info = (item: any) => {
 	router.push({
@@ -31,6 +21,54 @@ const add = (type: any) => {
 			type
 		}
 	})
+}
+//加载提示
+const loading = ref(false)
+//完成提示
+const finished = ref(false)
+//刷新提示
+const refreshing = ref(false)
+let total = -1
+let sum = 0
+// //加载函数
+let page = {
+	page: 1,
+	limit: 15
+}
+let list = ref([])
+//下拉会自动调用这个
+const onLoad = async () => {
+	// loading.value = true
+	if (sum < total && refreshing.value == false) {
+		page.page = 1 + page.page
+		// sleep(1000);
+	}
+	const { data } = await getRepairPage(page)
+	list.value = data.list
+	console.log(list.value)
+	//下拉完毕
+	refreshing.value = false
+	//加载一次后，会在懂变成true,变成加载中，就会卡在那里，变为true后，才会真的执行...
+	loading.value = false
+	console.log(loading.value)
+	sum += list.value.length
+	total = data.total
+	console.log('sum')
+	console.log(sum)
+	console.log('total')
+	console.log(total)
+	//代表已经加加载了所有数据，显示没有更多了
+	if (sum >= total) {
+		finished.value = true
+	}
+}
+
+const onRefresh = () => {
+	page.page = 1
+	sum = 0
+	finished.value = false
+	loading.value = true
+	onLoad()
 }
 </script>
 <template>
@@ -53,7 +91,7 @@ const add = (type: any) => {
 
 		<div class="bg-white mt-5 mr-2 ml-3">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了">
+				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<div v-for="item in list" :key="item.id" class="bordera">
 						<div>
 							<div class="text-[20px] inline-block">{{ item.title }}</div>
@@ -71,8 +109,10 @@ const add = (type: any) => {
 
 						<di>
 							{{ item.content }}
-							<div>
-								<img class="img" :src="item.imgs" />
+							<div class="flex">
+								<template v-for="img in item.imgs" :key="img">
+									<img class="img" :src="img" />
+								</template>
 							</div>
 							<div class="flex">
 								<div>
@@ -84,6 +124,15 @@ const add = (type: any) => {
 						</di>
 					</div>
 				</van-list>
+
+				<!-- 下拉提示，通过 scale 实现一个缩放效果 -->
+				<!-- <template #pulling="props"> 下拉提示 </template> -->
+
+				<!-- 释放提示 -->
+				<template #loosing> 释放提示 </template>
+
+				<!-- 加载提示 -->
+				<template #loading> 加载提示 </template>
 			</van-pull-refresh>
 		</div>
 	</div>

@@ -4,16 +4,12 @@ import { onClickLeft } from '@/utils'
 import router from '@/router'
 import { ref } from 'vue'
 
-// import { getNoticePage } from '@/api/notice'
-// import { reactive, ref } from 'vue'
-
-const active = ref('')
 const list = ref<any[]>([])
 const loading = ref(false)
 // 加载完成表示符
 const finished = ref(false)
 const refreshing = ref(false)
-let status = -1
+let status = 0
 let page = {
 	page: 1,
 	limit: 15,
@@ -21,14 +17,21 @@ let page = {
 }
 let total = 0
 let sum = 0
+let flag = 0
 //加载函数
 const onLoad = async () => {
+	flag++
+	console.log(flag)
 	page.status = status
-	// console.log(page.status)
+	if (sum < total && refreshing.value == false) {
+		page.page = 1 + page.page
+	}
 	const { data } = await getNoticePage(page)
 	list.value = data.list
+	//加载完毕
 	loading.value = false
-	// finished.value = true
+	// console.log(loading.value)
+	refreshing.value = false
 	sum += list.value.length
 	total = data.total
 	console.log('sum')
@@ -39,36 +42,39 @@ const onLoad = async () => {
 	//代表已经加加载了所有数据，显示没有更多了
 	if (sum >= total) {
 		finished.value = true
-	} else {
 	}
 }
+// const onRefresh = () => {
+// 	//刷新即分页,已经加载数少于总数。即加来，而且一刷新，就默认refreshing.value  = true
+// 	if (sum < total) {
+// 		page.page = 1 + page.page
+// 		onLoad()
+// 	} else {
+// 		alert('请勿重复刷新')
+// 		refreshing.value = false
+// 	}
+// }
+
 const onRefresh = () => {
-	// 清空列表数据
-	// finished.value = false
-	// 重新加载数据
-	//刷新即分页,已经加载数少于总数。即加来
-	if (sum < total) {
-		// 将 loading 设置为 true，表示处于加载状态
-		loading.value = true
-		page.page = 1 + page.page
-		onLoad()
-	} else {
-		alert('请勿重复刷新')
-	}
-	//bu
-	refreshing.value = false
-	// loading.value = false
+	page.page = 1
+	sum = 0
+	finished.value = false
+	loading.value = true
+	onLoad()
 }
+
 //切换执行函数，执行初始化
 function handleTabChange(name: any) {
-	status = name
-	//分页初始化
-	page.page = 1
-	//数量初始化
-	sum = total = 0
-	//数据未加加载完成
-	finished.value = false
-	onLoad()
+	if (flag > 0) {
+		status = name
+		//分页初始化
+		page.page = 1
+		//数量初始化
+		sum = total = 0
+		//数据未加加载完成
+		// finished.value = false
+		onLoad()
+	}
 }
 
 const info = (item: any) => {
@@ -93,7 +99,7 @@ const info = (item: any) => {
 	<van-tabs active="{{ active }}" @change="handleTabChange">
 		<van-tab title="全部公告" status="0">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了">
+				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<div v-for="item in list" :key="item.id" @click="info(item)">
 						<div>
 							<div class="text-[20px] bordera inline-block">{{ item.title }}</div>
@@ -123,7 +129,7 @@ const info = (item: any) => {
 		</van-tab>
 		<van-tab title="未读" status="1">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了">
+				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<div v-for="item in list" :key="item.id" @click="info(item)">
 						<div>
 							<div class="text-[20px] aa inline-block">{{ item.title }}</div>
@@ -149,7 +155,7 @@ const info = (item: any) => {
 		</van-tab>
 		<van-tab title="已读" status="2">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了">
+				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<div v-for="item in list" :key="item.id" @click="info(item)">
 						<div>
 							<div class="text-[20px] aa inline-block">{{ item.title }}</div>
