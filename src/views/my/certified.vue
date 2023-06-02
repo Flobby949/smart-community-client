@@ -177,7 +177,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onBeforeMount, reactive } from 'vue'
 import { showDialog } from 'vant'
 import { useRouter } from 'vue-router'
@@ -206,7 +206,7 @@ const eContacts = reactive({
 	phone: '',
 	address: ''
 })
-const ownerInfo = ref({
+const ownerInfo = ref<any>({
 	realName: '王思媛',
 	gender: 1,
 	identityCard: '321302200106012656',
@@ -227,7 +227,12 @@ const fieldNames = {
 	value: 'id',
 	children: 'items'
 }
-const options = ref([])
+interface OptionInfo {
+	name: string
+	id: number
+	items: Array<OptionInfo>
+}
+const options = ref<any[]>([])
 onBeforeMount(() => {
 	getHouseOptions().then(res => {
 		options.value = res.data
@@ -244,7 +249,7 @@ const typeCheck = () => {
 		ownerInfo.value.gender = 1
 	}
 }
-const typeCheck2 = number => {
+const typeCheck2 = (number: any) => {
 	if (number == 0) {
 		check3.value = 'text-blue-400 border border-blue-400 rounded-lg mr-1'
 		check4.value = 'border rounded-lg mr-1'
@@ -255,7 +260,7 @@ const typeCheck2 = number => {
 		ownerInfo.value.marriage = 1
 	}
 }
-const typeCheck3 = number => {
+const typeCheck3 = (number: any) => {
 	if (number == 0) {
 		check5.value = 'text-blue-400 border border-blue-400 rounded-lg mr-1'
 		check6.value = 'border rounded-lg mr-1'
@@ -266,7 +271,7 @@ const typeCheck3 = number => {
 		ownerInfo.value.accountType = 1
 	}
 }
-const typeCheck4 = number => {
+const typeCheck4 = (number: any) => {
 	if (number == 0) {
 		check7.value = 'text-blue-400 border border-blue-400 rounded-lg mr-1'
 		check8.value = 'border rounded-lg mr-1'
@@ -281,14 +286,14 @@ const sbdate = () => {
 	ownerInfo.value.birthday = birthdayDate.value.join('-')
 	showBirthday.value = false
 }
-const validator = val => {
+const validator = (val: any) => {
 	const card15 = /^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$/
 	const card18 = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
 	return card15.test(val) || card18.test(val)
 }
-const onFinish = ({ selectedOptions }) => {
+const onFinish = ({ selectedOptions }: any) => {
 	show.value = false
-	fieldValue.value = selectedOptions.map(option => option.name).join('/')
+	fieldValue.value = selectedOptions.map((option: OptionInfo) => option.name).join('/')
 }
 const onClickLeft = () => {
 	router.push('/my')

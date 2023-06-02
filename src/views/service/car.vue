@@ -44,7 +44,6 @@ import navbar from '@/components/NavBar/index.vue'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
-import { showConfirmDialog, showNotify, showSuccessToast } from 'vant'
 const list = ref<any[]>([])
 const router = useRouter()
 

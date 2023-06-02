@@ -1,5 +1,5 @@
 <template>
-	<navbar title="我的车位" />
+	<navbar title="我的车位" right-text="添加车位" @click="addCarport" />
 	<template v-for="(item, index) in list" :key="index">
 		<div class="bg-white shadow-lg rounded-lg overflow-hidden m-6">
 			<h2 class="font-semibold text-white mb-2 text-xl flex h-[80px] bg-gradient-to-b from-blue-300 to-blue-100 items-center justify-center">

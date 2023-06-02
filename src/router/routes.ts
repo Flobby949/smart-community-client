@@ -241,7 +241,7 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
-		path: '/complaintDetail/:compaintId',
+		path: '/complaintDetail/:complaintId',
 		name: 'complaintDetail',
 		component: () => import('@/views/service/complaintDetail.vue'),
 		meta: {

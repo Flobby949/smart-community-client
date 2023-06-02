@@ -48,11 +48,13 @@ const itemList = [
 	},
 	{
 		title: '在线报修',
-		name: 'repair'
+		name: 'repair',
+		url: '/repair'
 	},
 	{
 		title: '投诉建议',
-		name: 'suggest'
+		name: 'suggest',
+		url: '/complaint'
 	},
 	{
 		title: '问卷调查',
@@ -60,7 +62,8 @@ const itemList = [
 	},
 	{
 		title: '社区公告',
-		name: 'notice'
+		name: 'notice',
+		url: '/notice'
 	},
 	{
 		title: '联系物业',
@@ -126,7 +129,6 @@ const itemList = [
 				<div v-for="(item, index) in activityList" :key="index" class="bg-gray-100 p-4 rounded-lg" @click="showDetail(item.id)">
 					<!-- <img :src="item.cover" alt="news" class="w-[90%] h-[100px] mx-auto h-auto rounded-md" /> -->
 					<img :src="item.cover" alt="news" class="w-full h-auto rounded-md" />
-
 					<h2 class="text-xl font-bold">{{ item.activityName }}</h2>
 					<p class="text-gray-700">
 						{{ item.title }}

@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, type RouteLocationNormalized } from
 import routes from './routes'
 import { useCachedViewStoreHook } from '@/store/modules/cachedView'
 import NProgress from '@/utils/progress'
+import {useUserStore} from'@/store/user/index'
 
 const router = createRouter({
 	history: createWebHashHistory(),
@@ -14,6 +15,7 @@ export interface toRouteType extends RouteLocationNormalized {
 		noCache?: boolean
 	}
 }
+let hasGetInfo = false
 const whitePath = ['/login', '/forget', '/code', '/first', '/msg']
 router.beforeEach((to: toRouteType, from, next) => {
 	if (to.path === '/Home') {
@@ -25,10 +27,17 @@ router.beforeEach((to: toRouteType, from, next) => {
 			localStorage.setItem('accessToken', query.toString())
 		}
 	}
-
+	if (whitePath.includes(to.path)) {
+		hasGetInfo = false
+	  }
+	
 	const token = localStorage.getItem('accessToken')
 	NProgress.start()
-
+	if(token&& !hasGetInfo){
+		useUserStore().getStoreInfo()
+		useUserStore().getHouseInfo()
+		hasGetInfo = true
+	}
 	// 路由缓存
 	// useCachedViewStoreHook().addCachedView(to);
 	if (!token && !whitePath.includes(to.path)) {
