@@ -121,7 +121,7 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
-		path: '/invitation/:invitationId',
+		path: '/invitation',
 		name: 'invitation',
 		component: () => import('@/views/home/invitation.vue'),
 		meta: {

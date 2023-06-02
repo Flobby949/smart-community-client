@@ -49,16 +49,16 @@ const onClickLeft = () => {
 				<van-divider />
 
 				<!-- 右栏：新闻图片、概述、内容 -->
-				<div class="max-w-lg mx-auto lg:max-w-none my-3">
+				<div class="max-w-lg mx-auto lg:max-w-none bg-transparent">
 					<div class="rounded-lg overflow-hidden">
-						<img src="https://picsum.photos/800/600" alt="news" class="w-full h-auto" />
+						<!-- <img src="https://picsum.photos/800/600" alt="news" class="w-full h-auto" /> -->
 					</div>
 					<div class="mt-4 bg-transparent rounded-lg shadow-lg overflow-hidden">
 						<div class="bg-white rounded-lg overflow-hidden text-cente mb-12" v-html="detail.content"></div>
 						<div class="bg-white rounded-lg shadow-lg overflow-hidden mb-12">
 							<p class="text-x font-medium font-extrabol text-black">主办单位：{{}}</p>
 							<p class="text-x font-medium text-black">活动地点：{{ detail.location }}</p>
-							<p class="text-x font-medium text-black">联系电话：{{ detail.tel }}</p>
+							<p class="text-x font-medium text-black mb-10">联系电话：{{ detail.tel }}</p>
 						</div>
 					</div>
 				</div>
