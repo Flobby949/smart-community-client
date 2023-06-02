@@ -1,59 +1,56 @@
 <template>
-	<div>
-		<navbar title="我的车位" />
-
-		<van-form @submit="submitForm">
-			<van-cell-group>
-				<span class="title">选择车位</span>
-				<van-field
-					v-model="communityName"
-					label="小区名称"
-					is-link
-					placeholder="选择城市"
-					:rules="[{ required: true, message: '不能为空' }]"
-					@click="comunityPick = true"
-				/>
-				<van-popup v-model:show="comunityPick" round position="bottom">
-					<van-picker :columns="communityColumns" @cancel="comunityPick = false" @confirm="communityConfirm" />
-				</van-popup>
-				<van-field
-					v-model="parkName"
-					label="停车场名字"
-					is-link
-					placeholder="请选择停车场名称"
-					:rules="[{ required: true, message: '不能为空' }]"
-					@click="selectPark"
-				/>
-				<van-popup v-model:show="parkPick" round position="bottom">
-					<van-picker :columns="parkColumns" @cancel="parkPick = false" @confirm="parkConfirm" />
-				</van-popup>
-				<!-- <van-field v-model="form.ownerId" label="户主" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" /> -->
-				<van-field v-model="form.licence" label="车牌号" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
-				<van-field
-					v-model="carPortName"
-					label="车位号"
-					is-link
-					placeholder="选择车位"
-					:rules="[{ required: true, message: '不能为空' }]"
-					@click="selectCarPort"
-				/>
-				<van-popup v-model:show="carPortPick" round position="bottom">
-					<van-picker :columns="carPortColumns" @cancel="carPortPick = false" @confirm="carPortConfirm" />
-				</van-popup>
-				<span class="title">住户信息</span>
-				<van-field v-model="form.realName" label="姓名" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
-				<van-field v-model="form.phone" label="联系方式" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
-			</van-cell-group>
-			<div style="margin: 16px">
-				<van-button type="primary" round native-type="submit" block class="mt-4">提交</van-button>
-			</div>
-		</van-form>
-	</div>
+	<navbar title="添加车位" />
+	<van-form @submit="submitForm">
+		<van-cell-group>
+			<!-- <span class="title">选择车位</span> -->
+			<van-field
+				v-model="communityName"
+				label="小区名称"
+				is-link
+				placeholder="选择城市"
+				:rules="[{ required: true, message: '不能为空' }]"
+				@click="comunityPick = true"
+			/>
+			<van-popup v-model:show="comunityPick" round position="bottom">
+				<van-picker :columns="communityColumns" @cancel="comunityPick = false" @confirm="communityConfirm" />
+			</van-popup>
+			<van-field
+				v-model="parkName"
+				label="停车场名字"
+				is-link
+				placeholder="请选择停车场名称"
+				:rules="[{ required: true, message: '不能为空' }]"
+				@click="selectPark"
+			/>
+			<van-popup v-model:show="parkPick" round position="bottom">
+				<van-picker :columns="parkColumns" @cancel="parkPick = false" @confirm="parkConfirm" />
+			</van-popup>
+			<!-- <van-field v-model="form.ownerId" label="户主" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" /> -->
+			<van-field v-model="form.licence" label="车牌号" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+			<van-field
+				v-model="carPortName"
+				label="车位号"
+				is-link
+				placeholder="选择车位"
+				:rules="[{ required: true, message: '不能为空' }]"
+				@click="selectCarPort"
+			/>
+			<van-popup v-model:show="carPortPick" round position="bottom">
+				<van-picker :columns="carPortColumns" @cancel="carPortPick = false" @confirm="carPortConfirm" />
+			</van-popup>
+			<span class="title">住户信息</span>
+			<van-field v-model="form.realName" label="姓名" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+			<van-field v-model="form.phone" label="联系方式" placeholder="请输入内容" :rules="[{ required: true, message: '不能为空' }]" />
+		</van-cell-group>
+		<div style="margin: 16px">
+			<van-button type="primary" round native-type="submit" block class="mt-4">提交</van-button>
+		</div>
+	</van-form>
 </template>
 
 <script setup lang="ts">
-import { findAllHouse, allBuilding, allUnit, allHouseByUnit, addHouse } from '@/api/owner'
 import { reactive, ref, onMounted, computed } from 'vue'
+import navbar from '@/components/NavBar/index.vue'
 import { getParkList, getCommunityList, saveCarport, getNoOwnerList } from '@/api/carport/carport'
 import { showConfirmDialog, showNotify, showSuccessToast, Picker, showDialog } from 'vant'
 
@@ -69,7 +66,7 @@ const router = useRouter()
 const communityName = ref('')
 const comunityPick = ref(false)
 const communityColumns: PickItem[] = reactive([])
-const communityConfirm = ({ selectedOptions }) => {
+const communityConfirm = ({ selectedOptions }: any) => {
 	communityName.value = selectedOptions[0].text
 	if (form.communityId != selectedOptions[0].value) {
 		parkName.value = ''
@@ -109,7 +106,7 @@ const selectPark = () => {
 		showDialog({ message: '请先选择小区', width: '320px' })
 	}
 }
-const parkConfirm = ({ selectedOptions }) => {
+const parkConfirm = ({ selectedOptions }: any) => {
 	if (selectedOptions[0].text != '该小区没有停车场') {
 		parkName.value = selectedOptions[0].text
 		form.parkId = selectedOptions[0].value
@@ -141,7 +138,7 @@ const selectCarPort = () => {
 		showDialog({ message: '请先选择停车场', width: '320px' })
 	}
 }
-const carPortConfirm = ({ selectedOptions }) => {
+const carPortConfirm = ({ selectedOptions }: any) => {
 	if (selectedOptions[0].text != '停车场没有车位') {
 		carPortName.value = selectedOptions[0].text
 		form.carportName = carPortName.value
@@ -167,7 +164,7 @@ onMounted(() => {
 })
 
 const submitForm = () => {
-	saveCarport(form).then(res => {
+	saveCarport(form).then((res: any) => {
 		if (res.code === 1) {
 			showDialog({ message: '操作成功', width: '360px' }).then(() => {
 				router.back()
@@ -177,7 +174,7 @@ const submitForm = () => {
 		}
 	})
 }
-const validator = val => {
+const validator = (val: any) => {
 	if (val != '') {
 		return true
 	} else {
