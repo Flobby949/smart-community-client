@@ -8,7 +8,7 @@ import { addRepair } from '@/api/repair'
 import { uploadFile } from '@/api/user'
 const route = useRoute()
 
-const onSubmit = values => {
+const onSubmit = (values: any) => {
 	let data = {
 		type: type.value,
 		category: category.value,
@@ -33,7 +33,7 @@ const types = [
 
 const type = ref('')
 const typeText = ref('')
-const changeType = ({ selectedOptions }) => {
+const changeType = ({ selectedOptions }: any) => {
 	typeText.value = selectedOptions[0]?.text
 	type.value = selectedOptions[0]?.value
 	typePicker.value = false
@@ -46,7 +46,7 @@ const categories = [
 ]
 const category = ref('0')
 const categoryText = ref('路灯')
-const changeCategory = ({ selectedOptions }) => {
+const changeCategory = ({ selectedOptions }: any) => {
 	categoryText.value = selectedOptions[0]?.text
 	category.value = selectedOptions[0]?.value
 	categoryPicker.value = false
@@ -59,14 +59,13 @@ const places = [
 ]
 // const place = ref('0')
 const place = ref('天堂小区一号')
-const changePlace = ({ selectedOptions }) => {
+const changePlace = ({ selectedOptions }: any) => {
 	place.value = selectedOptions[0]?.text
 	placePicker.value = false
 }
 const message = ref('')
 const title = ref('')
 
-// const file = ref('')
 onMounted(async () => {
 	type.value = route.params.type
 	typeText.value = types.filter(item => item.value == type.value)[0].text
@@ -74,7 +73,7 @@ onMounted(async () => {
 const fileList = ref([])
 const imgs = ref([])
 
-const afterRead = async file => {
+const afterRead = async (file: any) => {
 	file.status = 'uploading'
 	file.message = '上传中...'
 
