@@ -13,9 +13,9 @@
 				<van-image class="bg-blue-400" round width="50" height="50" src="https://music-1307940544.cos.ap-nanjing.myqcloud.com/test/zhangdan.png" />
 			</div>
 			<div class="flex justify-around items-center mt-1">
-				<p>我的房屋</p>
-				<p>我的车位</p>
-				<p>我的车辆</p>
+				<p @click="myHouse">我的房屋</p>
+				<p @click="myCarPort">我的车位</p>
+				<p @click="myCar">我的车辆</p>
 				<p>我的账单</p>
 			</div>
 		</div>
@@ -37,6 +37,15 @@ const router = useRouter()
 const userInfo = ref<any>({})
 const goProfile = () => {
 	router.push('/profile')
+}
+const myCar = () => {
+	router.push('/car')
+}
+const myCarPort = () => {
+	router.push('/carport')
+}
+const myHouse = () => {
+	router.push('/house')
 }
 //1
 onBeforeMount(() => {

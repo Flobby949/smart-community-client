@@ -62,7 +62,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const selectedDate = ref('')
 const selectedDate2 = ref('')
-const licensePlate = ref(['', '', '', '', '', '', '', ''])
 //获取当前日期
 const date = new Date()
 const licenseChars = ref(['', '', '', '', '', '', ''])
@@ -112,8 +111,8 @@ const submitForm = () => {
 
 const chooseDate = ref([date.getFullYear(), date.getMonth() + 1, date.getDate()])
 const chooseDate2 = ref([date.getFullYear(), date.getMonth() + 1, date.getDate()])
-const currentDate = ref([date.getFullYear(), date.getMonth() + 1, date.getDate()])
-const currentDate2 = ref([date.getFullYear(), date.getMonth() + 1, date.getDate()])
+const currentDate: any = ref([date.getFullYear(), date.getMonth() + 1, date.getDate()])
+const currentDate2: any = ref([date.getFullYear(), date.getMonth() + 1, date.getDate()])
 const show = ref(false)
 const show2 = ref(false)
 //显示日期选择器
