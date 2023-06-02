@@ -67,7 +67,7 @@ onMounted(() => {
 				</div>
 			</section>
 			<div class="mt-4 md:mt-0 text-center">
-				<button class="border bg-blue-500 border-blue-600 text-white px-4 py-2 mt-20 w-full rounded-md">支付</button>
+				<button v-if="info.status === 0" class="border bg-blue-500 border-blue-600 text-white px-4 py-2 mt-20 w-full rounded-md">支付</button>
 			</div>
 		</div>
 	</div>
