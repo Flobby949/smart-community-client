@@ -71,7 +71,8 @@
 import { showSuccessToast, showFailToast, showToast, showDialog } from 'vant'
 import { ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUserInfo, uploadFile, updateUser } from '@/api/user'
+import { uploadFile, updateUser } from '@/api/user'
+import { useUserStoreHook } from '@/store/user/index'
 const router = useRouter()
 const show1 = ref(false)
 const show2 = ref(false)
@@ -81,9 +82,7 @@ const onClickLeft = () => {
 	router.push('/my')
 }
 onBeforeMount(() => {
-	getUserInfo().then((res: any) => {
-		userInfo.value = res.data
-	})
+	userInfo.value = useUserStoreHook().userInfo
 })
 const onConfirm = ({ selectedValues }: any) => {
 	userInfo.value.gender = selectedValues.join(',')
