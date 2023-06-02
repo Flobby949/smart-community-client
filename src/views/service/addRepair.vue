@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import { onClickLeft } from '@/utils'
 import { findMyHouse } from '@/api/owner'
 import { addRepair } from '@/api/repair'
+import { uploadFile } from '@/api/user'
 const route = useRoute()
 
 const onSubmit = values => {
@@ -15,7 +16,8 @@ const onSubmit = values => {
 		title: title.value,
 		content: message.value,
 		fileList: fileList.value,
-		communityId: 1
+		communityId: 1,
+		imgs: imgs.value
 	}
 	console.log('显示要提交的数据：............')
 	console.log(data)
@@ -69,12 +71,23 @@ onMounted(async () => {
 	type.value = route.params.type
 	typeText.value = types.filter(item => item.value == type.value)[0].text
 })
-const fileList = ref([
-	{ url: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg' },
-	// Uploader 根据文件后缀来判断是否为图片文件
-	// 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-	{ url: 'https://cloud-image', isImage: true }
-])
+const fileList = ref([])
+const imgs = ref([])
+
+const afterRead = async file => {
+	file.status = 'uploading'
+	file.message = '上传中...'
+
+	const formData = new FormData()
+	console.log(file.file)
+	formData.append('file', file.file)
+	uploadFile(formData).then(res => {
+		file.status = 'done'
+		file.message = '上传成功'
+		imgs.value.push(res.data)
+		console.log(imgs.value)
+	})
+}
 </script>
 
 <template>
@@ -107,7 +120,7 @@ const fileList = ref([
 			<div class="bg-gray-100">报修内容</div>
 
 			<van-field v-model="message" class="bordera" rows="5" autosize type="textarea" maxlength="300" placeholder="请输入留言" show-word-limit />
-			<van-uploader v-model="fileList" />
+			<van-uploader v-model="fileList" :after-read="afterRead" />
 		</van-cell-group>
 		<div style="margin: 16px">
 			<van-button round block type="primary" native-type="submit"> 提交 </van-button>
