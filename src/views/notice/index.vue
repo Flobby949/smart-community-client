@@ -1,5 +1,5 @@
 <script setup lang="ts" name="About">
-import { getNoticePage, read } from '@/api/notice'
+import { getNoticePage, read, readNoticeNum } from '@/api/notice'
 import { onClickLeft } from '@/utils'
 import router from '@/router'
 import { ref } from 'vue'
@@ -18,6 +18,7 @@ let page = {
 let total = 0
 let sum = 0
 let flag = 0
+const unReadnum = ref(0)
 //加载函数
 const onLoad = async () => {
 	flag++
@@ -43,17 +44,13 @@ const onLoad = async () => {
 	if (sum >= total) {
 		finished.value = true
 	}
+
+	await readNoticeNum().then(res => {
+		unReadnum.value = res.data
+		// console.log('阅读数量')
+		// console.log(unReadnum.value)
+	})
 }
-// const onRefresh = () => {
-// 	//刷新即分页,已经加载数少于总数。即加来，而且一刷新，就默认refreshing.value  = true
-// 	if (sum < total) {
-// 		page.page = 1 + page.page
-// 		onLoad()
-// 	} else {
-// 		alert('请勿重复刷新')
-// 		refreshing.value = false
-// 	}
-// }
 
 const onRefresh = () => {
 	page.page = 1
@@ -64,7 +61,7 @@ const onRefresh = () => {
 }
 
 //切换执行函数，执行初始化
-function handleTabChange(name: any) {
+async function handleTabChange(name: any) {
 	if (flag > 0) {
 		status = name
 		//分页初始化
@@ -95,99 +92,113 @@ const info = (item: any) => {
 </script>
 
 <template>
-	<van-nav-bar title="消息中心" left-text="返回" left-arrow @click-left="onClickLeft" />
-	<van-tabs active="{{ active }}" @change="handleTabChange">
-		<van-tab title="全部公告" status="0">
-			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" @click="info(item)">
-						<div>
-							<div class="text-[20px] bordera inline-block">{{ item.title }}</div>
-							<div class="float-right">
-								<div v-if="item.status == 1">未读</div>
-								<div v-if="item.status == 2">已读</div>
-							</div>
-						</div>
-
-						<div class="border border-solid border-dark-100">
-							{{ item.content }}
-							<div class="flex">
-								<div>
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
-									<span>{{ item.publishTime }}</span>
-								</div>
-
-								<div class="ml-3">
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
-									<span>{{ item.readNumber }}</span>
+	<div class="bg-gray-100">
+		<van-nav-bar title="消息中心" left-arrow @click-left="onClickLeft" />
+		<van-badge :content="unReadnum" color="#1989fa" class="absolute left-[58%] top-[15px]" style="z-index: 999">
+			<div class="child" />
+		</van-badge>
+		<van-tabs @change="handleTabChange">
+			<van-tab title="全部公告" status="0">
+				<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+					<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+						<div v-for="item in list" :key="item.id" class="borderb m-3 bg-white" @click="info(item)">
+							<div class="flex justify-between">
+								<div class="font-bold inline-block p-2">{{ item.title }}</div>
+								<div class="flex items-center">
+									<div v-if="item.status == 1" class="text-blue-500 text-[13px] mr-4">未读</div>
+									<div v-if="item.status == 2">已读</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</van-list>
-			</van-pull-refresh>
-		</van-tab>
-		<van-tab title="未读" status="1">
-			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" @click="info(item)">
-						<div>
-							<div class="text-[20px] aa inline-block">{{ item.title }}</div>
-						</div>
 
-						<div class="border border-solid border-dark-100">
-							{{ item.content }}
-							<div class="flex">
-								<div>
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
-									<span>{{ item.publishTime }}</span>
-								</div>
+							<div class="borderb mt-1">
+								<van-text-ellipsis class="text" style="line-height: 20px" rows="3" :content="item.content" />
+								<div class="flex m-2">
+									<div class="flex">
+										<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
+										<span>{{ item.publishTime }}</span>
+									</div>
 
-								<div class="ml-3">
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
-									<span>{{ item.readNumber }}</span>
+									<div class="flex ml-3">
+										<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
+										<span>{{ item.readNumber }}</span>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</van-list>
-			</van-pull-refresh>
-		</van-tab>
-		<van-tab title="已读" status="2">
-			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" @click="info(item)">
-						<div>
-							<div class="text-[20px] aa inline-block">{{ item.title }}</div>
-						</div>
+					</van-list>
+				</van-pull-refresh>
+			</van-tab>
 
-						<div class="border border-solid border-dark-100">
-							{{ item.content }}
-							<div class="flex">
-								<div>
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
-									<span>{{ item.publishTime }}</span>
-								</div>
+			<van-tab title="未读" status="1">
+				<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+					<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+						<div v-for="item in list" :key="item.id" class="borderb m-3 bg-white" @click="info(item)">
+							<div class="flex justify-between">
+								<div class="font-bold inline-block p-2">{{ item.title }}</div>
+							</div>
 
-								<div class="ml-3">
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
-									<span>{{ item.readNumber }}</span>
+							<div class="borderb mt-1">
+								<van-text-ellipsis class="text" style="line-height: 20px" rows="3" :content="item.content" />
+								<div class="flex m-2">
+									<div class="flex">
+										<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
+										<span>{{ item.publishTime }}</span>
+									</div>
+
+									<div class="flex ml-3">
+										<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
+										<span>{{ item.readNumber }}</span>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</van-list>
-			</van-pull-refresh>
-		</van-tab>
-	</van-tabs>
+					</van-list>
+				</van-pull-refresh>
+			</van-tab>
+
+			<van-tab title="已读" status="2">
+				<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+					<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+						<div v-for="item in list" :key="item.id" class="borderb m-3 bg-white" @click="info(item)">
+							<div class="flex justify-between">
+								<div class="font-bold inline-block p-2">{{ item.title }}</div>
+							</div>
+
+							<div class="borderb mt-1">
+								<van-text-ellipsis class="text" style="line-height: 20px" rows="3" :content="item.content" />
+								<div class="flex m-2">
+									<div class="flex">
+										<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
+										<span>{{ item.publishTime }}</span>
+									</div>
+
+									<div class="flex ml-3">
+										<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
+										<span>{{ item.readNumber }}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</van-list>
+				</van-pull-refresh>
+			</van-tab>
+		</van-tabs>
+	</div>
 </template>
 
 <style scoped>
 .bordera {
 	@apply border border-solid border-sky-900;
 }
+
+.borderb {
+	@apply border border-solid border-gray-200;
+}
 .icon {
 	display: inline-block;
 	width: 20px;
+}
+.text {
+	text-indent: 20px;
 }
 </style>

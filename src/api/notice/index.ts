@@ -11,3 +11,7 @@ export function getNoticeById(id: any) {
 export function read(data: any) {
 	return service.post('/property/notice/read', data)
 }
+
+export function readNoticeNum() {
+	return service.get('/property/notice/readNoticeNum')
+}
