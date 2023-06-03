@@ -129,6 +129,22 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
+		path: '/invitation/historyList',
+		name: 'historyList',
+		component: () => import('@/views/home/invitationHistoryList.vue'),
+		meta: {
+			title: '访客邀请记录'
+		}
+	},
+	{
+		path: '/invitation/openHistory',
+		name: 'openHistory',
+		component: () => import('@/views/home/gateOpenHistory.vue'),
+		meta: {
+			title: '开门记录'
+		}
+	},
+	{
 		path: '/house',
 		name: 'house',
 		component: () => import('@/views/my/house.vue'),
