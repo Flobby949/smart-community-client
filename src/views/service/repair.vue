@@ -93,9 +93,9 @@ const onRefresh = () => {
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 					<div v-for="item in list" :key="item.id" class="bg-white borderb mt-4 rounded-[10px]">
-						<div>
-							<div class="font-bold inline-block text m-1">{{ item.title }}</div>
-							<div class="float-right">
+						<div class="flex justify-between">
+							<van-text-ellipsis class="font-bold text m-1 flex-1" :content="item.title" @click="info(item)" />
+							<div>
 								<div v-if="item.state == 0" class="bg-red-500 radiusButton">未处理</div>
 								<div v-if="item.state == 1" class="bg-yellow-500 radiusButton">处理中</div>
 								<div v-if="item.state == 2" class="bg-blue-500 radiusButton">已理中</div>
@@ -114,7 +114,7 @@ const onRefresh = () => {
 
 						<div class="m-2">
 							<div class="bg-gray-200 text">
-								{{ item.content }}
+								<van-text-ellipsis style="line-height: 12px" rows="3" :content="item.content" @click="info(item)" />
 							</div>
 
 							<div class="flex m-2">

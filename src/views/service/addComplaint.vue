@@ -59,7 +59,7 @@ const afterRead = async (file: any) => {
 }
 </script>
 <template>
-	<van-nav-bar title="添加投诉" left-text="返回" left-arrow @click-left="onClickLeft" />
+	<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
 
 	<van-form @submit="onSubmit">
 		<van-cell-group inset>
@@ -70,15 +70,32 @@ const afterRead = async (file: any) => {
 				</van-popup>
 			</div>
 
-			<div class="bg-gray-100">投诉简要</div>
-			<van-field v-model="title" placeholder="报修简要" />
-			<div class="bg-gray-100">投诉内容</div>
+			<div class="text mt-2">投诉简要</div>
+			<van-field v-model="title" class="borderb" placeholder="报修简要" />
+			<div class="text mt-2">投诉内容</div>
 
-			<van-field v-model="message" class="bordera" rows="5" autosize type="textarea" maxlength="300" placeholder="请输入留言" show-word-limit />
-			<van-uploader v-model="fileList" :after-read="afterRead" />
+			<van-field v-model="message" class="borderb mt-2" rows="5" autosize type="textarea" maxlength="300" placeholder="请输入留言" show-word-limit />
+			<van-uploader v-model="fileList" :after-read="afterRead">
+				<div class="w-[80px] h-[80px] rounded-[10px] bg-gray-100 borderb flex flex-col justify-center items-center ml-2">
+					<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
+					<div>上传图片</div>
+				</div>
+			</van-uploader>
 		</van-cell-group>
-		<div style="margin: 16px">
-			<van-button round block type="primary" native-type="submit"> 提交 </van-button>
+		<div style="margin: 16px" class="flex justify-center">
+			<van-button round type="primary" native-type="submit" class="w-[50%]"> 提交 </van-button>
 		</div>
 	</van-form>
 </template>
+
+<style scoped>
+.text {
+	text-indent: 20px;
+}
+.bordera {
+	@apply border border-solid border-sky-900;
+}
+.borderb {
+	@apply border border-solid border-gray-200;
+}
+</style>

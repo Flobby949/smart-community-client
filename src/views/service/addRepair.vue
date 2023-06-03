@@ -135,8 +135,8 @@ const afterRead = async (file: any) => {
 				</div>
 			</van-uploader>
 		</van-cell-group>
-		<div style="margin: 16px">
-			<van-button round block type="primary" native-type="submit"> 提交 </van-button>
+		<div style="margin: 16px" class="flex justify-center">
+			<van-button round class="w-[50%]" type="primary" native-type="submit"> 提交 </van-button>
 		</div>
 	</van-form>
 </template>
