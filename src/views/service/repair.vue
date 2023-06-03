@@ -73,55 +73,60 @@ const onRefresh = () => {
 </script>
 <template>
 	<div class="h-52 bg-blue-400 rounded-bl-br-full" style="z-index: 99">
-		<van-nav-bar title="在线报修" left-text="返回" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar title="在线报修" left-arrow @click-left="onClickLeft" />
 	</div>
 
 	<div class="absolute top-20 w-[100%] h-[100%]">
-		<div class="flex bordera text-center items-center justify-around">
-			<div class="h-10 bordera text-center bg-white" @click="add(0)">
-				<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/settings.png" />
-				公告报修
+		<div class="flex bordera text-center items-center justify-around items-center">
+			<div class="h-10 w-[30%] bordera text-center bg-white flex" @click="add(0)">
+				<img class="icon m-1" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/settings.png" />
+				<div class="flex-1 bordera flex items-center justify-center">公告报修</div>
 			</div>
 
-			<div class="h-10 bordera text-center bg-white" @click="add(1)">
-				<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/house.png" />
-				个人报修
+			<div class="h-10 w-[30%] bordera text-center bg-white flex" @click="add(1)">
+				<img class="icon m-1" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/house.png" />
+				<div class="flex-1 bordera flex items-center justify-center">个人报修</div>
 			</div>
 		</div>
 
-		<div class="bg-white mt-5 mr-2 ml-3">
+		<div class="bg-gray-100 mt-5 mr-2 ml-3">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" class="bordera">
+					<div v-for="item in list" :key="item.id" class="bg-white borderb mt-4 rounded-[10px]">
 						<div>
-							<div class="text-[20px] inline-block">{{ item.title }}</div>
+							<div class="font-bold inline-block text m-1">{{ item.title }}</div>
 							<div class="float-right">
-								<div v-if="item.state == 0">未处理</div>
-								<div v-if="item.state == 1">已处理</div>
+								<div v-if="item.state == 0" class="bg-red-500 radiusButton">未处理</div>
+								<div v-if="item.state == 1" class="bg-yellow-500 radiusButton">处理中</div>
+								<div v-if="item.state == 2" class="bg-blue-500 radiusButton">已理中</div>
+								<div v-if="item.state == 3" class="bg-gray-300 radiusButton">已评价</div>
 							</div>
 						</div>
 
-						<div>
-							<span> 公告报修 </span>
+						<hr />
+						<div class="flex mt-2">
+							<div v-if="item.type == 0" class="borderButton">公共报修</div>
+							<div v-if="item.type == 1" class="borderButton">公共报修</div>
 
-							<span> 路灯 </span>
+							<div v-if="item.category == 0" class="borderButton">路灯</div>
+							<div v-if="item.category == 1" class="borderButton">厕所</div>
 						</div>
 
-						<di>
-							{{ item.content }}
-							<div class="flex">
+						<div class="m-2">
+							<div class="bg-gray-200 text">
+								{{ item.content }}
+							</div>
+
+							<div class="flex m-2">
 								<template v-for="img in item.imgs" :key="img">
 									<img class="img" :src="img" />
 								</template>
 							</div>
-							<div class="flex">
-								<div>
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
-									<span>{{ item.createTime }}</span>
-								</div>
-								<div class="ml-3" @click="info(item)">报修详情</div>
+							<div class="flex justify-between">
+								<div>{{ item.createTime }}</div>
+								<div class="text-blue-500" @click="info(item)">报修详情</div>
 							</div>
-						</di>
+						</div>
 					</div>
 				</van-list>
 
@@ -145,13 +150,45 @@ const onRefresh = () => {
 }
 
 .bordera {
-	@apply border border-solid border-sky-900;
+	/* @apply border border-solid border-sky-900; */
+}
+
+.borderb {
+	@apply border border-solid border-gray-200;
 }
 .icon {
 	display: inline-block;
 	width: 20px;
 }
 .img {
-	width: 100px;
+	width: 90px;
+	border-radius: 5px;
+	margin: 3px;
+}
+.radiusButton {
+	display: inline-block;
+	padding: 1px 10px;
+	border-radius: 15px;
+}
+
+.borderButton {
+	@apply border border-solid border-blue-500 ml-3 flex justify-center items-center;
+	border-radius: 5px;
+	width: 80px;
+	height: 30px;
+}
+
+.text {
+	text-indent: 20px;
+}
+.top {
+	height: 40px;
+	width: 100%;
+	line-height: 40px;
+	font-size: 16px;
+	font-weight: bold;
+	border-bottom: 2px dashed #ccc;
+	text-align: center;
+	margin-top: 5px;
 }
 </style>
