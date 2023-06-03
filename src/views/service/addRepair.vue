@@ -3,7 +3,6 @@ import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { onClickLeft } from '@/utils'
-import { findMyHouse } from '@/api/owner'
 import { addRepair } from '@/api/repair'
 import { uploadFile } from '@/api/user'
 const route = useRoute()
@@ -90,10 +89,11 @@ const afterRead = async (file: any) => {
 </script>
 
 <template>
-	<van-nav-bar title="添加报修" left-text="返回" left-arrow @click-left="onClickLeft" />
+	<van-nav-bar title="添加报修" left-arrow @click-left="onClickLeft" />
+
 	<van-form @submit="onSubmit">
 		<van-cell-group inset>
-			<div class="bg-gray-100 h-10 flex align-middle">报修信息</div>
+			<div class="bg-gray-100 h-10 flex items-center text">报修信息</div>
 			<div>
 				<van-field v-model="typeText" is-link readonly name="picker" label="报修类别" @click="typePicker = true" />
 				<van-popup v-model:show="typePicker" position="bottom">
@@ -114,15 +114,29 @@ const afterRead = async (file: any) => {
 					<van-picker :columns="places" @confirm="changePlace" @cancel="placePicker = false" />
 				</van-popup>
 			</div>
-			<div class="bg-gray-100">报修简要</div>
-			<van-field v-model="title" placeholder="报修简要" />
-			<div class="bg-gray-100">报修内容</div>
+			<div class="bg-gray-100 p-2 text">报修简要</div>
+			<van-field v-model="title" class="borderb m-2" placeholder="报修简要" />
+			<div class="bg-gray-100 p-2 text">报修内容</div>
 
-			<van-field v-model="message" class="bordera" rows="5" autosize type="textarea" maxlength="300" placeholder="请输入留言" show-word-limit />
-			<van-uploader v-model="fileList" :after-read="afterRead" />
+			<van-field
+				v-model="message"
+				class="borderb m-2"
+				rows="5"
+				autosize
+				type="textarea"
+				maxlength="300"
+				placeholder="请写下详细报修内容，有助于工作人员快速帮您解决问题"
+				show-word-limit
+			/>
+			<van-uploader v-model="fileList" multiple :max-count="2" class="rounded-[10px] ml-2" :after-read="afterRead">
+				<div class="w-[80px] h-[80px] rounded-[10px] bg-gray-100 borderb flex flex-col justify-center items-center ml-2">
+					<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
+					<div>上传图片</div>
+				</div>
+			</van-uploader>
 		</van-cell-group>
-		<div style="margin: 16px">
-			<van-button round block type="primary" native-type="submit"> 提交 </van-button>
+		<div style="margin: 16px" class="flex justify-center">
+			<van-button round class="w-[50%]" type="primary" native-type="submit"> 提交 </van-button>
 		</div>
 	</van-form>
 </template>
@@ -133,5 +147,12 @@ const afterRead = async (file: any) => {
 }
 .bordera {
 	@apply border border-solid border-sky-900;
+}
+
+.text {
+	text-indent: 20px;
+}
+.borderb {
+	@apply border border-solid border-gray-200;
 }
 </style>
