@@ -169,6 +169,14 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
+		path: '/payment/paymentHistory',
+		name: 'paymentHistory',
+		component: () => import('@/views/service/paymentHistory.vue'),
+		meta: {
+			title: '缴费记录'
+		}
+	},
+	{
 		path: '/carport',
 		name: 'carport',
 		component: () => import('@/views/service/carport.vue'),
