@@ -61,7 +61,7 @@ const List = [
 	{
 		title: '家属邀请',
 		name: 'invite2-o',
-		url: '/invite'
+		url: '/addFamily'
 	}
 ]
 </script>

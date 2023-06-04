@@ -19,7 +19,7 @@ const familyInfo = reactive({
 	houseId: value1
 })
 const onClickLeft = () => {
-	router.push('/family')
+	router.back()
 }
 interface HouseInfo {
 	houseId: number
