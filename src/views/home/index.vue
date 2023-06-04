@@ -125,15 +125,17 @@ const itemList = [
 				<span></span>
 				<span>社区活动</span>
 			</div>
-			<div type="primary" class="flex flex-col space-y-4">
-				<div v-for="(item, index) in activityList" :key="index" class="bg-gray-100 p-4 rounded-lg" @click="showDetail(item.id)">
+			<div type="primary" class="space-y-4 bg-gray-50">
+				<div v-for="(item, index) in activityList" :key="index" class="p-4 rounded-lg shadow-md shadow-mt" @click="showDetail(item.id)">
 					<!-- <img :src="item.cover" alt="news" class="w-[90%] h-[100px] mx-auto h-auto rounded-md" /> -->
-					<img :src="item.cover" alt="news" class="w-full h-[100px] rounded-md" />
-					<h2 class="text-xl font-bold">{{ item.activityName }}</h2>
-					<p class="text-gray-700">
-						{{ item.title }}
-					</p>
-					<p>{{ item.atime }}</p>
+					<img :src="item.cover" alt="news" class="w-full h-[120px] rounded-lg" />
+					<h2 class="text-xl font-bold pt-2">{{ item.activityName }}</h2>
+					<div class="relative flex pt-4">
+						<p class="text-gray-700">
+							{{ item.title }}
+						</p>
+						<p class="absolute right-1 mt">{{ item.atime }}</p>
+					</div>
 				</div>
 			</div>
 		</div>
