@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { ref, reactive, toRef } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getUserInfo } from '@/api/user'
 import { addInvitation } from '@/api/society'
 import { showNotify, showToast, showConfirmDialog } from 'vant'
@@ -10,6 +10,7 @@ const userInfo = ref<any>({})
 // 用户id
 let userId = 0
 const route = useRoute()
+const router = useRouter()
 
 onMounted(() => {
 	id.value = route.params.invitationId
@@ -81,6 +82,10 @@ const onCancel = () => {
 	showPicker1.value = false
 	showPicker2.value = false
 }
+// 访客邀请历史记录页面
+const handleClickRight = () => {
+	router.push('/invitation/historyList')
+}
 
 const submitForm = () => {
 	formData.userId = userId
@@ -98,24 +103,52 @@ const submitForm = () => {
 	console.log(formData.userId)
 
 	showConfirmDialog({
-		title: '标题',
-		message: '如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。'
+		title: '添加访客',
+		message: '确定要添加此页面的访客？' // Message in the dialog.
 	})
 		.then(() => {
 			// on confirm
-			addInvitation(formData).then(res => {
-				console.log(res.data)
-				showNotify(res.data.msg)
-			})
+			// 判断是否为空
+			if (infos.username.trim() === '') {
+				showToast('请输入访客姓名')
+				return
+			}
+			if (infos.phone.trim() === '') {
+				showToast('请输入访客手机号')
+				return
+			}
+			if (checkedList.value.length === 0) {
+				showToast('请选择访客开门授权位置')
+				return
+			}
+			if (!formDataEnter.value || formData.createTime.trim() === '') {
+				// 检查是否已发送请求创建日期匹配创建日期选择器 {
+				showToast('请选择访客访访问时间')
+				return
+			}
+			if (!formDataEnd.value || formData.endTime.trim() === '') {
+				showToast('请选择访客访离开的时间')
+				return
+			}
+			// 添加访客和添加邀请记录
+			addInvitation(formData)
+				.then(res => {
+					console.log(res.data)
+					showNotify({ type: 'primary', message: '成功添加' })
+				})
+				.catch(err => {
+					showNotify({ message: '用户信息获取错误，请重新登录' + err.msg })
+				})
 		})
-		.catch(() => {
+		.catch(err => {
 			// on cancel
+			showToast('已取消')
 		})
 }
 </script>
 
 <template>
-	<NavBar :title="'访客邀请'" />
+	<NavBar :title="'访客邀请'" :right-text="'邀请记录'" @click-right="handleClickRight" />
 
 	<div class="p-4 bg-gray-200 min-h-screen flex-col">
 		<!-- 用户名输入框 -->
@@ -123,8 +156,16 @@ const submitForm = () => {
 		<section class="bg-white shadow-md rounded-xl p-6">
 			<div class="md:flex-row justify-between mb-4 mt-4">
 				<van-cell-group class="w-full">
-					<van-field v-model="infos.username" label="访客姓名" left-icon="friends-o" right-icon="warning-o" placeholder="输入访客姓名" />
-					<van-field v-model="infos.phone" clearable label="手机号" left-icon="phone-circle-o" right-icon="warning-o" placeholder="输入访客手机号" />
+					<van-field v-model="infos.username" label="访客姓名" required left-icon="friends-o" right-icon="warning-o" placeholder="输入访客姓名" />
+					<van-field
+						v-model="infos.phone"
+						clearable
+						label="手机号"
+						required
+						left-icon="phone-circle-o"
+						right-icon="warning-o"
+						placeholder="输入访客手机号"
+					/>
 				</van-cell-group>
 
 				<!-- 多选按钮 -->
@@ -174,7 +215,9 @@ const submitForm = () => {
 			</div>
 		</section>
 		<!-- 提交按钮 -->
-		<van-button type="primary" class="mt-10" block @click="submitForm">没写完</van-button>
+		<div class="mt-[100px]">
+			<van-button type="primary" class="mt-1" block @click="submitForm">提交</van-button>
+		</div>
 	</div>
-	<div class="p-4 bg-gray-200 min-h-screen flex-col rounded-xl"></div>
+	<!-- <div class="p-4 bg-gray-200 min-h-screen flex-col rounded-xl"></div> -->
 </template>

@@ -24,7 +24,7 @@ const itemList = [
 	{
 		title: '联系物业',
 		name: 'contact',
-		url: '/contact'
+		url: '/phone'
 	}
 ]
 const List = [

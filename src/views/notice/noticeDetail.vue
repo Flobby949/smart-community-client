@@ -15,12 +15,6 @@ onMounted(async () => {
 	console.log(route.params.noticeId)
 	const { data } = await getNoticeById(noticeId.value)
 	item.value = data
-	// console.log(data)
-	// getNoticeById(noticeId.value).then(res => {
-	// 	// console.log(res)
-	// 	item.value = res.data
-	// 	console.log(item.value)
-	// })
 })
 </script>
 
@@ -62,5 +56,9 @@ onMounted(async () => {
 .icon {
 	display: inline-block;
 	width: 20px;
+}
+
+.text {
+	text-indent: 20px;
 }
 </style>

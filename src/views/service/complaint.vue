@@ -74,40 +74,46 @@ const onRefresh = () => {
 
 	<div class="absolute top-20 w-[100%] h-[100%]">
 		<div class="flex text-center items-center justify-around">
-			<div class="w-10 bordera" @click="add">投诉建议</div>
+			<div class="w-[100px] bordera rounded-[20px] p-[5px] text-white" style="background-color: rgb(158, 184, 204)" @click="add">+投诉建议</div>
 		</div>
 
-		<div class="bg-white mt-5 mr-2 ml-3">
+		<div class="bg-gray-100 mt-5 mr-2 ml-3">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" class="bordera">
-						<div>
-							<div class="text-[20px] inline-block text-blue-600" @click="info(item)">{{ item.title }}</div>
-							<div class="float-right">
+					<div v-for="item in list" :key="item.id" class="borderb mb-5 bg-white">
+						<div class="p-2">
+							<van-text-ellipsis class="text-[16px] inline-block text-blue-600 text" :content="item.title" @click="info(item)" />
+							<!-- <div class="float-right">
 								<div v-if="item.state == 0">未处理</div>
 								<div v-if="item.state == 1">已处理</div>
-							</div>
+							</div> -->
 						</div>
 
 						<hr />
 
-						<div>
-							<div class="list">
+						<div class="text">
+							<div class="list mt-2">
 								<div>投诉类型</div>
-								<div>物业服务</div>
+								<div class="mr-2">
+									<div v-if="item.type == 0">扰民投诉</div>
+									<div v-if="item.type == 1">物业投诉</div>
+									<div v-if="item.type == 2">卫生投诉</div>
+									<div v-if="item.type == 3">安全投诉</div>
+								</div>
 							</div>
 
-							<div class="list">
+							<div class="list mt-2">
 								<div>投诉时间</div>
-								<div>{{ item.createTime }}</div>
+								<div class="mr-2">{{ item.createTime }}</div>
 							</div>
 						</div>
 
-						<div class="text-[20px]">报修内容</div>
-						<hr />
-						<div>
-							{{ item.content }}
-							<div class="flex">
+						<div class="font-bold text mt-2">报修内容</div>
+						<hr class="mt-2" />
+						<div class="text mt-2">
+							<van-text-ellipsis rows="3" style="line-height: 12px" :content="item.content" @click="info(item)" />
+
+							<div class="flex m-2">
 								<template v-for="img in item.imgs" :key="img">
 									<img class="img" :src="img" />
 								</template>
@@ -137,6 +143,9 @@ const onRefresh = () => {
 .bordera {
 	@apply border border-solid border-sky-900;
 }
+.borderb {
+	@apply border border-solid border-gray-200;
+}
 .img {
 	width: 100px;
 }
@@ -147,5 +156,8 @@ const onRefresh = () => {
 
 .list {
 	@apply flex justify-between;
+}
+.text {
+	text-indent: 20px;
 }
 </style>
