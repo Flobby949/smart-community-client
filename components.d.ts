@@ -21,10 +21,7 @@ declare module '@vue/runtime-core' {
     Tabbar: typeof import('./src/components/Tabbar/index.vue')['default']
     VanBadge: typeof import('vant/es')['Badge']
     VanButton: typeof import('vant/es')['Button']
-    VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
-    VanCheckbox: typeof import('vant/es')['Checkbox']
-    VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanDatePicker: typeof import('vant/es')['DatePicker']
     VanDialog: typeof import('vant/es')['Dialog']
@@ -40,6 +37,7 @@ declare module '@vue/runtime-core' {
     VanPopup: typeof import('vant/es')['Popup']
     VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanRadio: typeof import('vant/es')['Radio']
+    VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTab: typeof import('vant/es')['Tab']
@@ -47,5 +45,6 @@ declare module '@vue/runtime-core' {
     VanTag: typeof import('vant/es')['Tag']
     VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
     VanTimePicker: typeof import('vant/es')['TimePicker']
+    VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
   }
 }
