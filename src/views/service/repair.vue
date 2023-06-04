@@ -45,6 +45,7 @@ const onLoad = async () => {
 	}
 	const { data } = await getRepairPage(page)
 	list.value = data.list
+	// list.value =list.value.concat(data.list)
 	console.log(list.value)
 	//下拉完毕
 	refreshing.value = false
@@ -64,7 +65,9 @@ const onLoad = async () => {
 }
 
 const onRefresh = () => {
-	page.page = 1
+	if (page.page > 1) {
+		page.page = page.page - 1
+	}
 	sum = 0
 	finished.value = false
 	loading.value = true

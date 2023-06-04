@@ -5,6 +5,8 @@ import router from '@/router'
 import { ref } from 'vue'
 
 const list = ref<any[]>([])
+let dataList: any = []
+// const list: any = []
 const loading = ref(false)
 // 加载完成表示符
 const finished = ref(false)
@@ -24,15 +26,25 @@ const onLoad = async () => {
 	flag++
 	console.log(flag)
 	page.status = status
+	//不下拉刷新即加加载
 	if (sum < total && refreshing.value == false) {
 		page.page = 1 + page.page
 	}
+	loading.value = true
 	const { data } = await getNoticePage(page)
+	// list.value = list.value.concat(data.list)
 	list.value = data.list
+	// dataList = dataList.concat(data.list)
 	//加载完毕
 	loading.value = false
-	// console.log(loading.value)
-	refreshing.value = false
+	console.log(list.value)
+	console.log(dataList)
+	loading.value = false
+	if (refreshing.value == true) {
+		refreshing.value = false
+	}
+
+	// sum += list.length
 	sum += list.value.length
 	total = data.total
 	console.log('sum')
@@ -42,6 +54,7 @@ const onLoad = async () => {
 
 	//代表已经加加载了所有数据，显示没有更多了
 	if (sum >= total) {
+		console.log('加载完毕。。。。')
 		finished.value = true
 	}
 
@@ -53,24 +66,30 @@ const onLoad = async () => {
 }
 
 const onRefresh = () => {
-	page.page = 1
+	if (page.page > 1) {
+		page.page = page.page - 1
+	}
+
+	list.value = []
 	sum = 0
 	finished.value = false
-	loading.value = true
 	onLoad()
 }
 
 //切换执行函数，执行初始化
 async function handleTabChange(name: any) {
 	if (flag > 0) {
+		console.log('切换函数。。。。')
 		status = name
 		//分页初始化
 		page.page = 1
+		list.value = []
 		//数量初始化
+		finished.value = false
 		sum = total = 0
 		//数据未加加载完成
 		// finished.value = false
-		onLoad()
+		// onLoad()
 	}
 }
 
