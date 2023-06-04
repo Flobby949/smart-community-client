@@ -60,7 +60,9 @@ const onLoad = async () => {
 }
 
 const onRefresh = () => {
-	page.page = 1
+	if (page.page > 1) {
+		page.page = page.page - 1
+	}
 	sum = 0
 	finished.value = false
 	loading.value = true
