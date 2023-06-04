@@ -207,20 +207,20 @@ const eContacts = reactive({
 	address: ''
 })
 const ownerInfo = ref<any>({
-	realName: '王思媛',
+	realName: '',
 	gender: 1,
-	identityCard: '321302200106012656',
+	identityCard: '',
 	phone: '',
 	houseId: null,
 	birthday: '',
-	nation: '汉',
+	nation: '',
 	marriage: 1,
 	accountType: 1,
-	party: '党员',
-	domicileLocation: '江苏苏州',
+	party: '',
+	domicileLocation: '',
 	rentalType: 0,
 	stayCard: null,
-	address: '江苏苏州'
+	address: ''
 })
 const fieldNames = {
 	text: 'name',
