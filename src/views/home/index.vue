@@ -130,11 +130,13 @@ const itemList = [
 					<!-- <img :src="item.cover" alt="news" class="w-[90%] h-[100px] mx-auto h-auto rounded-md" /> -->
 					<img :src="item.cover" alt="news" class="w-full h-[120px] rounded-lg" />
 					<h2 class="text-xl font-bold pt-2">{{ item.activityName }}</h2>
-					<div class="relative flex pt-4">
+					<div class="pt-4">
+						<!-- relative -->
 						<p class="text-gray-700">
 							{{ item.title }}
 						</p>
-						<p class="absolute right-1 mt">{{ item.atime }}</p>
+						<p class="right-1 mt-3">{{ item.atime }}</p>
+						<!-- absolute -->
 					</div>
 				</div>
 			</div>
