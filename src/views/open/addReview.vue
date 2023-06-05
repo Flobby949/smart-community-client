@@ -2,7 +2,7 @@
 	<nav-bar title="门禁审核" />
 	<van-field v-model="fieldLabel" is-link readonly label="房屋" placeholder="选择房屋" @click="showPicker = true" />
 	<van-popup v-model:show="showPicker" round position="bottom">
-		<van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+		<van-picker :columns="houseList" @cancel="showPicker = false" @confirm="onConfirm" />
 	</van-popup>
 	<div class="controller">
 		<div class="tips">
@@ -34,33 +34,61 @@
 			<van-button type="primary" @click="uploadFinger">上传</van-button>
 		</div>
 	</div>
-	<van-button type="primary" @click="submitAudit">提交</van-button>
+	<div class="addBtn" @click="submitAudit">
+		<van-icon name="send-gift" color="#fff" size="60px" />
+	</div>
 </template>
 
 <script setup lang="ts">
+import { myHouse } from '@/api/owner'
 import { auditApi, type auditVO } from '@/api/smart'
 import router from '@/router'
 import { showFailToast, showSuccessToast } from 'vant'
+import { onMounted } from 'vue'
 import { ref } from 'vue'
 
-// 选择小区
 // TODO 获取用户房屋列表
-const fieldLabel = ref('万象城')
+const fieldLabel = ref<string>()
 const showPicker = ref(false)
-
-const columns = [
-	{ text: '万象城', value: 1 },
-	{ text: '汤臣一品', value: 2 },
-	{ text: '左岸汀芷', value: 3 },
-	{ text: '璀璨天城', value: 4 },
-	{ text: '欧鼎华庭', value: 5 }
-]
 
 const onConfirm = ({ selectedOptions }: any) => {
 	showPicker.value = false
 	fieldLabel.value = selectedOptions[0].text
+	dataForm.value.houseId = selectedOptions[0].value
+	dataForm.value.ownerId = selectedOptions[0].ownerId
 }
 
+const houseList = ref<
+	{
+		text: string
+		value: number
+		ownerId: number
+	}[]
+>([])
+interface HouseInfo {
+	id: number
+	houseId: number
+	communityName: string
+	buildingName: string
+	units: string | number
+	houseNumber: string
+	ownerId: string
+}
+const getHouse = () => {
+	myHouse(1).then(res => {
+		houseList.value = res.data.map((item: HouseInfo) => ({
+			text: item.communityName + item.buildingName + item.units + '单元' + item.houseNumber,
+			value: item.id,
+			ownerId: item.ownerId
+		}))
+		fieldLabel.value = houseList.value[0].text
+		dataForm.value.houseId = houseList.value[0].value
+		dataForm.value.ownerId = houseList.value[0].ownerId
+	})
+}
+onMounted(() => {
+	getHouse()
+})
 // 开启摄像头
 const showVideo = ref(false)
 const video = ref<any>()
@@ -78,7 +106,7 @@ const callCamera = () => {
 }
 // 拍照
 const canvas = ref<any>()
-const image = ref<string>()
+const image = ref<string | null>()
 const takePhoto = () => {
 	let ctx = canvas.value.getContext('2d')
 	// 把当前视频帧内容渲染到canvas上
@@ -114,8 +142,6 @@ const dataForm = ref<auditVO>({
 	finger: 0
 })
 const submitAudit = () => {
-	dataForm.value.ownerId = 15
-	dataForm.value.houseId = 10
 	auditApi(dataForm.value)
 		.then(() => {
 			showSuccessToast({
@@ -158,5 +184,21 @@ const submitAudit = () => {
 	height: 16px;
 	margin-right: 10px;
 	background-color: #3396fb;
+}
+
+.addBtn {
+	position: fixed;
+	width: 80px;
+	height: 80px;
+	background: #0078d4;
+	bottom: 10%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 4px 4px 10px #b7b7b7, -2px -2px 10px #b7b7b7;
+	z-index: 99;
 }
 </style>

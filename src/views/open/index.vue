@@ -3,22 +3,37 @@ import { onMounted, ref } from 'vue'
 import doorItem from '@/components/door-item/index.vue'
 import { showDialog } from 'vant'
 import { getDoorListApi, openDoorApi } from '@/api/smart'
+import { findAllHouse } from '@/api/owner'
 
 onMounted(() => {
 	getDoorList(1)
+	allHouse()
 })
 
-// 选择小区
+// TODO 选择小区
 const fieldLabel = ref('万象城')
 const showPicker = ref(false)
+const communityList = ref<any[]>([])
+function allHouse() {
+	findAllHouse().then((res: any) => {
+		console.log(res.data)
+		communityList.value = res.data.map((item: any) => {
+			item.text = item.communityName
+			item.value = item.communityId
+			return item
+		})
+		// 过滤掉重复的小区
+		communityList.value = communityList.value.filter((item: any, index: number) => {
+			return (
+				communityList.value.findIndex((item2: any) => {
+					return item.communityName === item2.communityName
+				}) === index
+			)
+		})
 
-const columns = [
-	{ text: '万象城', value: 1 },
-	{ text: '汤臣一品', value: 2 },
-	{ text: '左岸汀芷', value: 3 },
-	{ text: '璀璨天城', value: 4 },
-	{ text: '欧鼎华庭', value: 5 }
-]
+		console.log(communityList.value)
+	})
+}
 
 const onConfirm = ({ selectedOptions }: any) => {
 	showPicker.value = false
@@ -79,26 +94,28 @@ const show = ref(false)
 </script>
 
 <template>
-	<van-nav-bar title="手机开门" fixed :placeholder="true" class="header" />
-	<van-field v-model="fieldLabel" is-link readonly label="小区" placeholder="选择小区" @click="showPicker = true" />
-	<van-popup v-model:show="showPicker" round position="bottom">
-		<van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
-	</van-popup>
-	<van-pull-refresh v-model="loading" @refresh="getDoorList">
-		<div class="w-screen flex flex-row flex-wrap box-border px-5 justify-between">
-			<template v-for="item in doorList" :key="item">
-				<door-item :door-item="item" @choose-door="chooseDoor" @open-door="openDoor"></door-item>
-			</template>
-		</div>
-	</van-pull-refresh>
-	<div class="toolBar">
-		<div class="btnItem" @click="openDoor(currentDoor)">
-			<img src="https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png" width="60" />
-			<div>立即开门</div>
-		</div>
-		<div class="btnItem" @click="$router.push('/review')">
-			<img src="https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png" width="60" />
-			<div>门禁审核</div>
+	<div class="h-screen w-screen bg-[#f5f5f5]">
+		<van-nav-bar title="手机开门" fixed :placeholder="true" class="header" />
+		<van-field v-model="fieldLabel" is-link readonly label="小区" placeholder="选择小区" @click="showPicker = true" />
+		<van-popup v-model:show="showPicker" round position="bottom">
+			<van-picker :columns="communityList" @cancel="showPicker = false" @confirm="onConfirm" />
+		</van-popup>
+		<van-pull-refresh v-model="loading" class="h-full" @refresh="getDoorList">
+			<div class="w-screen flex flex-row flex-wrap box-border px-5 justify-between">
+				<template v-for="item in doorList" :key="item">
+					<door-item :door-item="item" @choose-door="chooseDoor" @open-door="openDoor"></door-item>
+				</template>
+			</div>
+		</van-pull-refresh>
+		<div class="toolBar">
+			<div class="btnItem" @click="openDoor(currentDoor)">
+				<img src="https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png" width="60" />
+				<div>立即开门</div>
+			</div>
+			<div class="btnItem" @click="$router.push('/review')">
+				<img src="https://flobby529.oss-cn-nanjing.aliyuncs.com/image/door.png" width="60" />
+				<div>门禁审核</div>
+			</div>
 		</div>
 	</div>
 	<!-- 加载框 -->
@@ -113,7 +130,7 @@ const show = ref(false)
 <style scoped>
 .toolBar {
 	position: fixed;
-	bottom: 10%;
+	bottom: 15%;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 84vw;
@@ -127,7 +144,7 @@ const show = ref(false)
 }
 
 .btnItem {
-	@apply h-full w-full bg-gray-200 flex flex-col justify-around items-center;
+	@apply h-full w-full bg-white rounded-md flex flex-col justify-around items-center;
 }
 
 @keyframes spin {
