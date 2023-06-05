@@ -59,38 +59,58 @@ const afterRead = async (file: any) => {
 }
 </script>
 <template>
-	<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
+	<div style="background-color: #f4f4f4ff">
+		<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
 
-	<van-form @submit="onSubmit">
-		<van-cell-group inset>
-			<div>
-				<van-field v-model="typeText" is-link readonly name="picker" label="投诉类型" @click="typePicker = true" />
-				<van-popup v-model:show="typePicker" position="bottom">
-					<van-picker :columns="types" @confirm="changeType" @cancel="typePicker = false" />
-				</van-popup>
-			</div>
-
-			<div class="text mt-2">投诉简要</div>
-			<van-field v-model="title" class="borderb" placeholder="报修简要" />
-			<div class="text mt-2">投诉内容</div>
-
-			<van-field v-model="message" class="borderb mt-2" rows="5" autosize type="textarea" maxlength="300" placeholder="请输入留言" show-word-limit />
-			<van-uploader v-model="fileList" :after-read="afterRead">
-				<div class="w-[80px] h-[80px] rounded-[10px] bg-gray-100 borderb flex flex-col justify-center items-center ml-2">
-					<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
-					<div>上传图片</div>
+		<van-form class="mt-2 mb-[100%]" @submit="onSubmit">
+			<van-cell-group>
+				<div>
+					<van-field v-model="typeText" class="textColor" is-link readonly name="picker" label="投诉类型" @click="typePicker = true" />
+					<van-popup v-model:show="typePicker" position="bottom">
+						<van-picker :columns="types" @confirm="changeType" @cancel="typePicker = false" />
+					</van-popup>
 				</div>
-			</van-uploader>
-		</van-cell-group>
-		<div style="margin: 16px" class="flex justify-center">
-			<van-button round type="primary" native-type="submit" class="w-[50%]"> 提交 </van-button>
-		</div>
-	</van-form>
+
+				<hr />
+
+				<div class="text mt-4">投诉简要</div>
+				<van-field v-model="title" class="borderb mt-2" placeholder="请写下简要" />
+
+				<div class="text mt-4">投诉内容</div>
+
+				<van-field
+					v-model="message"
+					class="borderb w-[10%] mt-2"
+					rows="5"
+					type="textarea"
+					maxlength="300"
+					placeholder="请写下详细报修内容，有助于工作人员快速帮您解决问题"
+					show-word-limit
+				/>
+				<van-uploader v-model="fileList" :after-read="afterRead" class="mt-3 mb-6 ml-2">
+					<div class="w-[80px] h-[80px] rounded-[10px] flex flex-col justify-center items-center ml-2" style="border: 1px dotted gray">
+						<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
+					</div>
+				</van-uploader>
+			</van-cell-group>
+			<div style="margin: 16px" class="flex justify-center">
+				<van-button round type="primary" native-type="submit" class="w-[50%]"> 提交 </van-button>
+			</div>
+		</van-form>
+
+		=
+	</div>
 </template>
 
 <style scoped>
 .text {
 	text-indent: 20px;
+	color: gray;
+	font-size: 1rem !important;
+}
+.textColor {
+	color: #fdfdfdff !important;
+	font-size: 1rem !important;
 }
 .bordera {
 	@apply border border-solid border-sky-900;

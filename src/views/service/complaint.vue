@@ -70,69 +70,55 @@ const onRefresh = () => {
 }
 </script>
 <template>
-	<div class="h-52 bg-blue-400 rounded-bl-br-full" style="z-index: 99">
-		<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
-	</div>
+	<div class="bg-gray-100 h-[1000px]">
+		<div class="h-52 rounded-bl-br-full" style="z-index: 99; background-color: #409dfdff">
+			<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
+			<div class="relative top-[40px]">
+				<div class="flex text-center items-center justify-around">
+					<div class="w-[140px] rounded-[20px] p-[8px] text-white add" style="background-color: #8bc4fdff" @click="add">+投诉建议</div>
+				</div>
 
-	<div class="absolute top-20 w-[100%] h-[100%]">
-		<div class="flex text-center items-center justify-around">
-			<div class="w-[100px] bordera rounded-[20px] p-[5px] text-white" style="background-color: rgb(158, 184, 204)" @click="add">+投诉建议</div>
-		</div>
+				<div class="mt-5 mr-2 ml-3">
+					<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+						<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+							<div v-for="item in list" :key="item.id" class="borderb mb-5 bg-white rounded-[15px]">
+								<div class="p-3" style="border-bottom: 1px dotted gray">
+									<van-text-ellipsis class="text-[16px] inline-block" style="color: #409dfdff" :content="item.title" @click="info(item)" />
+								</div>
 
-		<div class="bg-gray-100 mt-5 mr-2 ml-3">
-			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" class="borderb mb-5 bg-white">
-						<div class="p-2">
-							<van-text-ellipsis class="text-[16px] inline-block text-blue-600 text" :content="item.title" @click="info(item)" />
-							<!-- <div class="float-right">
-								<div v-if="item.state == 0">未处理</div>
-								<div v-if="item.state == 1">已处理</div>
-							</div> -->
-						</div>
+								<div>
+									<div class="list mt-2">
+										<div class="text">投诉类型</div>
+										<div class="mr-2">
+											<div v-if="item.type == 0">扰民投诉</div>
+											<div v-if="item.type == 1">物业投诉</div>
+											<div v-if="item.type == 2">卫生投诉</div>
+											<div v-if="item.type == 3">安全投诉</div>
+										</div>
+									</div>
 
-						<hr />
+									<div class="list mt-2">
+										<div class="text">投诉时间</div>
+										<div class="mr-2">{{ item.createTime }}</div>
+									</div>
+								</div>
 
-						<div class="text">
-							<div class="list mt-2">
-								<div>投诉类型</div>
-								<div class="mr-2">
-									<div v-if="item.type == 0">扰民投诉</div>
-									<div v-if="item.type == 1">物业投诉</div>
-									<div v-if="item.type == 2">卫生投诉</div>
-									<div v-if="item.type == 3">安全投诉</div>
+								<div class="mt-2 pb-3" style="border-bottom: 1px dotted gray">报修内容</div>
+
+								<div class="text mt-2">
+									<van-text-ellipsis rows="3" style="line-height: 1.5rem" :content="item.content" @click="info(item)" />
+
+									<div class="flex mt-4 mr-3" style="min-height: 80px">
+										<template v-for="img in item.imgs" :key="img">
+											<img class="img mr-3" :src="img" />
+										</template>
+									</div>
 								</div>
 							</div>
-
-							<div class="list mt-2">
-								<div>投诉时间</div>
-								<div class="mr-2">{{ item.createTime }}</div>
-							</div>
-						</div>
-
-						<div class="font-bold text mt-2">报修内容</div>
-						<hr class="mt-2" />
-						<div class="text mt-2">
-							<van-text-ellipsis rows="3" style="line-height: 12px" :content="item.content" @click="info(item)" />
-
-							<div class="flex m-2">
-								<template v-for="img in item.imgs" :key="img">
-									<img class="img" :src="img" />
-								</template>
-							</div>
-						</div>
-					</div>
-				</van-list>
-
-				<!-- 下拉提示，通过 scale 实现一个缩放效果 -->
-				<!-- <template #pulling="props"> 下拉提示 </template> -->
-
-				<!-- 释放提示 -->
-				<template #loosing> 释放提示 </template>
-
-				<!-- 加载提示 -->
-				<template #loading> 加载提示 </template>
-			</van-pull-refresh>
+						</van-list>
+					</van-pull-refresh>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -161,5 +147,10 @@ const onRefresh = () => {
 }
 .text {
 	text-indent: 20px;
+	color: gray;
+}
+.add {
+	font-family: '华文琥珀';
+	/* font-size: px; */
 }
 </style>
