@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     Tabbar: typeof import('./src/components/Tabbar/index.vue')['default']
     VanBadge: typeof import('vant/es')['Badge']
     VanButton: typeof import('vant/es')['Button']
+    VanCascader: typeof import('vant/es')['Cascader']
     VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanCheckbox: typeof import('vant/es')['Checkbox']
@@ -48,5 +49,6 @@ declare module '@vue/runtime-core' {
     VanTag: typeof import('vant/es')['Tag']
     VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
     VanTimePicker: typeof import('vant/es')['TimePicker']
+    VanUploader: typeof import('vant/es')['Uploader']
   }
 }
