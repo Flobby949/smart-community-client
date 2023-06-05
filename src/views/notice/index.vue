@@ -1,5 +1,5 @@
 <script setup lang="ts" name="About">
-import { getNoticePage, read } from '@/api/notice'
+import { getNoticePage, read, readNoticeNum } from '@/api/notice'
 import { onClickLeft } from '@/utils'
 import router from '@/router'
 import { ref } from 'vue'
@@ -20,30 +20,21 @@ let page = {
 let total = 0
 let sum = 0
 let flag = 0
+const unReadnum = ref(0)
 //加载函数
 const onLoad = async () => {
 	flag++
 	console.log(flag)
 	page.status = status
-	//不下拉刷新即加加载
 	if (sum < total && refreshing.value == false) {
 		page.page = 1 + page.page
 	}
-	loading.value = true
 	const { data } = await getNoticePage(page)
-	// list.value = list.value.concat(data.list)
 	list.value = data.list
-	// dataList = dataList.concat(data.list)
 	//加载完毕
 	loading.value = false
-	console.log(list.value)
-	console.log(dataList)
-	loading.value = false
-	if (refreshing.value == true) {
-		refreshing.value = false
-	}
-
-	// sum += list.length
+	// console.log(loading.value)
+	refreshing.value = false
 	sum += list.value.length
 	total = data.total
 	console.log('sum')
@@ -53,46 +44,35 @@ const onLoad = async () => {
 
 	//代表已经加加载了所有数据，显示没有更多了
 	if (sum >= total) {
-		console.log('加载完毕。。。。')
 		finished.value = true
 	}
+
+	await readNoticeNum().then(res => {
+		unReadnum.value = res.data
+		// console.log('阅读数量')
+		// console.log(unReadnum.value)
+	})
 }
-// const onRefresh = () => {
-// 	//刷新即分页,已经加载数少于总数。即加来，而且一刷新，就默认refreshing.value  = true
-// 	if (sum < total) {
-// 		page.page = 1 + page.page
-// 		onLoad()
-// 	} else {
-// 		alert('请勿重复刷新')
-// 		refreshing.value = false
-// 	}
-// }
 
 const onRefresh = () => {
-	if (page.page > 1) {
-		page.page = page.page - 1
-	}
-
-	list.value = []
+	page.page = 1
 	sum = 0
 	finished.value = false
+	loading.value = true
 	onLoad()
 }
 
 //切换执行函数，执行初始化
-function handleTabChange(name: any) {
+async function handleTabChange(name: any) {
 	if (flag > 0) {
-		console.log('切换函数。。。。')
 		status = name
 		//分页初始化
 		page.page = 1
-		list.value = []
 		//数量初始化
-		finished.value = false
 		sum = total = 0
 		//数据未加加载完成
 		// finished.value = false
-		// onLoad()
+		onLoad()
 	}
 }
 
@@ -115,6 +95,9 @@ const info = (item: any) => {
 
 <template>
 	<van-nav-bar title="消息中心" left-text="返回" left-arrow @click-left="onClickLeft" />
+	<van-badge :content="unReadnum" color="#1989fa" class="absolute left-[58%] top-[15px]" style="z-index: 999">
+		<div class="child" />
+	</van-badge>
 	<van-tabs active="{{ active }}" style="background-color: #f5f5f5" @change="handleTabChange">
 		<van-tab title="全部公告" status="0">
 			<van-pull-refresh v-model="refreshing" class="w-[350px] mx-auto" @refresh="onRefresh">
