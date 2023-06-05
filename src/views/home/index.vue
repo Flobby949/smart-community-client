@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import router from '@/router'
 import moment from 'moment'
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
+import { getCommunityList } from '@/api/carport/carport'
+import { useStore } from '@/store'
 import { ActivityList } from '@/api/society'
 const activityList = ref<any[]>([])
 ActivityList().then(res => {
@@ -76,9 +78,55 @@ const itemList = [
 		name: 'more'
 	}
 ]
+const communityList = ref<any[]>([])
+interface PickItem {
+	text: string
+	value?: number
+}
+const communityName = ref('')
+const communityID = ref(0)
+const communityColumns: PickItem[] = reactive([])
+//获取所有小区列表
+const getCommunityLists = () => {
+	getCommunityList().then(res => {
+		communityList.value = res.data
+		communityList.value.forEach(item => {
+			let obj: PickItem = {
+				text: item.communityName,
+				value: item.id
+			}
+			communityColumns.push(obj)
+		})
+	})
+}
+const store = useStore()
+const { setCommunity } = store
+const { name, id } = store
+onMounted(() => {
+	getCommunityLists()
+	console.log(name)
+	communityName.value = name
+	communityID.value = id
+})
+const commChange = (value: any) => {
+	const selectedItem = communityList.value.find(item => item.id === parseInt(value.target.value))
+	setCommunity(selectedItem.id, selectedItem.communityName)
+}
 </script>
 
 <template>
+	<div class="z-10 opacity-3 text-base absolute top-3 left-3">
+		<select
+			v-model="communityID"
+			class="ppearance-none bg-white bg-opacity-50 text-black bg-transparent border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline w-[130px]"
+			@change="commChange"
+		>
+			<option disabled selected value="" style="font-size: 1px">当前小区：{{ communityName }}</option>
+			<option v-for="option in communityList" :key="option.value" :value="option.id" :label="option.communityName" class="text-xs">
+				{{ option.communityName }}
+			</option>
+		</select>
+	</div>
 	<div class="bigBox">
 		<div class="swiper">
 			<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
