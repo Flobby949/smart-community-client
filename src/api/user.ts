@@ -32,6 +32,6 @@ export function updateUser(data:any){
 	return service.post('/user/update',data,{headers : {'Content-Type': 'application/x-www-form-urlencoded'}})
 }
 export function uploadFile(data:any){
-	return service.post('/owner/upload', data)
+	return service.post('/auth/upload', data)
 }
 
