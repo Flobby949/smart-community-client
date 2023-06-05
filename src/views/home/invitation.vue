@@ -46,8 +46,8 @@ const formData = reactive<any>({
 	doorIds: '',
 	endTime: '',
 	createTime: '',
-	phone: infos.phone,
-	visitorName: infos.username
+	phone: '',
+	visitorName: ''
 })
 // 获取时间数据
 const formDataEnter = ref<any>()
@@ -93,6 +93,8 @@ const submitForm = () => {
 	// formData.doorIds = arrayToString(checkedList, ',')
 	formData.doorIds = checkedList.value.join(',')
 	// 提交表单逻辑
+	formData.phone = infos.phone
+	formData.visitorName = infos.username
 	console.log('提交表单')
 	// console.log(infos)
 	console.log(checkedList.value)
@@ -135,9 +137,13 @@ const submitForm = () => {
 				.then(res => {
 					console.log(res.data)
 					showNotify({ type: 'primary', message: '成功添加' })
+					showToast('成功添加')
+					setInterval(() => {}, 500)
+					router.push('invitation/historyList')
 				})
 				.catch(err => {
 					showNotify({ message: '用户信息获取错误，请重新登录' + err.msg })
+					showToast('用户信息获取错误，请重新登录')
 				})
 		})
 		.catch(err => {

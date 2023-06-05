@@ -83,6 +83,9 @@ const onClickLeft = () => {
 }
 onBeforeMount(() => {
 	userInfo.value = useUserStoreHook().userInfo
+	if (userInfo.value.address == undefined) {
+		userInfo.value.address = ''
+	}
 })
 const onConfirm = ({ selectedValues }: any) => {
 	userInfo.value.gender = selectedValues.join(',')
@@ -131,6 +134,9 @@ const onClickRight = () => {
 		showDialog({
 			message: '保存成功'
 		})
+		setTimeout(() => {
+			router.push('/my')
+		}, 2000)
 	})
 }
 </script>

@@ -20,6 +20,7 @@
 		"build-only": "vite build",
 		"type-check": "vue-tsc --noEmit",
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r0",
 		"release": "standard-version",
 		"prepare": "husky install"
 	},

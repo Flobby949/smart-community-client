@@ -127,6 +127,7 @@ const itemList = [
 				<span></span>
 				<span>社区活动</span>
 			</div>
+
 			<div class="activitlist">
 				<template v-for="(item, index) in activityList" :key="index">
 					<div class="activititem" @click="showDetail(item.id)">

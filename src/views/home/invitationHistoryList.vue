@@ -48,11 +48,19 @@
 					<div>
 						<p class="text-gray-500 pt-1">开门授权：</p>
 						<div class="grid grid-cols-2 gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
+							<div v-for="(i, index) in item.gates" :key="index">
+								<div v-if="i === '0'" class="border border-gray-400">西入口闸机</div>
+								<div v-if="i === '1'" class="border border-gray-400">东入口闸机</div>
+								<div v-if="i === '2'" class="border border-gray-400">1号楼1单元</div>
+								<div v-if="i === '3'" class="border border-gray-400">1号楼2单元</div>
+							</div>
+						</div>
+						<!-- <div class="grid grid-cols-2 gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
 							<div class="border border-gray-400">西入口闸机</div>
 							<div class="border border-gray-400">东入口闸机</div>
 							<div class="border border-gray-400">1号楼1单元</div>
 							<div class="border border-gray-400">1号楼2单元</div>
-						</div>
+						</div> -->
 						<div class="flex relative">
 							<p class="text-gray-500 pt-1">有效时长：{{ item.validTime }}</p>
 							<div class="p-1 absolute right-0 top-2 text-blue-500" @click="share(item.id, item)">
@@ -194,7 +202,7 @@ onMounted(() => {
 		invitaionListByUserId(res.data.id)
 			.then(res => {
 				inviList.value = res.data.list
-				showNotify({ type: 'primary', message: '成功添加' })
+				// showNotify({ type: 'primary', message: '成功添加' })
 			})
 			.catch(err => {
 				console.log(err)
