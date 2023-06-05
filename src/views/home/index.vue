@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import router from '@/router'
+import moment from 'moment'
 import { ref, reactive } from 'vue'
 import { ActivityList } from '@/api/society'
 const activityList = ref<any[]>([])
 ActivityList().then(res => {
 	activityList.value = res.data
+	console.log(activityList.value)
 })
 const showDetail = (id: number) => {
 	router.push('/activityDetail/' + id)
@@ -48,11 +50,13 @@ const itemList = [
 	},
 	{
 		title: '在线报修',
-		name: 'repair'
+		name: 'repair',
+		url: '/repair'
 	},
 	{
 		title: '投诉建议',
-		name: 'suggest'
+		name: 'suggest',
+		url: '/complaint'
 	},
 	{
 		title: '问卷调查',
@@ -60,7 +64,8 @@ const itemList = [
 	},
 	{
 		title: '社区公告',
-		name: 'notice'
+		name: 'notice',
+		url: '/notice'
 	},
 	{
 		title: '联系物业',
@@ -122,16 +127,19 @@ const itemList = [
 				<span></span>
 				<span>社区活动</span>
 			</div>
-			<div type="primary" class="flex flex-col space-y-4">
-				<div v-for="(item, index) in activityList" :key="index" class="bg-gray-100 p-4 rounded-lg" @click="showDetail(item.id)">
-					<!-- <img :src="item.cover" alt="news" class="w-[90%] h-[100px] mx-auto h-auto rounded-md" /> -->
-					<img :src="item.cover" alt="news" class="w-full h-auto rounded-md" />
-					<h2 class="text-xl font-bold">{{ item.activityName }}</h2>
-					<p class="text-gray-700">
-						{{ item.title }}
-					</p>
-					<p>{{ item.atime }}</p>
-				</div>
+			<div class="activitlist">
+				<template v-for="(item, index) in activityList" :key="index">
+					<div class="activititem" @click="showDetail(item.id)">
+						<div class="img"><img :src="item.cover" alt="" class="image" /></div>
+						<div class="activitinfo">
+							<div class="activittitle">{{ item.title }}</div>
+							<div class="activittime">
+								<span>活动时间:</span>
+								<span>{{ moment(item.publishTime).format('YYYY-MM-DD') }} ~ {{ moment(item.endTime).format('YYYY-MM-DD') }}</span>
+							</div>
+						</div>
+					</div>
+				</template>
 			</div>
 		</div>
 	</div>
@@ -196,5 +204,44 @@ i {
 	height: 40px;
 	border-radius: 4px;
 	background-color: #fff;
+}
+
+.activitlist {
+	display: flex;
+	flex-direction: column;
+}
+.activititem {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: #fff;
+	margin: 5px 8px;
+	border-radius: 4px;
+}
+.activititem .img {
+	height: 150px;
+	width: 100%;
+	border-radius: 4px;
+	border-bottom: 2px solid #e4e4e4;
+}
+.activititem .img .image {
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+}
+.activititem .activitinfo {
+	width: 100%;
+	padding: 10px 10px;
+}
+.activititem .activittitle {
+	font-size: 16px;
+	line-height: 30px;
+}
+.activititem .activittime {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	color: #0066ff;
+	line-height: 30px;
 }
 </style>

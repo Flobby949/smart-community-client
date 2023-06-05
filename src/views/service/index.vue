@@ -18,13 +18,13 @@ const itemList = [
 	{
 		title: '投诉建议',
 		name: 'suggest',
-		url: '/suggest'
+		url: '/complaint'
 	},
 
 	{
 		title: '联系物业',
 		name: 'contact',
-		url: '/contact'
+		url: '/phone'
 	}
 ]
 const List = [
@@ -56,12 +56,12 @@ const List = [
 	{
 		title: '访客邀请',
 		name: 'invite1-o',
-		url: '/invite'
+		url: '/invitation'
 	},
 	{
 		title: '家属邀请',
 		name: 'invite2-o',
-		url: '/invite'
+		url: '/addFamily'
 	}
 ]
 </script>

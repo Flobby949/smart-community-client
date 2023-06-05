@@ -129,6 +129,22 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
+		path: '/invitation/historyList',
+		name: 'historyList',
+		component: () => import('@/views/home/invitationHistoryList.vue'),
+		meta: {
+			title: '访客邀请记录'
+		}
+	},
+	{
+		path: '/invitation/openHistory',
+		name: 'openHistory',
+		component: () => import('@/views/home/gateOpenHistory.vue'),
+		meta: {
+			title: '开门记录'
+		}
+	},
+	{
 		path: '/house',
 		name: 'house',
 		component: () => import('@/views/my/house.vue'),
@@ -150,6 +166,14 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import('@/views/service/payment.vue'),
 		meta: {
 			title: '账单详情'
+		}
+	},
+	{
+		path: '/payment/paymentHistory',
+		name: 'paymentHistory',
+		component: () => import('@/views/service/paymentHistory.vue'),
+		meta: {
+			title: '缴费记录'
 		}
 	},
 	{
@@ -241,7 +265,7 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
-		path: '/complaintDetail/:compaintId',
+		path: '/complaintDetail/:complaintId',
 		name: 'complaintDetail',
 		component: () => import('@/views/service/complaintDetail.vue'),
 		meta: {
