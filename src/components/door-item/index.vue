@@ -1,6 +1,6 @@
 <template>
-	<div class="item bg-gray-200 rounded-md box-border my-4 w-[40vw] h-[30vw] flex flex-col justify-around items-center" @click="chooseDoor">
-		<img :src="doorItem.doorImg" />
+	<div class="item bg-white rounded-md box-border p-4 my-4 w-[40vw] h-[30vw] flex flex-col justify-around items-center" @click="chooseDoor">
+		<img :src="doorItem.doorImg" class="img" />
 		<div>{{ doorItem.doorName }}</div>
 	</div>
 </template>
@@ -58,6 +58,11 @@ const chooseDoor = () => {
 .item:hover {
 	transform: scale(1.1);
 	border: 1px solid #25abff;
-	box-shadow: 3px 3px 10px #dddddd, -3px -3px 10px #dddddd;
+	box-shadow: 3px 3px 10px #ddd, -3px -3px 10px #ddd;
+}
+
+.img {
+	width: 116px;
+	height: 70px;
 }
 </style>
