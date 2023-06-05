@@ -1,5 +1,8 @@
 <template>
 	<div class="login-box">
+		<div class="logo">
+			<img src="@/assets/log.png" alt="" />
+		</div>
 		<div class="title">
 			<span>智慧管家</span>
 		</div>
@@ -34,31 +37,11 @@
 				</div>
 			</van-form>
 		</div>
-		<!-- <div>
-			<wx-login
-				:theme="'black'"
-				:appid="wx.appId"
-				:scope="wx.scope"
-				:state="wx.state"
-				:redirect-uri="wx.redirectUri"
-				:display="wx.display"
-				:is-wechat="wx.isWechat"
-				@login="wechatLogin"
-			>
-			</wx-login>
-		</div> -->
-		<!-- <div class="wxLogin">
-			<wxlogin
-				:appid="wx.appId"
-				scope="snsapi_login"
-				:redirect_uri="wx.redirect_uri"
-				:href="wx.href"
-				:state="wx.state"
-				@login="wechatLogin"
-			></wxlogin>
-		</div> -->
-		<div>
-			<van-button round block type="primary" native-type="submit" @click="loginByOther"> 码云登录 </van-button>
+		<div class="other">
+			<span class="otherLogin">第三方登录</span>
+			<div class="ma" @click="loginByOther">
+				<img src="@/assets/mayun.png" alt="" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -103,8 +86,18 @@ const loginByOther = () => {
 </script>
 
 <style scoped>
+.logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 20px;
+}
+.logo img {
+	height: 100px;
+	width: 100px;
+}
 .title {
-	padding-top: 60px;
+	padding-top: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -125,9 +118,28 @@ const loginByOther = () => {
 	justify-content: space-between;
 }
 
-.wx {
-	height: 100px;
-	width: 100px;
-	background-color: red;
+.other {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-top: 50px;
+}
+.otherLogin {
+	font-size: 14px;
+	margin: 10px;
+}
+.ma {
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	background-color: #eee;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.ma img {
+	height: 40px;
+	width: 40px;
 }
 </style>

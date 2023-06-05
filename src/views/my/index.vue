@@ -4,7 +4,7 @@
 		<div class="w-11/12 h-44 mx-auto bg-white shadow-lg border rounded-lg -mt-24">
 			<div class="flex flex-col items-center">
 				<van-image class="-mt-9" round width="5rem" height="5rem" :src="userInfo.avatar" @click="goProfile()" />
-				<p>asd</p>
+				<p>{{ userInfo.username }}</p>
 			</div>
 			<div class="flex justify-around items-center mt-4">
 				<van-image

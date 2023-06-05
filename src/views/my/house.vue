@@ -85,11 +85,11 @@ onMounted(() => {
 .box {
 	background-color: #f5f5f5;
 	height: 100vh;
-	overflow: hidden;
+	overflow-y: hidden;
 }
 .list {
 	padding: 10px;
-	width: 90%;
+	width: 98%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
