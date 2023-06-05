@@ -63,10 +63,10 @@ const openDoor = (id: number) => {
 					message: res.msg || '开门失败！'
 				})
 			}
-			show.value = false
 		})
 		.finally(() => {
 			currentDoor.value = 0
+			show.value = false
 		})
 }
 
