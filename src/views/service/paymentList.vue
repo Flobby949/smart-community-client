@@ -79,8 +79,8 @@ const active = ref(0)
 		</van-tab>
 	</van-tabs> -->
 
-	<div class="bg-gray-100">
-		<NavBar :title="'生活缴费'" :right-text="'缴费记录'" @click-right="router.push('/payment/paymentHistory')" />
+	<div class="bg-white">
+		<NavBar :title="'生活缴费'" :placeholder="true" :fixed="true" :right-text="'缴费记录'" @click-right="router.push('/payment/paymentHistory')" />
 
 		<div class="guest-list mt-4 bg-gray-100 ml-4 mr-4">
 			<div v-for="(item, index) in bills" :key="index" class="rounded-lg shadow-md p-4 relative mb-6 bg-white">
@@ -115,7 +115,7 @@ const active = ref(0)
 				</div>
 			</div>
 		</div>
-		<div class="bg-gray-100 h-10"></div>
+		<div class="bg-white h-10"></div>
 	</div>
 </template>
 

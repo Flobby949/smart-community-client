@@ -1,6 +1,6 @@
 ﻿<template>
 	<div class="bg-blue-500 rounded-b-3xl h-[180px]">
-		<NavBar :title="'访客邀请记录'" :right-text="'开门记录'" @click-right="handleClickRight" />
+		<NavBar :title="'访客邀请记录'" :right-text="'开门记录'" :placeholder="true" :fixed="true" @click-right="handleClickRight" />
 		<!-- <div class="bg-blue-600 h-[80px]"></div> -->
 		<div class="guest-list mt-[50px]">
 			<div class="mt-0 p-3">
@@ -37,8 +37,8 @@
 				<div v-for="(item, index) in inviList" :key="index" class="bg-white rounded-lg shadow-md p-4 mb-1 relative">
 					<!-- <van-cell class="p-1" v-for="(item, index) in list" :key="index" :title="item.name" :value="item.createTime"> </van-cell> -->
 
-					<div class="flex text-xl">
-						<p class="pb-1">{{ item.houseInfo }}</p>
+					<div class="text-xl">
+						<p class="pt-6 pb-1">{{ item.houseInfo }}</p>
 						<div class="absolute right-2 p-1 top-[-1px]">
 							<van-button v-if="item.status === 0" round size="mini" type="primary" class="" @click="changeStatus(item.id)">使失效</van-button>
 							<van-button v-if="item.status === 1" round size="mini" type="warning" class="">已失效</van-button>
@@ -47,12 +47,12 @@
 					<div class="dashed"></div>
 					<div>
 						<p class="text-gray-500 pt-1">开门授权：</p>
-						<div class="grid grid-cols-2 gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
+						<div class="grid grid-cols-2 border pt-5 pb-5 rounded-[10px] gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
 							<div v-for="(i, index) in item.gates" :key="index">
-								<div v-if="i === '0'" class="border border-gray-400">西入口闸机</div>
-								<div v-if="i === '1'" class="border border-gray-400">东入口闸机</div>
-								<div v-if="i === '2'" class="border border-gray-400">1号楼1单元</div>
-								<div v-if="i === '3'" class="border border-gray-400">1号楼2单元</div>
+								<div v-if="i === '0'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">西入口闸机</div>
+								<div v-if="i === '1'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">东入口闸机</div>
+								<div v-if="i === '2'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼1单元</div>
+								<div v-if="i === '3'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼2单元</div>
 							</div>
 						</div>
 						<!-- <div class="grid grid-cols-2 gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
@@ -76,7 +76,7 @@
 						:overlay-style="overlayStyle"
 						:style="{ width: '80%', height: '80%' }"
 					>
-						<div class="h-[40px] bg-blue-500 text-center pt-3">{{ item.houseInfo }}</div>
+						<div class="h-[40px] bg-blue-500 text-center text-white pt-3">{{ item.houseInfo }}</div>
 						<div class="w-[100px] justify-center items-center ml-auto mr-auto mt-10">
 							<img :src="imgUrl" />
 						</div>
@@ -85,11 +85,15 @@
 						</div>
 						<div class="p-4">
 							<p class="text-gray-500 pt-1 text-sm">开门授权：</p>
-							<div class="grid grid-cols-2 gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5 text-sm">
-								<div class="border border-gray-400">西入口闸机</div>
-								<div class="border border-gray-400">东入口闸机</div>
-								<div class="border border-gray-400">1号楼1单元</div>
-								<div class="border border-gray-400">1号楼2单元</div>
+							<div
+								class="grid grid-cols-2 gap-4 border pt-5 pb-5 rounded-[10px] justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5 text-sm"
+							>
+								<div v-for="(i, index) in item.gates" :key="index">
+									<div v-if="i === '0'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">西入口闸机</div>
+									<div v-if="i === '1'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">东入口闸机</div>
+									<div v-if="i === '2'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼1单元</div>
+									<div v-if="i === '3'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼2单元</div>
+								</div>
 							</div>
 							<div class="flex bg-gray-200 relative text-center justify-center items-center h-[40px]">
 								<div class="text-gray-500 pt-1 text-sm pt-1 flex">
@@ -203,6 +207,9 @@ onMounted(() => {
 			.then(res => {
 				inviList.value = res.data.list
 				// showNotify({ type: 'primary', message: '成功添加' })
+				if (inviList.value.length === 0) {
+					showToast('暂无开门记录')
+				}
 			})
 			.catch(err => {
 				console.log(err)
