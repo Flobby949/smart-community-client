@@ -131,7 +131,7 @@ const commChange = (value: any) => {
 	<div class="bigBox">
 		<div class="swiper">
 			<select v-model="communityId" class="selectCity" @change="commChange">
-				<option disabled selected value="" style="font-size: 1px">当前小区：{{ communityName }}</option>
+				<option disabled selected value="" style="font-size: 0.5px">当前小区：{{ communityName }}</option>
 				<option v-for="option in communityList" :key="option.value" :value="option.id" :label="option.communityName" class="text-xs">
 					{{ option.communityName }}
 				</option>
@@ -314,14 +314,16 @@ i {
 .selectCity {
 	position: absolute;
 	top: 10px;
-	left: 10px;
+	left: 8px;
 	z-index: 999;
 	right: 0;
-	width: 100px;
+	width: 80px;
 	height: 30px;
 	border: none;
 	outline: none;
-	background-color: transparent;
+	/* background-color: transparent; */
+	/* background-color: #fff; */
+	background-color: rgba(255, 255, 255, 0.2);
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
