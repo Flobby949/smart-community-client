@@ -181,7 +181,7 @@
 import { ref, onBeforeMount, reactive } from 'vue'
 import { showDialog } from 'vant'
 import { useRouter } from 'vue-router'
-import { getHouseOptions, sbCertify } from '@/api/owner/index'
+import { getHouseOptions, sbCertify, getDefaultInfo } from '@/api/owner/index'
 import { getUserInfo } from '@/api/user'
 const show = ref(false)
 const fieldValue = ref('')
@@ -239,6 +239,36 @@ onBeforeMount(() => {
 	})
 	getUserInfo().then(res => {
 		ownerInfo.value.phone = res.data.phone
+		if (res.data.realName != undefined) {
+			ownerInfo.value.realName = res.data.realName
+			ownerInfo.value.birthday = res.data.birthday
+			ownerInfo.value.nation = res.data.nation
+			ownerInfo.value.party = res.data.party
+			ownerInfo.value.domicileLocation = res.data.domicileLocation
+			ownerInfo.value.address = res.data.address
+			if (res.data.gender == 2) {
+				typeCheck()
+			}
+			if (res.data.marriage == 1) {
+				typeCheck2(1)
+			}
+			if (res.data.accountType == 1) {
+				typeCheck3(1)
+			}
+			if (res.data.rentalType == 1) {
+				typeCheck4(1)
+			}
+		}
+	})
+	getDefaultInfo().then(res => {
+		if (res.data.identityCard != undefined) {
+			ownerInfo.value.identityCard = res.data.identityCard
+			let econtacts = JSON.parse(res.data.econtacts)
+			eContacts.realName = econtacts.realName
+			eContacts.phone = econtacts.phone
+			eContacts.address = econtacts.address
+			eContacts.relation = econtacts.relation
+		}
 	})
 })
 const typeCheck = () => {
@@ -321,14 +351,21 @@ const sbform = () => {
 			showDialog({
 				message: '提交申请成功~请耐心等待审核哦'
 			})
-		} else {
+			setTimeout(() => {
+				router.push('/my')
+			}, 2000)
+		} else if (res.code == 0) {
+			showDialog({
+				message: res.msg
+			})
+			setTimeout(() => {
+				router.push('/my')
+			}, 2000)
+		} else if (res.code == 2) {
 			showDialog({
 				message: res.msg
 			})
 		}
-		setTimeout(() => {
-			router.push('/my')
-		}, 2000)
 	})
 }
 </script>

@@ -27,8 +27,13 @@ declare module '@vue/runtime-core' {
     VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanDatePicker: typeof import('vant/es')['DatePicker']
+<<<<<<< HEAD
+    VanDropdownItem: typeof import('vant/es')['DropdownItem']
+    VanDropdownMenu: typeof import('vant/es')['DropdownMenu']
+=======
     VanDialog: typeof import('vant/es')['Dialog']
     VanDivider: typeof import('vant/es')['Divider']
+>>>>>>> test
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
     VanIcon: typeof import('vant/es')['Icon']
@@ -36,8 +41,11 @@ declare module '@vue/runtime-core' {
     VanList: typeof import('vant/es')['List']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanNoticeBar: typeof import('vant/es')['NoticeBar']
+<<<<<<< HEAD
+=======
     VanPicker: typeof import('vant/es')['Picker']
     VanPickerGroup: typeof import('vant/es')['PickerGroup']
+>>>>>>> test
     VanPopup: typeof import('vant/es')['Popup']
     VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanRadio: typeof import('vant/es')['Radio']
@@ -45,11 +53,14 @@ declare module '@vue/runtime-core' {
     VanSteps: typeof import('vant/es')['Steps']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
+<<<<<<< HEAD
+=======
     VanTab: typeof import('vant/es')['Tab']
     VanTabs: typeof import('vant/es')['Tabs']
     VanTag: typeof import('vant/es')['Tag']
     VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
     VanTimePicker: typeof import('vant/es')['TimePicker']
     VanUploader: typeof import('vant/es')['Uploader']
+>>>>>>> test
   }
 }
