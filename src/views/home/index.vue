@@ -2,14 +2,14 @@
 import router from '@/router'
 import moment from 'moment'
 import { ref, reactive, onMounted } from 'vue'
-import { getCommunityList } from '@/api/carport/carport'
+import { getCommunityList, getActivity } from '@/api/carport/carport'
 import { useStore } from '@/store'
 import { ActivityList } from '@/api/society'
 const activityList = ref<any[]>([])
-ActivityList().then(res => {
-	activityList.value = res.data
-	console.log(activityList.value)
-})
+// ActivityList().then(res => {
+// 	activityList.value = res.data
+// 	console.log(activityList.value)
+// })
 const showDetail = (id: number) => {
 	router.push('/activityDetail/' + id)
 }
@@ -84,7 +84,7 @@ interface PickItem {
 	value?: number
 }
 const communityName = ref('')
-const communityID = ref(0)
+const communityId = ref(1)
 const communityColumns: PickItem[] = reactive([])
 //获取所有小区列表
 const getCommunityLists = () => {
@@ -99,18 +99,28 @@ const getCommunityLists = () => {
 		})
 	})
 }
+//获取当前社区的活动列表
+const getActivities = () => {
+	getActivity(communityId.value).then(res => {
+		activityList.value = res.data
+		console.log(res.data)
+	})
+}
 const store = useStore()
 const { setCommunity } = store
 const { name, id } = store
 onMounted(() => {
 	getCommunityLists()
+	getActivities()
 	console.log(name)
 	communityName.value = name
-	communityID.value = id
+	communityId.value = id
+	console.log(id)
 })
 const commChange = (value: any) => {
 	const selectedItem = communityList.value.find(item => item.id === parseInt(value.target.value))
 	setCommunity(selectedItem.id, selectedItem.communityName)
+	getActivities()
 }
 </script>
 
