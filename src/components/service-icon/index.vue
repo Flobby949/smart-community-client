@@ -2,7 +2,7 @@
 	<div class="list">
 		<template v-for="(item, index) in prop.list" :key="index">
 			<div class="item" @click="onClick(item)">
-				<img :src="`/src/assets/icon/${item.name}.png`" />
+				<img :src="`/src/assets/${item.name}.png`" />
 				<div class="title">{{ item.title }}</div>
 			</div>
 		</template>

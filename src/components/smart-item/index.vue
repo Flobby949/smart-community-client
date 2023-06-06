@@ -9,7 +9,7 @@
 				@click="myclick(item)"
 			>
 				<span>{{ item.title }}</span>
-				<img :src="`/src/assets/icon/${item.name}.png`" alt="" />
+				<img :src="`/src/assets/${item.name}.png`" alt="" />
 			</div>
 		</template>
 	</div>
