@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>
-			<van-nav-bar title="用户信息" left-arrow right-text="保存" @click-left="onClickLeft" @click-right="onClickRight" />
+			<van-nav-bar title="用户信息" left-arrow right-text="保存" fixed @click-left="onClickLeft" @click-right="onClickRight" />
 		</div>
 		<div>
 			<div class="flex justify-between items-center border-b h-12">

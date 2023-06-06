@@ -42,7 +42,7 @@ const typeCheck2 = () => {
 	}
 }
 onBeforeMount(() => {
-	findMyHouse().then(res => {
+	findMyHouse('identity=0').then(res => {
 		if (res.data.length != 0) {
 			option1 = res.data.map((item: HouseInfo) => ({
 				text: item.name, // 显示的文本
@@ -77,7 +77,7 @@ const sbform = () => {
 		<div v-if="value1 != 0">
 			<van-form @submit="sbform">
 				<div class="bg-gray-100">
-					<van-nav-bar title="绑定家属/租客" left-arrow @click-left="onClickLeft" />
+					<van-nav-bar fixed title="绑定家属/租客" left-arrow @click-left="onClickLeft" />
 					<p class="m-4 text-gray-500">选择房屋</p>
 					<van-dropdown-menu class="mt-2">
 						<van-dropdown-item v-model="value1" :options="option1" @change="onChange" />
@@ -133,7 +133,7 @@ const sbform = () => {
 			</van-form>
 		</div>
 		<div v-else>
-			<van-nav-bar title="绑定家属/租客" left-arrow @click-left="onClickLeft" />
+			<van-nav-bar fixed title="绑定家属/租客" left-arrow @click-left="onClickLeft" />
 			<div class="flex justify-center items-center mt-48">
 				<div>
 					<van-image width="200" height="200" src="https://music-1307940544.cos.ap-nanjing.myqcloud.com/test/019ae1570e0bea6ac7251f05d08477.jfif" />

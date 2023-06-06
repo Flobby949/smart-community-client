@@ -94,7 +94,7 @@ const info = (item: any) => {
 </script>
 
 <template>
-	<van-nav-bar title="消息中心" />
+	<van-nav-bar title="消息中心" fixed />
 	<van-tabs active="{{ active }}" style="background-color: #f5f5f5" @change="handleTabChange">
 		<van-tab title="全部公告" status="0">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">

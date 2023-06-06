@@ -165,8 +165,8 @@ const button2Text = computed(() => {
 const updateLicense = (index: number) => {
 	form.licence = licenseChars.value.join('')
 	if (index < licenseChars.value.length - 1) {
-		const nextInput = $refs['charInput' + (index + 1)]
-		nextInput.focus()
+		const nextInput = document.querySelector(`[ref="charInput${index + 1}"]`) as HTMLInputElement
+		nextInput?.focus()
 	}
 }
 </script>

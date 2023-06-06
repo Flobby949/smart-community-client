@@ -31,7 +31,7 @@ let page = {
 	page: 1,
 	limit: 15
 }
-let list = ref([])
+let list = ref<any[]>([])
 //下拉会自动调用这个
 const onLoad = async () => {
 	// loading.value = true
@@ -72,7 +72,7 @@ const onRefresh = () => {
 <template>
 	<div class="bg-gray-100">
 		<div class="h-52 rounded-bl-br-full" style="z-index: 99; background-color: #409dfdff">
-			<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
+			<van-nav-bar title="投诉建议" left-arrow fixed @click-left="onClickLeft" />
 		</div>
 
 		<div class="relative top-[-120px]">

@@ -24,7 +24,7 @@ const onClickLeft = () => {
 </script>
 
 <template>
-	<van-nav-bar title="活动详情" left-arrow @click-left="onClickLeft" />
+	<van-nav-bar fixed title="活动详情" left-arrow @click-left="onClickLeft" />
 	<!-- 
 	<div>活动详情</div>
 	<div>{{ id }}</div> -->
@@ -67,3 +67,9 @@ const onClickLeft = () => {
 		</div>
 	</div>
 </template>
+
+<style>
+.min-h-screen {
+	margin-top: 60px;
+}
+</style>

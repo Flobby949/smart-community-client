@@ -68,7 +68,7 @@ const List = [
 
 <template>
 	<div class="serviceBox">
-		<van-nav-bar title="物业服务" />
+		<van-nav-bar title="物业服务" fixed />
 		<div class="serviceList">
 			<div class="one">
 				<div class="tips">

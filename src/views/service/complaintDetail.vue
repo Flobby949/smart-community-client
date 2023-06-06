@@ -7,19 +7,18 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const complaintId = ref()
-const item = ref('')
+const item = ref<any>({})
 
 onMounted(async () => {
 	complaintId.value = route.params.complaintId
 	await getComplaintById(complaintId.value).then(res => {
 		item.value = res.data
 	})
-	console.log(item.value.content)
 })
 </script>
 <template>
 	<div class="h-52 rounded-bl-br-full" style="background-color: rgb(62, 150, 239)">
-		<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar title="投诉建议" left-arrow fixed @click-left="onClickLeft" />
 	</div>
 	<div class="bg-gray-100 min-h-screen">
 		<div class="m-2 rounded-[20px] relative top-[-120px]">

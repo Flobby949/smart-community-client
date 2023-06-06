@@ -51,10 +51,10 @@ const afterRead = async (file: any) => {
 	console.log(file.file)
 	formData.append('file', file.file)
 	uploadFile(formData)
-		.then(res => {
+		.then((res: any) => {
 			file.status = 'done'
 			file.message = '上传成功'
-			imgs.value.push(res.data)
+			imgs.value.push(res.data as never)
 			console.log(imgs.value)
 		})
 		.catch(res => {
@@ -65,7 +65,7 @@ const afterRead = async (file: any) => {
 </script>
 <template>
 	<div class="bg-gray-100 min-h-screen">
-		<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar fixed title="投诉建议" left-arrow @click-left="onClickLeft" />
 
 		<van-form class="mt-2" @submit="onSubmit">
 			<van-cell-group>

@@ -1,7 +1,7 @@
 import service from '../../utils/service/index'
 
-export function findMyHouse(data:any) {
-	return service.post('owner/findMyHouseList',data)
+export function findMyHouse(data: any) {
+	return service.post('owner/findMyHouseList', data)
 }
 export function findFamily(data: any) {
 	return service.post('owner/findFamily', data)
