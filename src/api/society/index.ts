@@ -1,7 +1,7 @@
 ﻿import service from '../../utils/service/index'
 // 活动模块
-export function ActivityList() {
-	return service.get('/soft2242/activity/list')
+export function ActivityList(communityId: number) {
+	return service.get('/soft2242/activity/list/' + communityId)
 }
 
 // 订单

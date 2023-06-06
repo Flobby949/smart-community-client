@@ -46,8 +46,8 @@ const getList = (id: number, status: number) => {
 const active = ref(0)
 </script>
 <template>
-	<div class="bg-gray-100 h-full">
-		<NavBar :title="'缴费记录'" />
+	<div class="bg-white h-full">
+		<NavBar :title="'缴费记录'" :placeholder="true" :fixed="true" />
 
 		<div class="guest-list mt-4 bg-white ml-4 mr-4">
 			<div v-for="(item, index) in bills" :key="index" class="rounded-lg shadow-md p-4 relative mb-6 bg-white">
@@ -92,7 +92,7 @@ const active = ref(0)
 				</div>
 			</div>
 		</div>
-		<div class="bg-gray-100 h-10"></div>
+		<div class="bg-white h-10"></div>
 	</div>
 </template>
 
