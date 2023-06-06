@@ -100,8 +100,8 @@ const getCommunityLists = () => {
 	})
 }
 //获取当前社区的活动列表
-const getActivities = () => {
-	getActivity(communityId.value).then(res => {
+const getActivities = (communityId: number) => {
+	ActivityList(communityId).then(res => {
 		activityList.value = res.data
 		console.log(res.data)
 	})
@@ -111,10 +111,11 @@ const { setCommunity } = store
 const { name, id } = store
 onMounted(() => {
 	getCommunityLists()
-	getActivities()
 	console.log(name)
 	communityName.value = name
 	communityId.value = id
+	getActivities(communityId.value)
+
 	console.log(id)
 })
 const commChange = (value: any) => {
@@ -122,7 +123,7 @@ const commChange = (value: any) => {
 	setCommunity(selectedItem.id, selectedItem.communityName)
 	console.log(name)
 	communityName.value = selectedItem.communityName
-	getActivities()
+	getActivities(communityId.value)
 }
 </script>
 

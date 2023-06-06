@@ -154,7 +154,7 @@ const submitForm = () => {
 </script>
 
 <template>
-	<NavBar :title="'访客邀请'" :right-text="'邀请记录'" @click-right="handleClickRight" />
+	<NavBar :title="'访客邀请'" :placeholder="true" :fixed="true" :right-text="'邀请记录'" @click-right="handleClickRight" />
 
 	<div class="p-4 bg-gray-200 min-h-screen flex-col">
 		<!-- 用户名输入框 -->

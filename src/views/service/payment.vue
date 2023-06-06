@@ -41,9 +41,9 @@ const submit = (traceNo: any, totalAmount: any, subject: any, alipayTraceNo: any
 
 <template>
 	<div class="bg-blue-500 rounded-b-3xl h-[150px]">
-		<NavBar v-if="info.status === 0" :title="'支付账单'" />
+		<NavBar v-if="info.status === 0" :placeholder="true" :fixed="true" :title="'支付账单'" />
 		<!-- :style="{ 'background-color': '#0081ff' }" -->
-		<NavBar v-if="info.status === 1" :title="'账单详情'" />
+		<NavBar v-if="info.status === 1" :placeholder="true" :fixed="true" :title="'账单详情'" />
 		<!-- <van-divider dashed class="--van-divider-line-height" :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"></van-divider> -->
 		<div class="bg-transparent min-h-screen flex flex-col mt-[30px]">
 			<div class="w-full flex-1 p-6">
