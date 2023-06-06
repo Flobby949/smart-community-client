@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref, reactive } from 'vue'
+import moment from 'moment'
+import { ref, reactive, onMounted } from 'vue'
+import { getCommunityList } from '@/api/carport/carport'
+import { useStore } from '@/store'
 import { ActivityList } from '@/api/society'
 const activityList = ref<any[]>([])
 ActivityList().then(res => {
 	activityList.value = res.data
+	console.log(activityList.value)
 })
 const showDetail = (id: number) => {
 	router.push('/activityDetail/' + id)
@@ -74,9 +78,55 @@ const itemList = [
 		name: 'more'
 	}
 ]
+const communityList = ref<any[]>([])
+interface PickItem {
+	text: string
+	value?: number
+}
+const communityName = ref('')
+const communityID = ref(0)
+const communityColumns: PickItem[] = reactive([])
+//获取所有小区列表
+const getCommunityLists = () => {
+	getCommunityList().then(res => {
+		communityList.value = res.data
+		communityList.value.forEach(item => {
+			let obj: PickItem = {
+				text: item.communityName,
+				value: item.id
+			}
+			communityColumns.push(obj)
+		})
+	})
+}
+const store = useStore()
+const { setCommunity } = store
+const { name, id } = store
+onMounted(() => {
+	getCommunityLists()
+	console.log(name)
+	communityName.value = name
+	communityID.value = id
+})
+const commChange = (value: any) => {
+	const selectedItem = communityList.value.find(item => item.id === parseInt(value.target.value))
+	setCommunity(selectedItem.id, selectedItem.communityName)
+}
 </script>
 
 <template>
+	<div class="z-10 opacity-3 text-base absolute top-3 left-3">
+		<select
+			v-model="communityID"
+			class="ppearance-none bg-white bg-opacity-50 text-black bg-transparent border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline w-[130px]"
+			@change="commChange"
+		>
+			<option disabled selected value="" style="font-size: 1px">当前小区：{{ communityName }}</option>
+			<option v-for="option in communityList" :key="option.value" :value="option.id" :label="option.communityName" class="text-xs">
+				{{ option.communityName }}
+			</option>
+		</select>
+	</div>
 	<div class="bigBox">
 		<div class="swiper">
 			<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -125,20 +175,20 @@ const itemList = [
 				<span></span>
 				<span>社区活动</span>
 			</div>
-			<div type="primary" class="space-y-4 bg-gray-50">
-				<div v-for="(item, index) in activityList" :key="index" class="p-4 rounded-lg shadow-md shadow-mt" @click="showDetail(item.id)">
-					<!-- <img :src="item.cover" alt="news" class="w-[90%] h-[100px] mx-auto h-auto rounded-md" /> -->
-					<img :src="item.cover" alt="news" class="w-full h-[120px] rounded-lg" />
-					<h2 class="text-xl font-bold pt-2">{{ item.activityName }}</h2>
-					<div class="pt-4">
-						<!-- relative -->
-						<p class="text-gray-700">
-							{{ item.title }}
-						</p>
-						<p class="right-1 mt-3">{{ item.atime }}</p>
-						<!-- absolute -->
+
+			<div class="activitlist">
+				<template v-for="(item, index) in activityList" :key="index">
+					<div class="activititem" @click="showDetail(item.id)">
+						<div class="img"><img :src="item.cover" alt="" class="image" /></div>
+						<div class="activitinfo">
+							<div class="activittitle">{{ item.title }}</div>
+							<div class="activittime">
+								<span>活动时间:</span>
+								<span>{{ moment(item.publishTime).format('YYYY-MM-DD') }} ~ {{ moment(item.endTime).format('YYYY-MM-DD') }}</span>
+							</div>
+						</div>
 					</div>
-				</div>
+				</template>
 			</div>
 		</div>
 	</div>
@@ -203,5 +253,44 @@ i {
 	height: 40px;
 	border-radius: 4px;
 	background-color: #fff;
+}
+
+.activitlist {
+	display: flex;
+	flex-direction: column;
+}
+.activititem {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: #fff;
+	margin: 5px 8px;
+	border-radius: 4px;
+}
+.activititem .img {
+	height: 150px;
+	width: 100%;
+	border-radius: 4px;
+	border-bottom: 2px solid #e4e4e4;
+}
+.activititem .img .image {
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+}
+.activititem .activitinfo {
+	width: 100%;
+	padding: 10px 10px;
+}
+.activititem .activittitle {
+	font-size: 16px;
+	line-height: 30px;
+}
+.activititem .activittime {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	color: #0066ff;
+	line-height: 30px;
 }
 </style>
