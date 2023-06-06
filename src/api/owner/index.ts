@@ -12,6 +12,9 @@ export function addFamilyInfo(data: any) {
 export function getHouseOptions() {
 	return service.post('owner/houseOptions')
 }
+export function getDefaultInfo(){
+	return service.post('owner/defaultInfo')
+}
 export function sbCertify(data: any) {
 	return service.post('owner/sbCertify', data)
 }
