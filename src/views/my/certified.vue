@@ -316,10 +316,16 @@ const sbform = () => {
 		address: ownerInfo.value.address,
 		ec: JSON.stringify(eContacts)
 	}
-	sbCertify(data).then(res => {
-		showDialog({
-			message: '提交申请成功~请耐心等待审核哦'
-		})
+	sbCertify(data).then((res: any) => {
+		if (res.code == 1) {
+			showDialog({
+				message: '提交申请成功~请耐心等待审核哦'
+			})
+		} else {
+			showDialog({
+				message: res.msg
+			})
+		}
 		setTimeout(() => {
 			router.push('/my')
 		}, 2000)
