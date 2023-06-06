@@ -1,6 +1,6 @@
 <template>
 	<div class="forgetBox">
-		<van-nav-bar title="找回密码" left-arrow @click-left="$router.back()" />
+		<van-nav-bar title="找回密码" left-arrow fixed @click-left="$router.back()" />
 		<div class="main">
 			<div class="form">
 				<van-form @submit="onSubmit">

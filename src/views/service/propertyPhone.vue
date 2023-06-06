@@ -18,7 +18,7 @@ let kdPhones = [
 </script>
 <template>
 	<div class="h-52 bg-blue-400 rounded-bl-br-full" style="z-index: 99">
-		<van-nav-bar title="物业电话" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar title="物业电话" left-arrow fixed @click-left="onClickLeft" />
 	</div>
 
 	<div class="absolute top-20 w-[100%] h-[100%] bg-gray-100">

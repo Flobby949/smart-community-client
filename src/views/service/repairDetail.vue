@@ -8,8 +8,8 @@ import { getUserInfo } from '@/api/user'
 const route = useRoute()
 
 const repair = ref()
-const item = ref('')
-const user = ref('')
+const item = ref<any>('')
+const user = ref<any>('')
 
 onMounted(async () => {
 	repair.value = route.params.repairId
@@ -26,7 +26,7 @@ onMounted(async () => {
 
 <template>
 	<div class="h-52 bg-blue-400 rounded-bl-br-full" style="z-index: 99">
-		<van-nav-bar title="报修详情" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar title="报修详情" left-arrow fixed @click-left="onClickLeft" />
 	</div>
 
 	<div class="absolute top-20 w-[100%] h-[100%] bg-gray-100 m-2 rounded-[5px]">

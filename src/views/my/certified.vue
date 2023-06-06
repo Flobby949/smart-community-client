@@ -2,7 +2,7 @@
 	<div>
 		<van-form @submit="sbform">
 			<div class="bg-gray-100">
-				<van-nav-bar title="业主认证" left-arrow @click-left="onClickLeft" />
+				<van-nav-bar fixed title="业主认证" left-arrow @click-left="onClickLeft" />
 				<p class="m-4 text-gray-500">选择房屋</p>
 				<van-field v-model="fieldValue" is-link readonly label="房屋" placeholder="请选择需要认证的房屋" @click="show = true" />
 				<p class="m-4 text-gray-500">住户信息</p>
@@ -316,10 +316,16 @@ const sbform = () => {
 		address: ownerInfo.value.address,
 		ec: JSON.stringify(eContacts)
 	}
-	sbCertify(data).then(res => {
-		showDialog({
-			message: '提交申请成功~请耐心等待审核哦'
-		})
+	sbCertify(data).then((res: any) => {
+		if (res.code == 1) {
+			showDialog({
+				message: '提交申请成功~请耐心等待审核哦'
+			})
+		} else {
+			showDialog({
+				message: res.msg
+			})
+		}
 		setTimeout(() => {
 			router.push('/my')
 		}, 2000)

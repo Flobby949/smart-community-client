@@ -31,7 +31,7 @@ let page = {
 	page: 1,
 	limit: 15
 }
-let list = ref([])
+let list = ref<any[]>([])
 //下拉会自动调用这个
 const onLoad = async () => {
 	// loading.value = true
@@ -70,54 +70,55 @@ const onRefresh = () => {
 }
 </script>
 <template>
-	<div class="bg-gray-100 h-[1000px]">
+	<div class="bg-gray-100">
 		<div class="h-52 rounded-bl-br-full" style="z-index: 99; background-color: #409dfdff">
-			<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
-			<div class="relative top-[40px]">
-				<div class="flex text-center items-center justify-around">
-					<div class="w-[140px] rounded-[20px] p-[8px] text-white add" style="background-color: #8bc4fdff" @click="add">+投诉建议</div>
-				</div>
+			<van-nav-bar title="投诉建议" left-arrow fixed @click-left="onClickLeft" />
+		</div>
 
-				<div class="mt-5 mr-2 ml-3">
-					<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-						<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-							<div v-for="item in list" :key="item.id" class="borderb mb-5 bg-white rounded-[15px]">
-								<div class="p-3" style="border-bottom: 1px dotted gray">
-									<van-text-ellipsis class="text-[16px] inline-block" style="color: #409dfdff" :content="item.title" @click="info(item)" />
-								</div>
+		<div class="relative top-[-120px]">
+			<div class="flex text-center items-center justify-around">
+				<div class="w-[140px] rounded-[20px] p-[8px] text-white add" style="background-color: #8bc4fdff" @click="add">+投诉建议</div>
+			</div>
 
-								<div>
-									<div class="list mt-2">
-										<div class="text">投诉类型</div>
-										<div class="mr-2">
-											<div v-if="item.type == 0">扰民投诉</div>
-											<div v-if="item.type == 1">物业投诉</div>
-											<div v-if="item.type == 2">卫生投诉</div>
-											<div v-if="item.type == 3">安全投诉</div>
-										</div>
-									</div>
+			<div class="mt-5 mr-2 ml-3">
+				<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+					<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+						<div v-for="item in list" :key="item.id" class="borderb mb-5 bg-white rounded-[15px]">
+							<div class="p-3" style="border-bottom: 1px dotted gray">
+								<van-text-ellipsis class="text-[16px] inline-block" style="color: #409dfdff" :content="item.title" @click="info(item)" />
+							</div>
 
-									<div class="list mt-2">
-										<div class="text">投诉时间</div>
-										<div class="mr-2">{{ item.createTime }}</div>
+							<div>
+								<div class="list mt-2">
+									<div class="text">投诉类型</div>
+									<div class="mr-2">
+										<div v-if="item.type == 0">扰民投诉</div>
+										<div v-if="item.type == 1">物业投诉</div>
+										<div v-if="item.type == 2">卫生投诉</div>
+										<div v-if="item.type == 3">安全投诉</div>
 									</div>
 								</div>
 
-								<div class="mt-2 pb-3" style="border-bottom: 1px dotted gray">报修内容</div>
-
-								<div class="text mt-2">
-									<van-text-ellipsis rows="3" style="line-height: 1.5rem" :content="item.content" @click="info(item)" />
-
-									<div class="flex mt-4 mr-3" style="min-height: 80px">
-										<template v-for="img in item.imgs" :key="img">
-											<img class="img mr-3" :src="img" />
-										</template>
-									</div>
+								<div class="list mt-2">
+									<div class="text">投诉时间</div>
+									<div class="mr-2">{{ item.createTime }}</div>
 								</div>
 							</div>
-						</van-list>
-					</van-pull-refresh>
-				</div>
+
+							<div class="mt-2 pb-3" style="border-bottom: 1px dotted gray">报修内容</div>
+
+							<div class="text mt-2">
+								<van-text-ellipsis rows="3" style="line-height: 1.5rem" :content="item.content" @click="info(item)" />
+
+								<div class="flex mt-4 mr-3" style="min-height: 80px">
+									<template v-for="img in item.imgs" :key="img">
+										<img class="img mr-3" :src="img" />
+									</template>
+								</div>
+							</div>
+						</div>
+					</van-list>
+				</van-pull-refresh>
 			</div>
 		</div>
 	</div>

@@ -11,19 +11,19 @@
 					</van-popup>
 				</smartInput>
 				<smartInput title="楼栋">
-					<van-field v-model="form.buildingName" name="picker" placeholder="选择楼栋" @click="showPicker1 = true" />
+					<van-field v-model="form.buildingName" name="picker" placeholder="选择楼栋" @click="showPicker1Info" />
 					<van-popup v-model:show="showPicker1" position="bottom">
 						<van-picker :columns="buildings" @confirm="onConfirmBulidings" @cancel="showPicker1 = false" />
 					</van-popup>
 				</smartInput>
 				<smartInput title="单元">
-					<van-field v-model="form.unitName" name="picker" placeholder="选择楼栋" @click="showPicker2 = true" />
+					<van-field v-model="form.unitName" name="picker" placeholder="选择楼栋" @click="showPicker2Info" />
 					<van-popup v-model:show="showPicker2" position="bottom">
 						<van-picker :columns="units" @confirm="onConfirmUnits" @cancel="showPicker2 = false" />
 					</van-popup>
 				</smartInput>
 				<smartInput title="房间号">
-					<van-field v-model="form.houseNumber" name="picker" placeholder="选择房间" @click="showPicker3 = true" />
+					<van-field v-model="form.houseNumber" name="picker" placeholder="选择房间" @click="showPicker3Info" />
 					<van-popup v-model:show="showPicker3" position="bottom">
 						<van-picker :columns="rooms" @confirm="onConfirmHouse" @cancel="showPicker3 = false" />
 					</van-popup>
@@ -49,10 +49,21 @@
 				</smartInput>
 				<div class="file">
 					<span>上传证件照片</span>
-					<van-uploader v-model="form.first" class="upload" multiple :after-read="afterRead" :before-read="beforeRead" />
+					<div class="upload">
+						<van-uploader v-model="form.first" :preview-image="false" class="upload" multiple :after-read="afterRead" :before-read="beforeRead">
+							<template #default>
+								<img src="@/assets/one.png" alt="" class="sfz" />
+							</template>
+						</van-uploader>
+						<van-uploader v-model="form.two" :preview-image="false" class="upload" multiple :after-read="afterReadTwo" :before-read="beforeReadTwo">
+							<template #default>
+								<img src="@/assets/two.png" alt="" class="sfz" />
+							</template>
+						</van-uploader>
+					</div>
 				</div>
 				<div class="btn">
-					<van-button round type="primary" @click="submit">提交</van-button>
+					<van-button round type="primary" @click="submit">提交审核</van-button>
 				</div>
 			</div>
 		</div>
@@ -83,7 +94,8 @@ const form = reactive({
 	identity_card: '',
 	phone: '',
 	real_name: '',
-	house_id: ''
+	house_id: '',
+	two: []
 })
 const columns = ref<any[]>([])
 const showPicker = ref<boolean>(false)
@@ -178,12 +190,14 @@ const afterRead = (file: any) => {
 			file.status = 'done'
 			// 存储返回数据
 			file.addInfo = res.data
+			showSuccessToast('上传成功')
 		})
 		.catch(() => {
 			// 上传失败
 			file.status = 'failed'
 			// 失败状态提示
 			file.message = '上传失败'
+			showFailToast('上传失败')
 		})
 }
 const beforeRead = (file: any) => {
@@ -215,6 +229,42 @@ function allHouse() {
 	})
 }
 const submit = () => {
+	if (form.communityName == '') {
+		showFailToast('请选择小区')
+		return
+	}
+	if (form.buildingName == '') {
+		showFailToast('请选择楼栋')
+		return
+	}
+	if (form.unitName == '') {
+		showFailToast('请选择单元')
+		return
+	}
+	if (form.houseNumber == '') {
+		showFailToast('请选择房间号')
+		return
+	}
+	if (form.real_name == '') {
+		showFailToast('请输入姓名')
+		return
+	}
+	if (form.phone == '') {
+		showFailToast('请输入手机号')
+		return
+	}
+	if (form.identity_card == '') {
+		showFailToast('请输入身份证号')
+		return
+	}
+	if (form.first.length == 0) {
+		showFailToast('请上传身份证正面照')
+		return
+	}
+	if (form.two.length == 0) {
+		showFailToast('请上传身份证反面照')
+		return
+	}
 	addHouse({
 		houseId: form.houseId,
 		identityCard: form.identity_card,
@@ -228,9 +278,66 @@ const submit = () => {
 		}
 	})
 }
+
+const showPicker1Info = () => {
+	if (form.communityName == '') {
+		showFailToast('请先选择小区')
+	} else {
+		showPicker1.value = true
+	}
+}
+
+const showPicker2Info = () => {
+	if (form.buildingName == '') {
+		showFailToast('请先选择楼栋')
+	} else {
+		showPicker2.value = true
+	}
+}
+const showPicker3Info = () => {
+	if (form.unitId == '') {
+		showFailToast('请先选择单元')
+	} else {
+		showPicker3.value = true
+	}
+}
 onMounted(() => {
 	allHouse()
 })
+
+const afterReadTwo = (file: any) => {
+	// 上传状态
+	file.status = 'uploading'
+	// 状态提示
+	file.message = '上传中...'
+	// 声明form表单数据
+	const formData = new FormData()
+	// 添加文件信息
+	formData.append('file', file.file)
+	// 上传接口调用
+	upload(formData)
+		.then(res => {
+			// 上传成功
+			file.status = 'done'
+			// 存储返回数据
+			file.addInfo = res.data
+			showSuccessToast('上传成功')
+		})
+		.catch(() => {
+			// 上传失败
+			file.status = 'failed'
+			// 失败状态提示
+			file.message = '上传失败'
+			showFailToast('上传失败')
+		})
+}
+const beforeReadTwo = (file: any) => {
+	if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+		showFailToast('只允许上传jpg/png格式的图片！')
+		return false
+	}
+	return true
+}
 </script>
 
 <style scoped>
@@ -287,5 +394,15 @@ onMounted(() => {
 .van-button {
 	width: 90%;
 	margin: 0 auto;
+}
+
+.sfz {
+	width: 100px;
+	height: 100px;
+}
+.upload {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 </style>

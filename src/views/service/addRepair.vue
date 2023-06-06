@@ -6,7 +6,8 @@ import { onClickLeft } from '@/utils'
 import { addRepair } from '@/api/repair'
 import { uploadFile } from '@/api/user'
 const route = useRoute()
-
+import { useStore } from '@/store'
+const { id } = useStore()
 const onSubmit = (values: any) => {
 	let data = {
 		type: type.value,
@@ -15,7 +16,7 @@ const onSubmit = (values: any) => {
 		title: title.value,
 		content: message.value,
 		fileList: fileList.value,
-		communityId: 1,
+		communityId: id,
 		imgs: imgs.value
 	}
 	console.log('显示要提交的数据：............')
@@ -66,7 +67,7 @@ const message = ref('')
 const title = ref('')
 
 onMounted(async () => {
-	type.value = route.params.type
+	type.value = route.params.type as string
 	typeText.value = types.filter(item => item.value == type.value)[0].text
 })
 const fileList = ref([])
@@ -79,17 +80,17 @@ const afterRead = async (file: any) => {
 	const formData = new FormData()
 	console.log(file.file)
 	formData.append('file', file.file)
-	uploadFile(formData).then(res => {
+	uploadFile(formData).then((res: any) => {
 		file.status = 'done'
 		file.message = '上传成功'
-		imgs.value.push(res.data)
+		imgs.value.push(res.data as never)
 		console.log(imgs.value)
 	})
 }
 </script>
 
 <template>
-	<van-nav-bar title="添加报修" left-arrow @click-left="onClickLeft" />
+	<van-nav-bar title="添加报修" left-arrow fixed @click-left="onClickLeft" />
 
 	<van-form @submit="onSubmit">
 		<van-cell-group inset>

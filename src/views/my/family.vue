@@ -13,7 +13,7 @@ interface HouseInfo {
 
 const familyList = ref<any[]>([])
 onBeforeMount(() => {
-	findMyHouse().then((res: any) => {
+	findMyHouse('identity=0').then((res: any) => {
 		if (res.data.length != 0) {
 			option1 = res.data.map((item: HouseInfo) => ({
 				text: item.name, // 显示的文本
@@ -54,7 +54,7 @@ const deFamily = (id: number) => {
 	<div>
 		<div v-if="value1 != 0">
 			<div class="h-52 bg-blue-400 rounded-bl-br-full">
-				<van-nav-bar title="家庭成员" left-arrow right-text="+添加家庭成员" @click-left="onClickLeft" @click-right="onClickRight" />
+				<van-nav-bar fixed title="家庭成员" left-arrow right-text="+添加家庭成员" @click-left="onClickLeft" @click-right="onClickRight" />
 				<van-dropdown-menu class="mt-2">
 					<van-dropdown-item v-model="value1" :options="option1" @change="onChange" />
 				</van-dropdown-menu>
