@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 export {}
 
 declare module '@vue/runtime-core' {
+
   export interface GlobalComponents {
     DoorItem: typeof import('./src/components/door-item/index.vue')['default']
     NavBar: typeof import('./src/components/NavBar/index.vue')['default']

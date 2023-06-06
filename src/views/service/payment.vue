@@ -18,6 +18,25 @@ onMounted(() => {
 		console.log(info)
 	})
 })
+
+// traceNo: 我们自己生成的订单编号
+// totalAmount：订单的总金额
+// subject： 支付的名称
+// alipayTraceNo：固定配置
+const submit = (traceNo: any, totalAmount: any, subject: any, alipayTraceNo: any) => {
+	window.open(
+		'http://localhost:8081/alipay/pay?traceNo=' +
+			traceNo +
+			'&totalAmount=' +
+			totalAmount +
+			'&subject=' +
+			subject +
+			'&alipayTraceNo=' +
+			alipayTraceNo +
+			'',
+		'_blank'
+	)
+}
 </script>
 
 <template>
@@ -60,7 +79,7 @@ onMounted(() => {
 									</template>
 									<template #value>
 										<div class="bg-transparent ml-[-100px] text-lg">
-											<span class="bg-transparent">{{ info.otime }}</span>
+											<span class="text-sm">{{ info.otime }}</span>
 										</div>
 									</template>
 								</van-cell>
@@ -89,7 +108,13 @@ onMounted(() => {
 					</div>
 				</section>
 				<div class="mt-4 md:mt-0 text-center">
-					<button v-if="info.status === 0" class="border bg-blue-500 border-blue-600 text-white px-4 py-2 mt-20 w-full rounded-md">支付</button>
+					<button
+						v-if="info.status === 0"
+						class="border bg-blue-500 border-blue-600 text-white px-4 py-2 mt-20 w-full rounded-md"
+						@click="submit(info.orderNumber, info.orderMoney, info.orderTypeName, info.orderNumber)"
+					>
+						支付
+					</button>
 				</div>
 			</div>
 		</div>

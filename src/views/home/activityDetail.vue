@@ -35,7 +35,7 @@ const onClickLeft = () => {
 				<div class="text-center lg:text-left lg:col-span-2">
 					<h1 class="text-left text-3xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">{{ detail.title }}</h1>
 					<div class="mt-5 lg:justify-start">
-						<div class="flex">
+						<div class=" ">
 							<!-- <img src="https://avatars.githubusercontent.com/u/5565939?v=4" alt="author" class="w-10 h-10 rounded-full" /> -->
 							<div class="ml-1 flex">
 								<van-icon name="underway-o" />
