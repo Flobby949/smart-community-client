@@ -7,7 +7,7 @@
 				<div class="time">{{ moment(item.access_time).format('MM月DD日') }}</div>
 				<div class="billRecordItem">
 					<div class="top">
-						<img src="@/assets/icon/car-pay.png" alt="" />
+						<img src="@/assets/car-pay.png" alt="" />
 						<span>{{ item.licence }}</span>
 					</div>
 					<div class="contentItemList">
