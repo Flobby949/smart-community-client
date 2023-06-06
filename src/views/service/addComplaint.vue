@@ -1,8 +1,13 @@
 <script setup lang="ts" name="About">
 import { addComplaint } from '@/api/complaint'
 import { uploadFile } from '@/api/user'
+
 import { onClickLeft } from '@/utils'
 import { ref } from 'vue'
+import { useStore } from '@/store'
+const { id } = useStore()
+
+console.log(id)
 const onSubmit = (values: any) => {
 	let data = {
 		type: type.value,
@@ -10,7 +15,7 @@ const onSubmit = (values: any) => {
 		content: message.value,
 		fileList: fileList.value,
 		imgs: imgs.value,
-		communityId: 1
+		communityId: id
 	}
 	console.log('显示要提交的数据：............')
 	console.log(data)
@@ -59,10 +64,10 @@ const afterRead = async (file: any) => {
 }
 </script>
 <template>
-	<div style="background-color: #f4f4f4ff">
+	<div class="bg-gray-100 min-h-screen">
 		<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
 
-		<van-form class="mt-2 mb-[100%]" @submit="onSubmit">
+		<van-form class="mt-2" @submit="onSubmit">
 			<van-cell-group>
 				<div>
 					<van-field v-model="typeText" class="textColor" is-link readonly name="picker" label="投诉类型" @click="typePicker = true" />
@@ -96,9 +101,9 @@ const afterRead = async (file: any) => {
 			<div style="margin: 16px" class="flex justify-center">
 				<van-button round type="primary" native-type="submit" class="w-[50%]"> 提交 </van-button>
 			</div>
-		</van-form>
 
-		=
+			<div class="h-[100px]"></div>
+		</van-form>
 	</div>
 </template>
 

@@ -6,7 +6,8 @@ import { onClickLeft } from '@/utils'
 import { addRepair } from '@/api/repair'
 import { uploadFile } from '@/api/user'
 const route = useRoute()
-
+import { useStore } from '@/store'
+const { id } = useStore()
 const onSubmit = (values: any) => {
 	let data = {
 		type: type.value,
@@ -15,7 +16,7 @@ const onSubmit = (values: any) => {
 		title: title.value,
 		content: message.value,
 		fileList: fileList.value,
-		communityId: 1,
+		communityId: id,
 		imgs: imgs.value
 	}
 	console.log('显示要提交的数据：............')
