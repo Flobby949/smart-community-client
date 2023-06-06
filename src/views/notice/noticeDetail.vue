@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
 	<div class="bigDetailBox">
-		<van-nav-bar title="公告详情" left-text="返回" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar title="公告详情" left-text="返回" left-arrow fixed @click-left="onClickLeft" />
 		<div class="bg-white mt-2 text-center">
 			<div class="text-[17px] relative top-2">{{ item.title }}</div>
 			<div class="mt-3 text-[14px]">
