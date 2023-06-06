@@ -2,14 +2,14 @@
 import router from '@/router'
 import moment from 'moment'
 import { ref, reactive, onMounted } from 'vue'
-import { getCommunityList } from '@/api/carport/carport'
+import { getCommunityList, getActivity } from '@/api/carport/carport'
 import { useStore } from '@/store'
 import { ActivityList } from '@/api/society'
 const activityList = ref<any[]>([])
-ActivityList().then(res => {
-	activityList.value = res.data
-	console.log(activityList.value)
-})
+// ActivityList().then(res => {
+// 	activityList.value = res.data
+// 	console.log(activityList.value)
+// })
 const showDetail = (id: number) => {
 	router.push('/activityDetail/' + id)
 }
@@ -84,7 +84,7 @@ interface PickItem {
 	value?: number
 }
 const communityName = ref('')
-const communityID = ref(0)
+const communityId = ref(1)
 const communityColumns: PickItem[] = reactive([])
 //获取所有小区列表
 const getCommunityLists = () => {
@@ -99,36 +99,40 @@ const getCommunityLists = () => {
 		})
 	})
 }
+//获取当前社区的活动列表
+const getActivities = () => {
+	getActivity(communityId.value).then(res => {
+		activityList.value = res.data
+		console.log(res.data)
+	})
+}
 const store = useStore()
 const { setCommunity } = store
 const { name, id } = store
 onMounted(() => {
 	getCommunityLists()
+	getActivities()
 	console.log(name)
 	communityName.value = name
-	communityID.value = id
+	communityId.value = id
+	console.log(id)
 })
 const commChange = (value: any) => {
 	const selectedItem = communityList.value.find(item => item.id === parseInt(value.target.value))
 	setCommunity(selectedItem.id, selectedItem.communityName)
+	getActivities()
 }
 </script>
 
 <template>
-	<div class="z-10 opacity-3 text-base absolute top-3 left-3">
-		<select
-			v-model="communityID"
-			class="ppearance-none bg-white bg-opacity-50 text-black bg-transparent border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline w-[130px]"
-			@change="commChange"
-		>
-			<option disabled selected value="" style="font-size: 1px">当前小区：{{ communityName }}</option>
-			<option v-for="option in communityList" :key="option.value" :value="option.id" :label="option.communityName" class="text-xs">
-				{{ option.communityName }}
-			</option>
-		</select>
-	</div>
 	<div class="bigBox">
 		<div class="swiper">
+			<select v-model="communityID" class="selectCity" @change="commChange">
+				<option disabled selected value="" style="font-size: 1px">当前小区：{{ communityName }}</option>
+				<option v-for="option in communityList" :key="option.value" :value="option.id" :label="option.communityName" class="text-xs">
+					{{ option.communityName }}
+				</option>
+			</select>
 			<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
 				<van-swipe-item>
 					<img src="@/assets/1.png" alt="" />
@@ -292,5 +296,38 @@ i {
 	font-size: 14px;
 	color: #0066ff;
 	line-height: 30px;
+}
+
+.cityBox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.swiper {
+	position: relative;
+}
+
+.selectCity {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 999;
+	right: 0;
+	width: 100px;
+	height: 30px;
+	border: none;
+	outline: none;
+	background-color: transparent;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	font-size: 14px;
+	color: #000;
+	text-align: center;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	padding: 0 10px;
+	margin-left: 10px;
 }
 </style>

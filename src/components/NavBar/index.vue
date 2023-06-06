@@ -13,7 +13,7 @@ const props = defineProps({
 })
 
 const onClickLeft = () => {
-	router.back()
+	router.go(-1)
 }
 const emit = defineEmits(['click-right'])
 const onClickRight = () => {
@@ -22,7 +22,7 @@ const onClickRight = () => {
 </script>
 
 <template>
-	<van-nav-bar :title="props.title" left-arrow :right-text="props.rightText" @click-left="onClickLeft" @click-right="onClickRight" />
+	<van-nav-bar :fixed="true" :title="props.title" left-arrow :right-text="props.rightText" @click-left="onClickLeft" @click-right="onClickRight" />
 </template>
 
 <style scoped></style>

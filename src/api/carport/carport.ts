@@ -33,4 +33,10 @@ export function getNoOwnerList(){
 export function getUser() {
 	return service.post('/user/info')
 }
+// export function getActivity(communityId: any) {
+// 	return service.get('/sys/car/'+ communityId)
+// }
+export function getActivity(communityId: any) {
+	return service.get('/sys/car/' + communityId)
+}
 
