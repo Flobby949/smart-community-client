@@ -1,12 +1,14 @@
 <template>
 	<div class="box">
 		<navbar title="我的房屋" />
-		<div v-if="list.length > 0" class="list">
+		<div v-if="list.length > 0 && list" class="list">
 			<template v-for="(item, index) in list" :key="index">
 				<div class="item">
 					<div class="header">
 						<span>{{ item.buildingName }}</span>
-						<span>认证成功</span>
+						<span>
+							{{ item.state == 0 ? '审核中' : item.state == 1 ? '审核通过' : '审核失败' }}
+						</span>
 					</div>
 					<div class="content">
 						<div class="title">
@@ -15,11 +17,11 @@
 						</div>
 						<div class="desc">
 							<span>住房类型</span>
-							<span>{{ item.isOwner ? '业主' : '租客' }}</span>
+							<span>业主</span>
 						</div>
 					</div>
 					<div class="bottom">
-						<van-radio :v-model="item.checked">默认小区</van-radio>
+						<van-radio v-model="item.ownerId">默认小区</van-radio>
 						<van-button plain hairline type="primary" round size="small" @click="deleteItem(item)">删除</van-button>
 					</div>
 				</div>
@@ -52,10 +54,6 @@ const addHouse = () => {
 function getData() {
 	myHouse().then((res: any) => {
 		console.log(res)
-
-		res.data.forEach((item: any) => {
-			item.checked = item.isOwner == 1 ? true : false
-		})
 		list.value = res.data
 		console.log(list.value)
 	})
@@ -85,7 +83,7 @@ onMounted(() => {
 .box {
 	background-color: #f5f5f5;
 	height: 100vh;
-	overflow-y: hidden;
+	overflow-y: auto;
 }
 .list {
 	padding: 10px;
