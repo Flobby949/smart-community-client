@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user',{
     }),
     actions:{
          // 获取当前登录者信息
-        getStoreInfo(){
+         getStoreInfo(){
             return new Promise((resolve,reject)=>{
                 getUserInfo().then((res)=>{
                     this.userInfo=res.data
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user',{
         },
         getHouseInfo(){
             return new Promise((resolve,reject)=>{
-                findMyHouse().then((res)=>{
+                findMyHouse('identity=').then((res)=>{
                     this.houseInfo=res.data[0]
                     resolve(res)
                 })
