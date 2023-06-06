@@ -120,6 +120,8 @@ onMounted(() => {
 const commChange = (value: any) => {
 	const selectedItem = communityList.value.find(item => item.id === parseInt(value.target.value))
 	setCommunity(selectedItem.id, selectedItem.communityName)
+	console.log(name)
+	communityName.value = selectedItem.communityName
 	getActivities()
 }
 </script>
@@ -127,7 +129,7 @@ const commChange = (value: any) => {
 <template>
 	<div class="bigBox">
 		<div class="swiper">
-			<select v-model="communityID" class="selectCity" @change="commChange">
+			<select v-model="communityId" class="selectCity" @change="commChange">
 				<option disabled selected value="" style="font-size: 1px">当前小区：{{ communityName }}</option>
 				<option v-for="option in communityList" :key="option.value" :value="option.id" :label="option.communityName" class="text-xs">
 					{{ option.communityName }}
@@ -180,7 +182,7 @@ const commChange = (value: any) => {
 				<span>社区活动</span>
 			</div>
 
-			<div class="activitlist">
+			<div class="activitlist pb-[55px]">
 				<template v-for="(item, index) in activityList" :key="index">
 					<div class="activititem" @click="showDetail(item.id)">
 						<div class="img"><img :src="item.cover" alt="" class="image" /></div>
