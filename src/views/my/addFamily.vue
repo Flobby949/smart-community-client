@@ -42,7 +42,7 @@ const typeCheck2 = () => {
 	}
 }
 onBeforeMount(() => {
-	findMyHouse().then(res => {
+	findMyHouse('identity=0').then(res => {
 		if (res.data.length != 0) {
 			option1 = res.data.map((item: HouseInfo) => ({
 				text: item.name, // 显示的文本
