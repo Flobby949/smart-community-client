@@ -260,7 +260,7 @@ onBeforeMount(() => {
 			}
 		}
 	})
-	getDefaultInfo().then(res => {
+	getDefaultInfo().then((res: any) => {
 		if (res.data.identityCard != undefined) {
 			ownerInfo.value.identityCard = res.data.identityCard
 			let econtacts = JSON.parse(res.data.econtacts)

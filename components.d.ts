@@ -22,11 +22,11 @@ declare module '@vue/runtime-core' {
     VanButton: typeof import('vant/es')['Button']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
-    VanField: typeof import('vant/es')['Field']
-    VanForm: typeof import('vant/es')['Form']
-    VanIcon: typeof import('vant/es')['Icon']
-    VanNavBar: typeof import('vant/es')['NavBar']
-    VanNoticeBar: typeof import('vant/es')['NoticeBar']
+    VanDatePicker: typeof import('vant/es')['DatePicker']
+    VanDialog: typeof import('vant/es')['Dialog']
+    VanDivider: typeof import('vant/es')['Divider']
+    VanPopup: typeof import('vant/es')['Popup']
+
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
   }
