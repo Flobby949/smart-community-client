@@ -11,19 +11,19 @@
 					</van-popup>
 				</smartInput>
 				<smartInput title="楼栋">
-					<van-field v-model="form.buildingName" name="picker" placeholder="选择楼栋" @click="showPicker1 = true" />
+					<van-field v-model="form.buildingName" name="picker" placeholder="选择楼栋" @click="showPicker1Info" />
 					<van-popup v-model:show="showPicker1" position="bottom">
 						<van-picker :columns="buildings" @confirm="onConfirmBulidings" @cancel="showPicker1 = false" />
 					</van-popup>
 				</smartInput>
 				<smartInput title="单元">
-					<van-field v-model="form.unitName" name="picker" placeholder="选择楼栋" @click="showPicker2 = true" />
+					<van-field v-model="form.unitName" name="picker" placeholder="选择楼栋" @click="showPicker2Info" />
 					<van-popup v-model:show="showPicker2" position="bottom">
 						<van-picker :columns="units" @confirm="onConfirmUnits" @cancel="showPicker2 = false" />
 					</van-popup>
 				</smartInput>
 				<smartInput title="房间号">
-					<van-field v-model="form.houseNumber" name="picker" placeholder="选择房间" @click="showPicker3 = true" />
+					<van-field v-model="form.houseNumber" name="picker" placeholder="选择房间" @click="showPicker3Info" />
 					<van-popup v-model:show="showPicker3" position="bottom">
 						<van-picker :columns="rooms" @confirm="onConfirmHouse" @cancel="showPicker3 = false" />
 					</van-popup>
@@ -227,6 +227,29 @@ const submit = () => {
 			router.push('/house')
 		}
 	})
+}
+
+const showPicker1Info = () => {
+	if (form.communityName == '') {
+		showFailToast('请先选择小区')
+	} else {
+		showPicker1.value = true
+	}
+}
+
+const showPicker2Info = () => {
+	if (form.buildingName == '') {
+		showFailToast('请先选择楼栋')
+	} else {
+		showPicker2.value = true
+	}
+}
+const showPicker3Info = () => {
+	if (form.unitId == '') {
+		showFailToast('请先选择单元')
+	} else {
+		showPicker3.value = true
+	}
 }
 onMounted(() => {
 	allHouse()
