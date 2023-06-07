@@ -93,7 +93,7 @@ const afterRead = async (file: any) => {
 		<van-nav-bar title="添加报修" left-arrow @click-left="onClickLeft" />
 
 		<van-form class="w-screen" @submit="onSubmit">
-			<van-cell-group style="background-color: #f5f5f5">
+			<van-cell-group class="bg-white">
 				<div class="h-10 flex items-center text-[14px] w-screen ml-[16px]">报修信息</div>
 
 				<div>
@@ -110,19 +110,22 @@ const afterRead = async (file: any) => {
 					</van-popup>
 				</div>
 				<hr />
-				<div>
+				<!-- <div>
 					<van-field v-model="place" is-link readonly name="picker" label="报修小区" @click="placePicker = true" />
 					<van-popup v-model:show="placePicker" position="bottom">
 						<van-picker :columns="places" @confirm="changePlace" @cancel="placePicker = false" />
 					</van-popup>
-				</div>
+				</div> -->
 
-				<div class="bg-gray-100 ml-[16px] text-[14px] mt-2">报修简要</div>
-				<van-field v-model="title" class="borderb w-screen mt-2" placeholder="报修简要" />
-				<div class="bg-gray-100 p-2 text-[14px] ml-[8px]">报修内容</div>
+				<div class="ml-[16px] text-[14px] mt-2">报修地址</div>
+				<van-field v-model="place" class="borderb w-screen mt-2 m-auto" style="width: 90%" placeholder="报修地址" />
 
-				<div class="bg-white h-[300px]">
-					<div class="relative top-4">
+				<div class="ml-[16px] text-[14px] mt-2">报修简要</div>
+				<van-field v-model="title" class="borderb w-screen mt-2 m-auto" style="width: 90%" placeholder="报修简要" />
+				<div class="p-2 text-[14px] mt-2">报修内容</div>
+
+				<div class="bg-white h-[300px] mt-2">
+					<div class="relative">
 						<van-field
 							v-model="message"
 							class="border-2 mx-auto rounded"
@@ -136,9 +139,8 @@ const afterRead = async (file: any) => {
 						/>
 					</div>
 					<van-uploader v-model="fileList" multiple :max-count="2" class="rounded-[10px] ml-2 mt-8" :after-read="afterRead">
-						<div class="w-[80px] h-[80px] rounded-[10px] bg-gray-100 borderb flex flex-col justify-center items-center ml-2">
+						<div class="w-[80px] h-[80px] rounded-[10px] flex flex-col justify-center items-center ml-2" style="border: 1px dotted gray">
 							<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
-							<div>上传图片</div>
 						</div>
 					</van-uploader>
 				</div>
