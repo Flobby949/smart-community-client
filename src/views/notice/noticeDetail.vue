@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
 	<div style="background-color: #f5f5f5" class="h-screen">
-		<van-nav-bar title="公告详情" left-text="返回" left-arrow @click-left="onClickLeft" />
+		<van-nav-bar title="公告详情" left-arrow @click-left="onClickLeft" />
 		<div class="bg-white h-screen mt-2 text-center">
 			<div class="text-[17px] relative top-2">{{ item.title }}</div>
 			<div class="mt-3 text-[14px]">

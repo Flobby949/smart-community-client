@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue'
 import router from '@/router'
 const route = useRoute()
 const list = ref<any[]>([])
-let dataList: any = []
+// let dataList: any = []
 // const list: any = []
 const loading = ref(false)
 // 加载完成表示符
@@ -19,11 +19,11 @@ let page = {
 	status: 0
 }
 
-//1消息
-const isNotice = ref('0')
+//1消息 0是社区公告
+const isNotice: any = ref('0')
 
 onMounted(() => {
-	console.log('路由测试')
+	// console.log('路由测试')
 	isNotice.value = route.query.isNotice
 	console.log(isNotice.value)
 })
@@ -104,7 +104,7 @@ const info = (item: any) => {
 </script>
 
 <template>
-	<van-nav-bar v-if="isNotice == '1'" title="消息中心" left-arrow @click-left="onClickLeft" />
+	<van-nav-bar v-if="isNotice == '1'" title="消息中心" @click-left="onClickLeft" />
 	<van-nav-bar v-else title="社区公告" left-arrow @click-left="onClickLeft" />
 	<van-badge v-if="isNotice != '1'" :content="unReadnum" color="#1989fa" class="absolute left-[58%] top-[15px]" style="z-index: 999">
 		<div class="child" />
@@ -113,31 +113,7 @@ const info = (item: any) => {
 	<div v-if="isNotice == '1'">
 		<van-pull-refresh v-model="refreshing" class="w-[350px] mx-auto" @refresh="onRefresh">
 			<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" class="" @load="onLoad">
-				<div v-for="item in list" :key="item.id" class="border-[1px] mt-2 bg-white rounded-lg border-slate-300 h-[180px]" @click="info(item)">
-					<div>
-						<div class="text-[20px] inline-block mt-4 ml-2">{{ item.title }}</div>
-						<div class="float-right mr-2 mt-4">
-							<div v-if="item.status == 1" class="text-blue-400">未读</div>
-							<div v-if="item.status == 2" class="text-gray-400">已读</div>
-						</div>
-					</div>
-
-					<div class=" " style="color: #666666">
-						<div class="ml-6 mt-2 w-[310px] line-clamp-3">{{ item.content }}</div>
-
-						<div class="flex mt-6 ml-3">
-							<div>
-								<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
-								<span class="ml-1 relative top-[2px]">{{ item.publishTime }}</span>
-							</div>
-
-							<div class="ml-3">
-								<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
-								<span class="ml-3 relative top-[2px]">{{ item.readNumber }}</span>
-							</div>
-						</div>
-					</div>
-				</div>
+				<noticeItem :list="list" show="true" @info="info" />
 			</van-list>
 		</van-pull-refresh>
 	</div>
@@ -146,38 +122,15 @@ const info = (item: any) => {
 		<van-tab title="全部公告" status="0">
 			<van-pull-refresh v-model="refreshing" class="w-[350px] mx-auto" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" class="" @load="onLoad">
-					<div v-for="item in list" :key="item.id" class="border-[1px] mt-2 bg-white rounded-lg border-slate-300 h-[180px]" @click="info(item)">
-						<div>
-							<div class="text-[20px] inline-block mt-4 ml-2">{{ item.title }}</div>
-							<div class="float-right mr-2 mt-4">
-								<div v-if="item.status == 1" class="text-blue-400">未读</div>
-								<div v-if="item.status == 2" class="text-gray-400">已读</div>
-							</div>
-						</div>
-
-						<div class=" " style="color: #666666">
-							<div class="ml-6 mt-2 w-[310px] line-clamp-3">{{ item.content }}</div>
-
-							<div class="flex mt-6 ml-3">
-								<div>
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/time.png" />
-									<span class="ml-1 relative top-[2px]">{{ item.publishTime }}</span>
-								</div>
-
-								<div class="ml-3">
-									<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/eye.png" />
-									<span class="ml-3 relative top-[2px]">{{ item.readNumber }}</span>
-								</div>
-							</div>
-						</div>
-					</div>
+					<notice-item :list="list" show="true" @info="info" />
 				</van-list>
 			</van-pull-refresh>
 		</van-tab>
 		<van-tab title="未读" status="1">
 			<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" class="w-[350px] mx-auto" @load="onLoad">
-					<div v-for="item in list" :key="item.id" class="border-[1px] mt-3 bg-white rounded-lg border-slate-300 h-[180px]" @click="info(item)">
+					<noticeItem :list="list" @info="info" />
+					<!-- <div v-for="item in list" :key="item.id" class="border-[1px] mt-3 bg-white rounded-lg border-slate-300 h-[180px]" @click="info(item)">
 						<div>
 							<div class="text-[20px] inline-block mt-4 ml-2 aa">{{ item.title }}</div>
 						</div>
@@ -196,14 +149,15 @@ const info = (item: any) => {
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</van-list>
 			</van-pull-refresh>
 		</van-tab>
 		<van-tab title="已读" status="2">
 			<van-pull-refresh v-model="refreshing" class="w-[350px] mx-auto" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-					<div v-for="item in list" :key="item.id" class="border-[1px] mt-3 bg-white rounded-lg border-slate-300 h-[180px]" @click="info(item)">
+					<noticeItem :list="list" @info="info" />
+					<!-- <div v-for="item in list" :key="item.id" class="border-[1px] mt-3 bg-white rounded-lg border-slate-300 h-[180px]" @click="info(item)">
 						<div>
 							<div class="text-[20px] inline-block mt-4 ml-2 aa">{{ item.title }}</div>
 						</div>
@@ -222,7 +176,7 @@ const info = (item: any) => {
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</van-list>
 			</van-pull-refresh>
 		</van-tab>
