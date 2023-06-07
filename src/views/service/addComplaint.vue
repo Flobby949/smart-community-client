@@ -79,13 +79,14 @@ const afterRead = async (file: any) => {
 				<hr />
 
 				<div class="text mt-4">投诉简要</div>
-				<van-field v-model="title" class="borderb mt-2" placeholder="请写下简要" />
+				<van-field v-model="title" class="borderb mt-2 m-auto" style="width: 90%" placeholder="请写下简要" />
 
 				<div class="text mt-4">投诉内容</div>
 
 				<van-field
 					v-model="message"
-					class="borderb w-[10%] mt-2"
+					class="borderb m-auto mt-2"
+					style="width: 90%"
 					rows="5"
 					type="textarea"
 					maxlength="300"

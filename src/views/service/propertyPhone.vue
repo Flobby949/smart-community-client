@@ -17,40 +17,25 @@ let kdPhones = [
 ]
 </script>
 <template>
-	<div class="h-52 bg-blue-400 rounded-bl-br-full" style="z-index: 99">
-		<van-nav-bar title="物业电话" left-arrow fixed @click-left="onClickLeft" />
-	</div>
+	<div class="bg-gray-100 min-h-full bordera">
+		<div class="h-52 rounded-bl-br-full" style="background-color: rgb(47, 147, 248)">
+			<van-nav-bar title="物业电话" left-arrow @click-left="onClickLeft" />
+		</div>
 
-	<div class="absolute top-20 w-[100%] h-[100%] bg-gray-100">
-		<div class="m-4">
-			<div>物业电话</div>
-			<div class="bg-white">
-				<div v-for="item in propertyPhones" :key="item.name" class="flex justify-between borderb p-2">
-					<div>{{ item.name }}</div>
-					<div class="flex">
-						<div class="mr-2">{{ item.phone }}</div>
-						<div class="w-[20px] h-[20px] bordera rounded-[50%] bg-blue-700 flex justify-center items-center">
-							<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/phone.png" />
-						</div>
-					</div>
+		<div class="relative top-[-120px]">
+			<div class="m-4">
+				<div class="text-white">社区物业电话</div>
+				<div class="bg-white mt-3">
+					<phone :phones="propertyPhones"></phone>
 				</div>
-			</div>
 
-			<div class="m-3">快递电话</div>
-
-			<div class="bg-white">
-				<div v-for="item in kdPhones" :key="item.name" class="flex justify-between borderb p-2">
-					<div>{{ item.name }}</div>
-					<div class="flex">
-						<div class="mr-2">{{ item.phone }}</div>
-						<div class="w-[20px] h-[20px] bordera rounded-[50%] bg-blue-700 flex justify-center items-center">
-							<img class="icon" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/phone.png" />
-						</div>
-					</div>
+				<div class="m-3" style="color: rgb(158, 156, 156)">快递电话</div>
+				<div class="bg-white">
+					<phone :phones="kdPhones"> </phone>
 				</div>
-			</div>
 
-			<div class="text-center mt-4">没有更多了....</div>
+				<div class="text-center mt-4">没有更多了....</div>
+			</div>
 		</div>
 	</div>
 </template>
