@@ -5,6 +5,7 @@ import { uploadFile } from '@/api/user'
 import { onClickLeft } from '@/utils'
 import { ref } from 'vue'
 import { useStore } from '@/store'
+import { showToast } from 'vant'
 const { id } = useStore()
 
 console.log(id)
@@ -62,6 +63,10 @@ const afterRead = async (file: any) => {
 			file.message = '上传失败'
 		})
 }
+
+const onOversize = (file: any) => {
+	showToast('文件大小不能超过 1Mb')
+}
 </script>
 <template>
 	<div class="bg-gray-100 min-h-screen">
@@ -93,7 +98,7 @@ const afterRead = async (file: any) => {
 					placeholder="请写下详细报修内容，有助于工作人员快速帮您解决问题"
 					show-word-limit
 				/>
-				<van-uploader v-model="fileList" :after-read="afterRead" class="mt-3 mb-6 ml-2">
+				<van-uploader v-model="fileList" :after-read="afterRead" class="mt-3 mb-6 ml-2" :max-count="3" :max-size="1025 * 1024" @oversize="onOversize">
 					<div class="w-[80px] h-[80px] rounded-[10px] flex flex-col justify-center items-center ml-2" style="border: 1px dotted gray">
 						<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
 					</div>

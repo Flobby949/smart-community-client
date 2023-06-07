@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import { onClickLeft } from '@/utils'
 import { addRepair } from '@/api/repair'
 import { uploadFile } from '@/api/user'
+import { showToast } from 'vant'
 const route = useRoute()
 
 const onSubmit = (values: any) => {
@@ -14,7 +15,6 @@ const onSubmit = (values: any) => {
 		place: place.value,
 		title: title.value,
 		content: message.value,
-		fileList: fileList.value,
 		communityId: 1,
 		imgs: imgs.value
 	}
@@ -86,6 +86,9 @@ const afterRead = async (file: any) => {
 		console.log(imgs.value)
 	})
 }
+const onOversize = (file: any) => {
+	showToast('文件大小不能超过 1Mb')
+}
 </script>
 
 <template>
@@ -138,7 +141,15 @@ const afterRead = async (file: any) => {
 							show-word-limit
 						/>
 					</div>
-					<van-uploader v-model="fileList" multiple :max-count="2" class="rounded-[10px] ml-2 mt-8" :after-read="afterRead">
+
+					<van-uploader
+						v-model="fileList"
+						:after-read="afterRead"
+						class="mt-3 mb-6 ml-2"
+						:max-count="3"
+						:max-size="1025 * 1024"
+						@oversize="onOversize"
+					>
 						<div class="w-[80px] h-[80px] rounded-[10px] flex flex-col justify-center items-center ml-2" style="border: 1px dotted gray">
 							<img class="inline-block w-[20px]" src="https://my-xl.oss-cn-beijing.aliyuncs.com/images/plus.png" />
 						</div>
