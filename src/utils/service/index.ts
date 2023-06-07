@@ -23,11 +23,11 @@ service.interceptors.response.use(
 	(response: AxiosResponse) => {
 		NProgress.done()
 		let res = response.data
-		if (res.code === 401) {
-			localStorage.clear()
-			window.location.reload()
-			return Promise.reject(res)
-		}
+		// if (res.code === 401) {
+		// 	// localStorage.clear()
+		// 	// window.location.reload()
+		// 	return Promise.reject(res)
+		// }
 		if (res.code === 500) {
 			showFailToast(res.msg)
 			return Promise.reject(res)

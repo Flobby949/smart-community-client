@@ -81,7 +81,7 @@ async function onSubmit() {
 
 const loginByOther = () => {
 	// 页面跳转 到授权首页 http://localhost:8080/oauth/render 接收回调函数的参数
-	window.location.href = 'http://localhost:8080/oauth/render'
+	window.location.href = 'http://localhost:8081/oauth/render'
 }
 </script>
 
