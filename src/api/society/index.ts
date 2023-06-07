@@ -25,3 +25,13 @@ export function invitaionListByUserId(id: any) {
 export function invalidStatus(id: any) {
 	return service.put('/soft2242/visitor/status/' + id)
 }
+// 商铺
+export function getMallList() {
+	return service.get('/soft2242/mall/list')
+}
+export function getMallListByCommunityId(id: any) {
+	return service.get('/soft2242/mall/listByCommunityId/' + id)
+}
+export function getMallListByUserId(id: any) {
+	return service.get('/soft2242/mall/listByUserId/' + id)
+}
