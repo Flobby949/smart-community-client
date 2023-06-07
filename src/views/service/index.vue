@@ -31,7 +31,7 @@ const List = [
 	{
 		title: '生活缴费',
 		name: 'life-o',
-		url: '/carBill'
+		url: '/paymentList'
 	},
 	{
 		title: '我的车位',
@@ -62,6 +62,11 @@ const List = [
 		title: '家属邀请',
 		name: 'invite2-o',
 		url: '/addFamily'
+	},
+	{
+		title: '商铺列表',
+		name: 'mall',
+		url: '/mallList'
 	}
 ]
 </script>
