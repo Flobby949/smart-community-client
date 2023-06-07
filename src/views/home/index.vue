@@ -5,6 +5,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { getCommunityList, getActivity } from '@/api/carport/carport'
 import { useStore } from '@/store'
 import { ActivityList } from '@/api/society'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const activityList = ref<any[]>([])
 // ActivityList().then(res => {
 // 	activityList.value = res.data
