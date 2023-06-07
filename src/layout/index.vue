@@ -33,7 +33,7 @@ const cachedViews = computed(() => {
 							<van-icon name="eye-o" class="icon" />
 							<span>开门</span>
 						</RouterLink>
-						<RouterLink to="/notice" class="navitem">
+						<RouterLink to="/notice?isNotice=1" class="navitem">
 							<van-icon name="bullhorn-o" class="icon" />
 							<span>消息</span>
 						</RouterLink>
