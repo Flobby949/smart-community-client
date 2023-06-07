@@ -94,10 +94,10 @@ const sbform = () => {
 					<van-cell-group>
 						<van-field
 							v-model="familyInfo.realName"
-							label="您的姓名"
-							placeholder="请输入您的姓名"
+							label="住户姓名"
+							placeholder="请输入住户姓名"
 							input-align="right"
-							:rules="[{ required: true, message: '请填写您的姓名！' }]"
+							:rules="[{ required: true, message: '请填写住户姓名！' }]"
 						/>
 					</van-cell-group>
 					<div class="flex justify-between items-center bg-white">
