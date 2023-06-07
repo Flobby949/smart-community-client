@@ -177,6 +177,14 @@ const routes: Array<RouteRecordRaw> = [
 		}
 	},
 	{
+		path: '/mallList',
+		name: 'mallList',
+		component: () => import('@/views/service/mallList.vue'),
+		meta: {
+			title: '商铺列表'
+		}
+	},
+	{
 		path: '/carport',
 		name: 'carport',
 		component: () => import('@/views/service/carport.vue'),

@@ -71,8 +71,8 @@ const onRefresh = () => {
 </script>
 <template>
 	<div class="bg-gray-100">
-		<div class="h-52 rounded-bl-br-full" style="z-index: 99; background-color: #409dfdff">
-			<van-nav-bar title="投诉建议" left-arrow fixed @click-left="onClickLeft" />
+		<div class="h-52 rounded-bl-br-full" style="background-color: #409dfdff">
+			<van-nav-bar title="投诉建议" left-arrow @click-left="onClickLeft" />
 		</div>
 
 		<div class="relative top-[-120px]">

@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DoorItem: typeof import('./src/components/door-item/index.vue')['default']
     NavBar: typeof import('./src/components/NavBar/index.vue')['default']
+    Phone: typeof import('./src/components/phone/index.vue')['default']
     ReviewCard: typeof import('./src/components/review-card/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -40,7 +41,6 @@ declare module '@vue/runtime-core' {
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTab: typeof import('vant/es')['Tab']
     VanTabs: typeof import('vant/es')['Tabs']
-    VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
     VanUploader: typeof import('vant/es')['Uploader']
   }
 }
