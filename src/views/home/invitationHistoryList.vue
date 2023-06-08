@@ -222,7 +222,7 @@ const handleClickRight = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .dashed {
 	border: none;
 	border-bottom: 2px dashed #ccc;

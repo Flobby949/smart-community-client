@@ -32,11 +32,8 @@ declare module '@vue/runtime-core' {
     VanDatePicker: typeof import('vant/es')['DatePicker']
     VanDialog: typeof import('vant/es')['Dialog']
     VanDivider: typeof import('vant/es')['Divider']
-<<<<<<< HEAD
     VanDropdownItem: typeof import('vant/es')['DropdownItem']
     VanDropdownMenu: typeof import('vant/es')['DropdownMenu']
-=======
->>>>>>> origin/test
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
     VanIcon: typeof import('vant/es')['Icon']
@@ -53,11 +50,8 @@ declare module '@vue/runtime-core' {
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTab: typeof import('vant/es')['Tab']
     VanTabs: typeof import('vant/es')['Tabs']
-<<<<<<< HEAD
     VanTag: typeof import('vant/es')['Tag']
     VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
-=======
->>>>>>> origin/test
     VanTimePicker: typeof import('vant/es')['TimePicker']
     VanUploader: typeof import('vant/es')['Uploader']
   }

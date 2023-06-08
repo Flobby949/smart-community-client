@@ -21,16 +21,18 @@ onMounted(() => {
 </script>
 
 <template>
-	<nav-bar title="审核记录" />
-	<van-pull-refresh v-model="loading" @refresh="getAuditList">
-		<div class="flex flex-col w-screen justify-center items-center">
-			<template v-for="item in reviewList" :key="item">
-				<review-card :review-item="item" />
-			</template>
+	<div class="h-[calc(100vh-50px)]">
+		<nav-bar title="审核记录" />
+		<van-pull-refresh v-model="loading" class="h-[calc(100vh-50px)]" style="margin-top: 50px" @refresh="getAuditList">
+			<div class="flex flex-col w-screen justify-center items-center">
+				<template v-for="item in reviewList" :key="item">
+					<review-card :review-item="item" />
+				</template>
+			</div>
+		</van-pull-refresh>
+		<div class="addBtn" @click="$router.push('/addReview')">
+			<van-icon name="plus" color="#fff" size="60px" />
 		</div>
-	</van-pull-refresh>
-	<div class="addBtn" @click="$router.push('/addReview')">
-		<van-icon name="plus" color="#fff" size="60px" />
 	</div>
 </template>
 
