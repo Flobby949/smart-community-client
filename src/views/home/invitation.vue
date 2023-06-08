@@ -142,8 +142,8 @@ const submitForm = () => {
 					router.push('invitation/historyList')
 				})
 				.catch(err => {
-					showNotify({ message: '用户信息获取错误，请重新登录' + err.msg })
-					showToast('用户信息获取错误，请重新登录')
+					showToast(err.msg)
+					return
 				})
 		})
 		.catch(err => {

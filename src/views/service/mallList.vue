@@ -3,7 +3,7 @@
 		<NavBar :title="'商铺列表'" :placeholder="true" :fixed="true" />
 		<!-- <div class="bg-blue-600 h-[80px]"></div> -->
 
-		<div class="guest-list mt-4 bg-white ml-4 mr-4">
+		<div class="guest-list mt-4 bg-white ml-4 mr-4 pb-10">
 			<div v-for="(item, index) in mallList" :key="index" class="rounded-3xl rounded-t-xl pt-2 pb-10 shadow-md p-4 relative mb-6">
 				<div class="mt-0 p-3">
 					<div class="flex text-xl">
@@ -113,7 +113,7 @@ onMounted(() => {
 			})
 			.catch(err => {
 				showToast(err.msg)
-				showToast('暂无登录信息，请登录')
+				showToast('您所在的社区暂无商铺')
 			})
 	})
 	// 获取开门历史记录
@@ -129,7 +129,7 @@ const overlayStyle = ref({
 })
 </script>
 
-<style>
+<style scoped>
 .dashed-border {
 	border: 1px dashed #ddd;
 	border-radius: 0.5rem;

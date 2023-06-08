@@ -120,7 +120,7 @@ const submit = (traceNo: any, totalAmount: any, subject: any, alipayTraceNo: any
 		</div>
 	</div>
 </template>
-<style>
+<style scoped>
 .dashed {
 	border: none;
 	border-bottom: 2px dashed #ccc;
