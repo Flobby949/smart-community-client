@@ -28,9 +28,8 @@
 			</template>
 		</div>
 
-		<div v-else class="empty">
-			<img src="https://img.yzcdn.cn/vant/custom-empty-image.png" alt="" />
-			<p>暂无房屋信息</p>
+		<div v-else>
+			<no-item />
 		</div>
 	</div>
 	<div class="controllerItem">
@@ -39,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+import NoItem from '@/components/noItem/index.vue'
 import { myHouse, deleteHouse } from '@/api/owner'
 import navbar from '@/components/NavBar/index.vue'
 import { useRouter } from 'vue-router'
