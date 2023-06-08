@@ -27,19 +27,18 @@
 				</div>
 			</template>
 		</div>
+
 		<div v-else>
-			<div class="empty">
-				<img src="https://img.yzcdn.cn/vant/custom-empty-image.png" alt="" />
-				<p>暂无房屋信息</p>
-			</div>
+			<no-item />
 		</div>
-		<div class="controllerItem">
-			<van-button round block type="primary" @click="addHouse"> 我是业主，添加房屋 </van-button>
-		</div>
+	</div>
+	<div class="controllerItem">
+		<van-button round block type="primary" @click="addHouse"> 我是业主，添加房屋 </van-button>
 	</div>
 </template>
 
 <script setup lang="ts">
+import NoItem from '@/components/noItem/index.vue'
 import { myHouse, deleteHouse } from '@/api/owner'
 import navbar from '@/components/NavBar/index.vue'
 import { useRouter } from 'vue-router'
@@ -86,15 +85,17 @@ onMounted(() => {
 	overflow-y: auto;
 }
 .list {
+	margin-top: 200px;
 	padding: 10px;
 	width: 98%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	margin: 0 auto;
+	margin: 20px auto;
 }
 .item {
+	margin-top: 40px;
 	background-color: #fff;
 	width: 100%;
 	border-radius: 4px;
@@ -155,6 +156,7 @@ onMounted(() => {
 	margin: 0 10px;
 }
 .empty {
+	margin-top: 200px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

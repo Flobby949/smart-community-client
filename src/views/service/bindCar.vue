@@ -1,6 +1,7 @@
 <template>
 	<div class="box">
 		<navbar title="添加车辆" />
+		<div class="h-10 bg-gray-100"></div>
 		<div class="item">
 			<div>
 				<div class="flex bg-blue-500 mt-6">
@@ -20,8 +21,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="h-[20px] bg-gray-200 flex flex-col justify-center items-center">
-				<div class="h-[10px] bg-gray-200 w-3/4"></div>
+			<div class="h-[20px] bg-gray-100 flex flex-col justify-center items-center">
+				<div class="h-[10px] bg-gray-100 w-3/4"></div>
 			</div>
 			<!-- <smartInput title="车牌号">
 				<van-field v-model="form.licence" placeholder="请输入姓名" clearable />
@@ -35,6 +36,7 @@
 			<smartInput title="车辆颜色" class="m-3">
 				<van-field v-model="form.color" placeholder="请输入颜色" clearable />
 			</smartInput>
+			<div class="h-[35px] ml-6 mt-5">请选择时间：</div>
 			<!-- 添加触发按钮 -->
 			<van-button class="custom-button" @click="showPopup">{{ buttonText }}</van-button>
 			<van-popup v-model:show="show" position="bottom" :style="{ height: '35%' }">

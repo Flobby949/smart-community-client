@@ -3,7 +3,7 @@
 		<div>
 			<van-nav-bar title="用户信息" left-arrow right-text="保存" fixed @click-left="onClickLeft" @click-right="onClickRight" />
 		</div>
-		<div>
+		<div style="margin-top: 50px">
 			<div class="flex justify-between items-center border-b h-12">
 				<div class="ml-2">头像</div>
 				<div class="flex items-center">

@@ -94,7 +94,7 @@ const show = ref(false)
 </script>
 
 <template>
-	<div class="h-screen w-screen bg-[#f5f5f5]">
+	<div class="h-screen w-screen boxIndex bg-[#f5f5f5]">
 		<van-nav-bar title="手机开门" fixed :placeholder="true" class="header" />
 		<van-field v-model="fieldLabel" is-link readonly label="小区" placeholder="选择小区" @click="showPicker = true" />
 		<van-popup v-model:show="showPicker" round position="bottom">
@@ -172,6 +172,6 @@ const show = ref(false)
 	animation: spin 2s linear infinite;
 }
 .boxIndex {
-	height: calc(100vh - 150px);
+	height: calc(100vh - 80px);
 }
 </style>

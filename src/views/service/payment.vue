@@ -98,7 +98,7 @@ const submit = (traceNo: any, totalAmount: any, subject: any, alipayTraceNo: any
 							<div class="dashed pb-2"></div>
 							<van-cell-group inset>
 								<van-cell title="支付单号" :value="info.communityName + '-' + info.houseNumber" />
-								<van-cell title="支付方式" :value="'微信支付'" />
+								<van-cell title="支付方式" :value="'支付宝支付'" />
 								<van-cell title="支付时间" :value="info.payTime"> </van-cell>
 							</van-cell-group>
 							<!-- <div class="mt-4 md:mt-0 text-center">
@@ -120,7 +120,7 @@ const submit = (traceNo: any, totalAmount: any, subject: any, alipayTraceNo: any
 		</div>
 	</div>
 </template>
-<style>
+<style scoped>
 .dashed {
 	border: none;
 	border-bottom: 2px dashed #ccc;
