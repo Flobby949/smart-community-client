@@ -1,23 +1,48 @@
 <script setup lang="ts" name="About">
 import { onClickLeft } from '@/utils'
-let propertyPhones = [
-	{ name: '幸福苑小区物业', phone: '010-26584523' },
-	{ name: '1号楼管家电话', phone: '010-26584523' },
-	{ name: '2号楼管家电话', phone: '010-26584523' },
-	{ name: '3号楼管家电话', phone: '010-26584523' },
-	{ name: '4号楼管家电话', phone: '010-26584523' }
-]
+import { getPhonePage } from '@/api/phone'
+import { ref } from 'vue'
+const propertyPhones = ref([])
+const kdPhones = ref([])
+let page = {
+	page: 1,
+	limit: 15,
+	type: 0
+}
+getPhonePage(page).then(res => {
+	// console.log(res)
+	// console.log('aaa')
+	propertyPhones.value = res.data.list
+})
 
-let kdPhones = [
-	{ name: '顺丰快递', phone: '400-8111111' },
-	{ name: '圆通快递', phone: '021-697778888' },
-	{ name: '中通快递', phone: '400-8895543' },
-	{ name: '韵达快递', phone: '021-39207888' },
-	{ name: 'EMS快递', phone: '10000' }
-]
+page = {
+	page: 1,
+	limit: 15,
+	type: 1
+}
+getPhonePage(page).then(res => {
+	// console.log(res)
+	kdPhones.value = res.data.list
+})
+
+// let propertyPhones = [
+// 	{ name: '幸福苑小区物业', phone: '010-26584523' },
+// 	{ name: '1号楼管家电话', phone: '010-26584523' },
+// 	{ name: '2号楼管家电话', phone: '010-26584523' },
+// 	{ name: '3号楼管家电话', phone: '010-26584523' },
+// 	{ name: '4号楼管家电话', phone: '010-26584523' }
+// ]
+
+// let kdPhones = [
+// 	{ name: '顺丰快递', phone: '400-8111111' },
+// 	{ name: '圆通快递', phone: '021-697778888' },
+// 	{ name: '中通快递', phone: '400-8895543' },
+// 	{ name: '韵达快递', phone: '021-39207888' },
+// 	{ name: 'EMS快递', phone: '10000' }
+// ]
 </script>
 <template>
-	<div class="bg-gray-100 min-h-full bordera">
+	<div class="bg-gray-100 min-h-screen">
 		<div class="h-52 rounded-bl-br-full" style="background-color: rgb(47, 147, 248)">
 			<van-nav-bar title="物业电话" left-arrow @click-left="onClickLeft" />
 		</div>
