@@ -29,11 +29,11 @@
 					</div>
 					<div class="flex mt-5">
 						<p class="text-gray-500">保险结束日期</p>
-						<p class="ml-[60px]">{{ formatDate(item.deadline) }}</p>
+						<p class="ml-[45px]">{{ formatDate(item.deadline) }}</p>
 					</div>
 					<div class="flex mt-3">
 						<p class="text-gray-500">年审时间</p>
-						<p class="ml-[90px]">{{ formatDate(item.annualTime) }}</p>
+						<p class="ml-[75px]">{{ formatDate(item.annualTime) }}</p>
 					</div>
 				</div>
 			</div>

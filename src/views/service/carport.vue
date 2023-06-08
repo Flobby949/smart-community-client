@@ -17,7 +17,7 @@
 					<div class="flex pb-3 border-dashed border-b-2 border-gray-400">
 						<h3 class="font-semibold text-lg mb-2 mt-2">车位信息</h3>
 						<button
-							class="bg-white rounded-full border-2 border-blue-500 text-blue-500 py-2 px-4 hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out ml-[140px]"
+							class="bg-white rounded-full border-2 border-blue-500 text-blue-500 py-2 px-4 hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out ml-[120px]"
 							@click="updateItem(item)"
 						>
 							解除绑定
