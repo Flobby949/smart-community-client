@@ -39,6 +39,8 @@ const getList = (id: number, status: number) => {
 	// }
 	OrderListByUserId(id, status)
 		.then(res => {
+			console.log('结果', res.data)
+
 			bills.value = res.data
 		})
 		.catch(err => {
@@ -84,7 +86,7 @@ const active = ref(0)
 
 		<div class="guest-list mt-4 bg-gray-100 ml-4 mr-4">
 			<div v-for="(item, index) in bills" :key="index" class="rounded-lg p-4 relative mb-6 bg-white">
-				<div v-if="bills.size === 0" class="mt-0 p-3 rounded-lg shadow-md">
+				<div class="mt-0 p-3 rounded-lg shadow-md">
 					<div class="flex text-xl">
 						<img v-if="item.orderType === 4" src="https://s1.ax1x.com/2023/06/04/pC9wk7V.png" class="w-auto h-8 mr-4 pb-1" alt="电费" />
 						<img v-if="item.orderType === 6" src="https://s1.ax1x.com/2023/06/04/pC9wVtU.png" class="w-auto h-8 mr-4 pb-1" alt="暖气费" />
@@ -119,7 +121,7 @@ const active = ref(0)
 	</div>
 </template>
 
-<style>
+<style scoped>
 .dashed {
 	border: none;
 	border-bottom: 2px dashed #ccc;

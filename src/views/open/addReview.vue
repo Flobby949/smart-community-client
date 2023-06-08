@@ -1,41 +1,43 @@
 <template>
-	<nav-bar title="门禁审核" />
-	<van-field v-model="fieldLabel" is-link readonly label="房屋" placeholder="选择房屋" @click="showPicker = true" />
-	<van-popup v-model:show="showPicker" round position="bottom">
-		<van-picker :columns="houseList" @cancel="showPicker = false" @confirm="onConfirm" />
-	</van-popup>
-	<div class="controller">
-		<div class="tips">
-			<span></span>
-			<span>人脸识别信息</span>
-		</div>
-		<div class="flex justify-around items-center">
-			<div>
-				<van-icon v-if="image == null && !showVideo" class="iconfont" class-prefix="icon" name="face" size="70px" color="#969799" />
-				<img v-else :src="image" width="90" />
-				<!--视频展示-->
-				<video v-show="showVideo" ref="video" width="150" autoplay></video>
-				<!--canvas截取流-->
-				<canvas v-show="false" ref="canvas" width="150" height="80"></canvas>
+	<div class="h-[calc(100vh-50px)]">
+		<nav-bar title="门禁审核" />
+		<van-field v-model="fieldLabel" style="margin-top: 50px" is-link readonly label="房屋" placeholder="选择房屋" @click="showPicker = true" />
+		<van-popup v-model:show="showPicker" round position="bottom">
+			<van-picker :columns="houseList" @cancel="showPicker = false" @confirm="onConfirm" />
+		</van-popup>
+		<div class="controller">
+			<div class="tips">
+				<span></span>
+				<span>人脸识别信息</span>
 			</div>
+			<div class="flex justify-around items-center">
+				<div>
+					<van-icon v-if="image == null && !showVideo" class="iconfont" class-prefix="icon" name="face" size="70px" color="#969799" />
+					<img v-else :src="image" width="90" />
+					<!--视频展示-->
+					<video v-show="showVideo" ref="video" width="150" autoplay></video>
+					<!--canvas截取流-->
+					<canvas v-show="false" ref="canvas" width="150" height="80"></canvas>
+				</div>
 
-			<van-button v-show="!showVideo" type="primary" @click="callCamera">上传</van-button>
-			<van-button v-show="showVideo" type="primary" @click="takePhoto">截取</van-button>
+				<van-button v-show="!showVideo" type="primary" @click="callCamera">上传</van-button>
+				<van-button v-show="showVideo" type="primary" @click="takePhoto">截取</van-button>
+			</div>
 		</div>
-	</div>
-	<div class="controller">
-		<div class="tips">
-			<span></span>
-			<span>指纹识别信息</span>
+		<div class="controller">
+			<div class="tips">
+				<span></span>
+				<span>指纹识别信息</span>
+			</div>
+			<div class="flex justify-around items-center">
+				<van-icon v-show="dataForm.finger == 0" class="iconfont" class-prefix="icon" name="finger" size="70px" color="#969799" />
+				<van-icon v-show="dataForm.finger == 1" class="iconfont" class-prefix="icon" name="finger" size="70px" color="#3396fb" />
+				<van-button type="primary" @click="uploadFinger">上传</van-button>
+			</div>
 		</div>
-		<div class="flex justify-around items-center">
-			<van-icon v-show="dataForm.finger == 0" class="iconfont" class-prefix="icon" name="finger" size="70px" color="#969799" />
-			<van-icon v-show="dataForm.finger == 1" class="iconfont" class-prefix="icon" name="finger" size="70px" color="#3396fb" />
-			<van-button type="primary" @click="uploadFinger">上传</van-button>
+		<div class="addBtn" @click="submitAudit">
+			<van-icon name="send-gift" color="#fff" size="60px" />
 		</div>
-	</div>
-	<div class="addBtn" @click="submitAudit">
-		<van-icon name="send-gift" color="#fff" size="60px" />
 	</div>
 </template>
 

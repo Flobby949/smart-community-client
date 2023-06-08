@@ -104,10 +104,9 @@ const info = (item: any) => {
 </script>
 
 <template>
-	<van-nav-bar v-if="isNotice == 1" title="消息中心" @click-left="onClickLeft" />
-	<van-nav-bar v-else title="社区公告" left-arrow @click-left="onClickLeft" />
+	<van-nav-bar title="消息中心" />
 
-	<van-tabs active="{{ active }}" style="background-color: #f5f5f5" @change="handleTabChange">
+	<van-tabs sticky active="{{ active }}" style="background-color: #f5f5f5" @change="handleTabChange">
 		<van-tab title="全部公告" status="0">
 			<van-pull-refresh v-model="refreshing" class="w-[350px] mx-auto" @refresh="onRefresh">
 				<van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" class="" @load="onLoad">
