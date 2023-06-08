@@ -10,11 +10,16 @@ const route = useRoute()
 const repair = ref()
 const item = ref('')
 const user = ref('')
+const circleLength = ref(null)
 
 onMounted(async () => {
+	console.log('params')
+	console.log(route.params)
 	repair.value = route.params.repairId
 	let { data } = await getRepairById(repair.value)
 	item.value = data
+	circleLength.value = parseInt(item.value.state) + 1
+	console.log(typeof circleLength.value)
 	console.log('数据')
 	console.log(data)
 
@@ -104,68 +109,65 @@ onMounted(async () => {
 
 		<div class="mt-[330px] ml-4">报修处理</div>
 
-		<div class="rounded-md bg-white mt-1 ml-4 w-[340px] h-[400px] flex border-2 border-stone-200">
+		<div class="rounded-md bg-white mt-1 ml-4 w-[340px] flex border-2 border-stone-200 repairdetail">
 			<div class="mt-3 ml-5">
-				<div class="rounded-full w-8 h-8 border-[2.5px] border-blue-500 bg-white">
-					<div class="cross-icon ml-[6px] relative top-[7px]"></div>
-				</div>
-				<div class="bg-blue-500 w-[3px] h-[55px] ml-[15px]"></div>
-				<div class="rounded-full w-8 h-8 border-[2.5px] border-blue-500 bg-white">
-					<span class="checkmark ml-[10px] relative top-1"></span>
-				</div>
-				<div class="bg-blue-500 w-[3px] h-[55px] ml-[15px]"></div>
-				<div class="rounded-full w-8 h-8 border-[2.5px] border-blue-500 bg-white">
-					<span class="checkmark ml-[10px] relative top-1"></span>
-				</div>
-			</div>
-			<div class="ml-5 mt-4">
-				<div class="text-[15px]">
-					<div style="color: #666666" class="font-bold mt-1">2021/05/31 10:01:45</div>
-					<div class="text-blue-500 flex">
-						<div>报修人:</div>
-						<div class="ml-1">{{ item.userName }}</div>
+				<template v-for="index in circleLength" :key="index">
+					<div v-if="index - 1 == 0" class="rounded-full w-8 h-8 border-[2.5px] border-blue-500 bg-white">
+						<div class="cross-icon ml-[6px] relative top-[7px]"></div>
 					</div>
-					<div class="text-blue-500 flex">
-						<div>状 态:</div>
-						<div class="ml-1">未处理</div>
-					</div>
-				</div>
-				<div class="mt-[17px] text-[15px]">
-					<div class="font-bold" style="color: #666666">2021/05/31 10:01:45</div>
-					<div class="text-blue-500 flex">
-						<div>处理人:</div>
-						<div class="ml-1">李明轩</div>
-					</div>
-					<div class="text-blue-500 flex">
-						<div>状态:</div>
-						<div class="ml-1">待处理</div>
-					</div>
-				</div>
-				<div style="color: #666666" class="text-[15px] mt-[20px]">
-					<div class="font-bold">2021/05/31 10:01:45</div>
-					<div class="flex mt-1">
-						<div>处理人:</div>
-						<div class="ml-1">李明轩</div>
-					</div>
-					<div class="flex mt-1">
-						<div>状态:</div>
-						<div class="ml-1">已完成</div>
-					</div>
-
-					<div class="flex mt-1">
-						<div>处理内容:</div>
-						<div class="ml-1">更换电灯泡</div>
-					</div>
-
-					<div class="flex mt-1">
-						<div>现场照片:</div>
-						<div class="ml-1 flex">
-							<template v-for="img in item.imgs" :key="img">
-								<img class="img" :src="img" />
-							</template>
+					<div v-else-if="index - 1 == 2">
+						<div class="bg-blue-500 w-[3px] h-[55px] ml-[15px]"></div>
+						<div class="rounded-full w-8 h-8 border-[2.5px] border-blue-500 bg-white">
+							<span class="checkmark ml-[10px] relative top-1"></span>
 						</div>
 					</div>
-				</div>
+				</template>
+			</div>
+			<div class="ml-5 mt-4">
+				<template v-for="index in circleLength" :key="index">
+					<div v-if="index - 1 == 0">
+						<div class="text-[15px]">
+							<div style="color: #666666" class="font-bold mt-1">{{ item.createTime }}</div>
+							<div class="text-blue-500 flex">
+								<div>报修人:</div>
+								<div class="ml-1">{{ item.userName }}</div>
+							</div>
+							<div class="text-blue-500 flex">
+								<div>状 态:</div>
+								<!-- 0未处理 1处理中 2 已处理 3已评价-->
+								<div class="ml-1">未处理</div>
+							</div>
+						</div>
+					</div>
+					<div v-else-if="index - 1 == 2">
+						<div class="text-blue-500 text-[15px] mt-[20px]">
+							<div class="font-bold" style="color: #666666">{{ item.handleTime }}</div>
+							<div class="flex mt-1">
+								<div>处理人:</div>
+								<div class="ml-1">
+									{{ item.handlerName.join(',') }}
+								</div>
+							</div>
+							<div class="flex mt-1">
+								<div>状态:</div>
+								<div class="ml-1">已完成</div>
+							</div>
+							<div class="mt-1">
+								<div>处理内容:</div>
+								<div class="ml-1">{{ item.content }}</div>
+							</div>
+
+							<div class="mt-1">
+								<div>现场照片:</div>
+								<div class="ml-1 mb-5">
+									<template v-for="img in item.imgs" :key="img">
+										<img class="img" :src="img" />
+									</template>
+								</div>
+							</div>
+						</div>
+					</div>
+				</template>
 			</div>
 		</div>
 	</div>
@@ -243,5 +245,8 @@ onMounted(async () => {
 	width: 2px;
 	left: 50%;
 	transform: translateX(-50%);
+}
+.repairdetail {
+	min-height: 300px;
 }
 </style>
