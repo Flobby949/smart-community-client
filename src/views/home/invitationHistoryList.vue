@@ -49,10 +49,12 @@
 						<p class="text-gray-500 pt-1">开门授权：</p>
 						<div class="grid grid-cols-2 border pt-5 pb-5 rounded-[10px] gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
 							<div v-for="(i, index) in item.gates" :key="index">
-								<div v-if="i === '0'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">西入口闸机</div>
-								<div v-if="i === '1'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">东入口闸机</div>
-								<div v-if="i === '2'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼1单元</div>
-								<div v-if="i === '3'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼2单元</div>
+								<div v-if="i === '1'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">汤臣一品西门</div>
+								<div v-if="i === '2'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城西门</div>
+								<div v-if="i === '3'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城北门</div>
+								<div v-if="i === '4'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城南门</div>
+								<div v-if="i === '5'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城东门</div>
+								<div v-if="i === '6'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">汤臣一品南门</div>
 							</div>
 						</div>
 						<!-- <div class="grid grid-cols-2 gap-4 justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5">
@@ -89,10 +91,12 @@
 								class="grid grid-cols-2 gap-4 border pt-5 pb-5 rounded-[10px] justify-center items-center ml-10 mr-10 text-gray-500 mt-5 mb-5 text-sm"
 							>
 								<div v-for="(i, index) in item.gates" :key="index">
-									<div v-if="i === '0'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">西入口闸机</div>
-									<div v-if="i === '1'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">东入口闸机</div>
-									<div v-if="i === '2'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼1单元</div>
-									<div v-if="i === '3'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">1号楼2单元</div>
+									<div v-if="i === '1'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">汤臣一品西门</div>
+									<div v-if="i === '2'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城西门</div>
+									<div v-if="i === '3'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城北门</div>
+									<div v-if="i === '4'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城南门</div>
+									<div v-if="i === '5'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">万象城东门</div>
+									<div v-if="i === '6'" class="border bg-blue-400 text-white rounded-lg pl-2 pr-2">汤臣一品南门</div>
 								</div>
 							</div>
 							<div class="flex bg-gray-200 relative text-center justify-center items-center h-[40px]">
@@ -132,7 +136,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { ref, reactive, toRef, onMounted } from 'vue'
 import { getUserInfo } from '@/api/user'
-import { invitaionListByUserId, invalidStatus } from '@/api/society'
+import { invitaionListByUserId, invalidStatus, getDoorList } from '@/api/society'
 import { showNotify, showToast, showConfirmDialog } from 'vant'
 
 const show = ref(false)
@@ -222,7 +226,7 @@ const handleClickRight = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .dashed {
 	border: none;
 	border-bottom: 2px dashed #ccc;

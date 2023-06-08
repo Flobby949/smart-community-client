@@ -9,7 +9,7 @@
 				@click="myclick(item)"
 			>
 				<span>{{ item.title }}</span>
-				<img :src="`/src/assets/${item.name}.png`" alt="" />
+				<img :src="getUrl(item.name)" />
 			</div>
 		</template>
 	</div>
@@ -18,6 +18,10 @@
 <script setup lang="ts">
 import router from '@/router'
 import type { PropType } from 'vue'
+// 获取图片路径 vite
+const getUrl = (name: string) => {
+	return new URL(`../../assets/${name}.png`, import.meta.url).href
+}
 
 const prop = defineProps({
 	list: {

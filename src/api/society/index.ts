@@ -25,6 +25,12 @@ export function invitaionListByUserId(id: any) {
 export function invalidStatus(id: any) {
 	return service.put('/soft2242/visitor/status/' + id)
 }
+export function getCommunityListByUserId(id: any) {
+	return service.get('/soft2242/visitor/getCommunityList/' + id)
+}
+export function getDoorList(communityId: number) {
+	return service.post(`/smart/doorList?communityId=${communityId}`)
+}
 // 商铺
 export function getMallList() {
 	return service.get('/soft2242/mall/list')

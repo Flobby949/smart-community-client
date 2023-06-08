@@ -3,21 +3,24 @@ import { onMounted } from 'vue'
 import { ref, reactive, toRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getUserInfo } from '@/api/user'
-import { addInvitation } from '@/api/society'
+import { addInvitation, getCommunityListByUserId, getDoorList } from '@/api/society'
 import { showNotify, showToast, showConfirmDialog } from 'vant'
 
 const userInfo = ref<any>({})
 // 用户id
-let userId = 0
+let userId = ref(0)
 const route = useRoute()
 const router = useRouter()
 
 onMounted(() => {
 	id.value = route.params.invitationId
 	getUserInfo().then(res => {
-		userId = res.data.id
+		userId.value = res.data.id
 		userInfo.value = res.data
+		formData.userId = userId.value // 让页面携带当前用户id给后续操作(页面跳转等)
 		console.log(userInfo.value.id)
+		// 获取用户的小区列表
+		getCommunityList(res.data.id)
 	})
 })
 
@@ -42,7 +45,7 @@ const infos = reactive<any>({
 	phone: 'ysh'
 })
 const formData = reactive<any>({
-	userId: userId,
+	userId: 0,
 	doorIds: '',
 	endTime: '',
 	createTime: '',
@@ -96,13 +99,6 @@ const submitForm = () => {
 	formData.phone = infos.phone
 	formData.visitorName = infos.username
 	console.log('提交表单')
-	// console.log(infos)
-	console.log(checkedList.value)
-	console.log(formData.createTime)
-	console.log(formData.endTime)
-	console.log(formData.doorIds)
-	console.log(formData.visitorName)
-	console.log(formData.userId)
 
 	showConfirmDialog({
 		title: '添加访客',
@@ -142,14 +138,48 @@ const submitForm = () => {
 					router.push('invitation/historyList')
 				})
 				.catch(err => {
-					showNotify({ message: '用户信息获取错误，请重新登录' + err.msg })
-					showToast('用户信息获取错误，请重新登录')
+					showToast(err.msg)
+					return
 				})
 		})
 		.catch(err => {
 			// on cancel
 			showToast('已取消')
 		})
+}
+// 选择社区
+const communityId = ref<any>(0)
+const doorList = ref<any>(0)
+const communityName = ref('请选择')
+const communityList = reactive<any>([
+	// { text: '杭州', value: 'Hangzhou' },
+])
+const showPopover = ref(false)
+// 获取小区列表
+const getCommunityList = (userId: any) => {
+	getCommunityListByUserId(userId).then(res => {
+		const list = ref<any>([{}])
+		list.value = res.data
+		list.value.map((item: any) => {
+			communityList.push({ text: item.communityName, value: item.id })
+		})
+		communityList
+	})
+}
+
+const onConfirmCommunity = (selectedOptions: any) => {
+	showPopover.value = false
+	communityName.value = selectedOptions.selectedOptions[0].text
+	console.log(selectedOptions)
+	communityId.value = selectedOptions.selectedValues[0]
+	getDoors(communityId.value)
+}
+// 获取doorid
+const getDoors = (id: number) => {
+	getDoorList(id).then(res => {
+		console.log(res.data)
+		doorList.value = res.data
+	})
 }
 </script>
 
@@ -160,8 +190,8 @@ const submitForm = () => {
 		<!-- 用户名输入框 -->
 
 		<section class="bg-white shadow-md rounded-xl p-6">
-			<div class="md:flex-row justify-between mb-4 mt-4">
-				<van-cell-group class="w-full">
+			<div class="md:flex-row justify-between mb-1 mt-4">
+				<van-cell-group class="w-full border rounded-3xl pt-6 pb-4 pl-4">
 					<van-field v-model="infos.username" label="访客姓名" required left-icon="friends-o" right-icon="warning-o" placeholder="输入访客姓名" />
 					<van-field
 						v-model="infos.phone"
@@ -175,11 +205,16 @@ const submitForm = () => {
 				</van-cell-group>
 
 				<!-- 多选按钮 -->
-				<div class="mt-4">
+				<div class="mt-4 border rounded-3xl pt-6 pb-8 pl-5">
 					<p class="text-base font-medium ml-2">开门授权:</p>
+					<van-field v-model="communityName" is-link readonly label="选择社区" placeholder="选择访客访问小区" @click="showPopover = true" />
+					<van-popup v-model:show="showPopover" round position="bottom">
+						<van-picker :columns="communityList" @cancel="showPopover = false" @confirm="onConfirmCommunity" />
+					</van-popup>
+
 					<van-checkbox-group v-model="checkedList" max="4" class="flex mt-5 h-auto rounded-xl">
 						<!-- items-center text-center justify-betwee -->
-						<div class="flex flex-col justify-center items-center text-center ml-2">
+						<!-- <div class="flex flex-col justify-center items-center text-center ml-2">
 							<van-checkbox class="flex-1 mx-auto" name="1"></van-checkbox>
 							<span>西入口闸机</span>
 						</div>
@@ -194,11 +229,15 @@ const submitForm = () => {
 						<div class="flex flex-col justify-center items-center text-center ml-2">
 							<van-checkbox class="flex-1" name="4"></van-checkbox>
 							<span>1号单2号元门</span>
+						</div> -->
+						<div v-for="(item, index) in doorList" :key="index" class="flex flex-col justify-center items-center text-center ml-2">
+							<van-checkbox class="flex-1" :name="item.doorId"></van-checkbox>
+							<span>{{ item.doorName }}</span>
 						</div>
 					</van-checkbox-group>
 				</div>
 				<!-- 时间选择器 -->
-				<div class="bg-white rounded-xl p-0 mt-8">
+				<div class="bg-white rounded-xl p-0 mt-4 border rounded-3xl pt-6 pb-4 pl-4">
 					<div>
 						<van-field v-model="formDataEnter" is-link readonly label="入门时间" placeholder="选择入门时间" @click="showPicker1 = true" />
 						<van-popup v-model:show="showPicker1" round position="bottom">
@@ -227,3 +266,9 @@ const submitForm = () => {
 	</div>
 	<!-- <div class="p-4 bg-gray-200 min-h-screen flex-col rounded-xl"></div> -->
 </template>
+<style>
+.dashed2 {
+	border: none;
+	border-bottom: 2px dashed #396cebaf;
+}
+</style>

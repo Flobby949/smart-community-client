@@ -274,7 +274,7 @@ const submit = () => {
 	}).then((res: any) => {
 		if (res.code == 1) {
 			showSuccessToast('添加成功')
-			router.push('/house')
+			router.back()
 		}
 	})
 }

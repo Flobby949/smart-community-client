@@ -1,12 +1,14 @@
 <template>
+	<navbar title="我的车辆" />
 	<div class="bg-blue-500 rounded-b-lg h-[280px]">
-		<navbar title="我的车辆" />
+		<div class="h-[45px]"></div>
 		<button
 			class="bg-white mt-10 p-3 bg-opacity-50 rounded-full w-36 text-white text-center flex justify-center items-center mx-auto my-auto"
 			@click="addCar"
 		>
 			+添加车辆
 		</button>
+
 		<template v-for="(item, index) in list" :key="index">
 			<div class="flex flex-col m-10 mt-15">
 				<!--卡片1-->
@@ -27,11 +29,11 @@
 					</div>
 					<div class="flex mt-5">
 						<p class="text-gray-500">保险结束日期</p>
-						<p class="ml-[60px]">{{ formatDate(item.deadline) }}</p>
+						<p class="ml-[45px]">{{ formatDate(item.deadline) }}</p>
 					</div>
 					<div class="flex mt-3">
 						<p class="text-gray-500">年审时间</p>
-						<p class="ml-[90px]">{{ formatDate(item.annualTime) }}</p>
+						<p class="ml-[75px]">{{ formatDate(item.annualTime) }}</p>
 					</div>
 				</div>
 			</div>

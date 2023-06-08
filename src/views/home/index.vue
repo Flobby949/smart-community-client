@@ -315,7 +315,7 @@ i {
 
 .selectCity {
 	position: absolute;
-	top: 10px;
+	top: 13px;
 	left: 8px;
 	z-index: 999;
 	right: 0;

@@ -1,7 +1,7 @@
 <template>
 	<navbar title="添加车位" />
 	<van-form @submit="submitForm">
-		<van-cell-group>
+		<van-cell-group class="mt-[45px]">
 			<!-- <span class="title">选择车位</span> -->
 			<van-field
 				v-model="communityName"
