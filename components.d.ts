@@ -31,9 +31,12 @@ declare module '@vue/runtime-core' {
 <<<<<<< HEAD
 =======
     VanDivider: typeof import('vant/es')['Divider']
+<<<<<<< HEAD
+=======
 >>>>>>> test
     VanDropdownItem: typeof import('vant/es')['DropdownItem']
     VanDropdownMenu: typeof import('vant/es')['DropdownMenu']
+>>>>>>> origin/test
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
     VanIcon: typeof import('vant/es')['Icon']
@@ -54,8 +57,11 @@ declare module '@vue/runtime-core' {
     VanTabs: typeof import('vant/es')['Tabs']
     VanTag: typeof import('vant/es')['Tag']
     VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
+<<<<<<< HEAD
+=======
     VanTimePicker: typeof import('vant/es')['TimePicker']
 >>>>>>> test
+>>>>>>> origin/test
     VanUploader: typeof import('vant/es')['Uploader']
   }
 }
