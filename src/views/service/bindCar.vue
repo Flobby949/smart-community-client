@@ -1,7 +1,7 @@
 <template>
 	<div class="box">
 		<navbar title="添加车辆" />
-		<div class="h-10 bg-gray-100"></div>
+		<div class="h-10 bg-gray-200"></div>
 		<div class="item">
 			<div>
 				<div class="flex bg-blue-500 mt-6">
@@ -13,7 +13,7 @@
 								v-model="licenseChars[index]"
 								type="text"
 								:placeholder="index === 0 ? '省' : ''"
-								class="w-[30px] h-[30px] pl-2"
+								class="w-[30px] h-[30px] pl-[7px]"
 								maxlength="1"
 								@input="() => updateLicense(index)"
 							/>
