@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue'
 
 // 详情
 const info = (item: any) => {
+	console.log('uId:' + item.userId)
 	router.push({
 		name: 'repairDetail',
 		params: {
@@ -101,9 +102,9 @@ const onRefresh = () => {
 							<van-text-ellipsis class="text-[15px] flex-1 ml-5 mt-2" :content="item.title" @click="info(item)" />
 							<div class="text-center mt-[6px] mr-4">
 								<div v-if="item.state == 0" class="radiusButton text-white text-[10px]" style="background-color: #ff3b31">未处理</div>
-								<div v-if="item.state == 1" class="bg-yellow-500 radiusButton text-white">处理中</div>
-								<div v-if="item.state == 2" class="radiusButton text-white" style="background-color: #409eff">已理中</div>
-								<div v-if="item.state == 3" class="bg-gray-300 radiusButton text-white">已评价</div>
+								<div v-if="item.state == 1" class="bg-yellow-500 radiusButton text-white text-[10px]">处理中</div>
+								<div v-if="item.state == 2" class="radiusButton text-white text-[10px]" style="background-color: #409eff">受理中</div>
+								<div v-if="item.state == 3" class="bg-gray-300 radiusButton text-white text-[10px]">已评价</div>
 							</div>
 						</div>
 
