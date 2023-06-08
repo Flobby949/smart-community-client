@@ -53,7 +53,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 .dashed-border {
 	border: 1px dashed #ddd;
 	border-radius: 0.5rem;

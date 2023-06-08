@@ -68,7 +68,7 @@ const onClickLeft = () => {
 	</div>
 </template>
 
-<style>
+<style scoped>
 .min-h-screen {
 	margin-top: 60px;
 }
